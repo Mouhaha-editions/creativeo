@@ -1,0 +1,43 @@
+{% extends 'base_login.html.twig' %}
+
+{% block title %}Demander un clé pour Ma forge !{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body login-card-body">
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        Tu es déjà dans ta forge, <a href="{{ path('app_logout') }}">Sortir ?</a>
+                    </div>
+                {% endif %}
+                <div class="login-box-body">
+                    <p class="login-box-msg">Donne nous ton adresse mail, et on t'envoie ta clé.</p>
+                    {{ form_start(registrationForm) }}
+                    <div class="input-group mb-3">
+                        {{ form_widget(registrationForm.email) }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-danger small input-error">
+                    {{ form_errors(registrationForm.email) }}
+                    </div>
+
+{#                    <div class="text-danger small input-error">#}
+
+{#                    {{ form_errors(registrationForm.plainPassword) }}#}
+{#                    </div>#}
+{#                    <div class="input-group mb-3">#}
+{#                        {{ form_row(registrationForm.agreeTerms) }}#}
+{#                    </div>#}
+                    {{ form_errors(registrationForm) }}
+                    <a href="{{ url('login') }}" class="">J'ai déjà ma clé</a> <button type="submit" class="btn btn-success float-right">Envoyez !</button>
+                    {{ form_end(registrationForm) }}
+                </div>
+
+        </div>
+    </div>
+{% endblock %}

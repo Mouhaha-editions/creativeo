@@ -1,0 +1,63 @@
+{% extends 'base_login.html.twig' %}
+
+{% block title %}Entrer dans la forge{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body login-card-body">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        Tu es déjà dans ta forge, <a href="{{ path('app_logout') }}">Sortir ?</a>
+                    </div>
+                {% endif %}
+                <div class="login-box-body">
+                    <p class="login-box-msg">On va bosser ?</p>
+
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" name="email" placeholder="Ton adresse m@il" value="{{ last_username }}"
+                               required
+                               autofocus>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" name="password" placeholder="Ta clé" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" name="_remember_me" id="remember">
+                                <label for="remember" style="font-weight: normal">
+                                    Laisser la porte ouverte
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Go !</button>
+                        </div>
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+                    </div>
+                </div>
+            </form>
+            <p class="mb-1 mt-3">
+                <a href="{{ url('app_logout') }}">J'ai perdu mes clés</a>
+                <a href="{{ url('register') }}" class="float-right">Demander une clé</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
