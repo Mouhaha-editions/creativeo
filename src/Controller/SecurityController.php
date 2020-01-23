@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\VarDumper\VarDumper;
 
 class SecurityController extends AbstractController
 {
@@ -44,7 +45,7 @@ class SecurityController extends AbstractController
      * @param CustomAuthenticator $authenticator
      * @return Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, CustomAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, CustomAuthenticator $authenticator, \Swift_Mailer $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -52,10 +53,11 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            $password = $this->generatePassword();
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
-                    $this->generatePassword()
+                    $password
 //                    $form->get('plainPassword')->getData()
                 )
             );
@@ -64,6 +66,15 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $message = (new \Swift_Message("Les clés de Ta Forge"))
+                ->setFrom('le-grand-forgeron@ma-forge.fr','Le Grand Forgeron')
+                ->setTo($user->getEmail())
+                ->setBody($this->renderView('mails/register.html.twig',['password'=>$password]),'text/html');
+            try {
+                $mailer->send($message);
+            }catch(\Exception $e){
+                VarDumper::dump($e->getMessage());
+            }
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
