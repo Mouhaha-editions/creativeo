@@ -42,6 +42,6 @@ class InventoryService
             ->setParameter('user', $user)
             ->groupBy('i.user')
             ->getQuery()->getOneOrNullResult();
-        return array_pop($result);
+        return array_pop($result)??0;
     }
 }
