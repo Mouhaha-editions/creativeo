@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -37,6 +39,12 @@ class Inventory
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
     private $price;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Component", inversedBy="inventories")
+     */
+    private $component;
 
     public function getId(): ?int
     {
@@ -96,4 +104,17 @@ class Inventory
         $this->productLabel = $productLabel;
         return $this;
     }
+
+    public function getComponent(): ?Component
+    {
+        return $this->component;
+    }
+
+    public function setComponent(?Component $component): self
+    {
+        $this->component = $component;
+
+        return $this;
+    }
+
 }

@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Supply;
+use App\Entity\Component;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Supply|null find($id, $lockMode = null, $lockVersion = null)
- * @method Supply|null findOneBy(array $criteria, array $orderBy = null)
- * @method Supply[]    findAll()
- * @method Supply[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Component|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Component|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Component[]    findAll()
+ * @method Component[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SupplyRepository extends ServiceEntityRepository
+class ComponentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Supply::class);
+        parent::__construct($registry, Component::class);
     }
 
     // /**

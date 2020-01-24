@@ -19,15 +19,11 @@ class Price
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Supply", inversedBy="prices")
+     * @ORM\ManyToOne(targetEntity="Component", inversedBy="prices")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $supply;
+    private $components;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventory", mappedBy="price")
-     */
-    private $inventories;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
@@ -44,55 +40,19 @@ class Price
      */
     private $taxToApply;
 
-    public function __construct()
-    {
-        $this->inventories = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSupply(): ?Supply
+    public function getComponent(): ?Component
     {
-        return $this->supply;
+        return $this->components;
     }
 
-    public function setSupply(?Supply $supply): self
+    public function setComponent(?Component $component): self
     {
-        $this->supply = $supply;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Inventory[]
-     */
-    public function getInventories(): Collection
-    {
-        return $this->inventories;
-    }
-
-    public function addInventory(Inventory $inventory): self
-    {
-        if (!$this->inventories->contains($inventory)) {
-            $this->inventories[] = $inventory;
-            $inventory->setPrice($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInventory(Inventory $inventory): self
-    {
-        if ($this->inventories->contains($inventory)) {
-            $this->inventories->removeElement($inventory);
-            // set the owning side to null (unless already changed)
-            if ($inventory->getPrice() === $this) {
-                $inventory->setPrice(null);
-            }
-        }
+        $this->components = $component;
 
         return $this;
     }

@@ -31,7 +31,8 @@ class InventoryService
             ->groupBy('i.user')
             ->getQuery()->getOneOrNullResult();
 
-        return array_pop($result);
+        $res = is_array($result) ? array_pop($result): null;
+       return $res == null ? 0 : $res;
     }
     public function countQuantity(UserInterface $user)
     {
@@ -42,6 +43,8 @@ class InventoryService
             ->setParameter('user', $user)
             ->groupBy('i.user')
             ->getQuery()->getOneOrNullResult();
-        return array_pop($result)??0;
+        $res = is_array($result) ? array_pop($result): null;
+        return $res == null ? 0 : $res;
+
     }
 }

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Component{% endblock %}
+
+{% block body %}
+    <h1>Component</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ component.id }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ component.label }}</td>
+            </tr>
+            <tr>
+                <th>CommunityEnabled</th>
+                <td>{{ component.communityEnabled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('component_index') }}">back to list</a>
+
+    <a href="{{ path('component_edit', {'id': component.id}) }}">edit</a>
+
+    {{ include('component/_delete_form.html.twig') }}
+{% endblock %}
