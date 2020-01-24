@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f69906d06dcade7ad4f9a7637ec00e9b",
+    "content-hash": "5055ed09f9d0ed49daf4b4c0f13ebb6e",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1608,6 +1608,53 @@
             ],
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "time": "2019-08-22T18:11:29+00:00"
+        },
+        {
+            "name": "pkshetlie/pagination-bundle",
+            "version": "v1.2.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pkshetlie/pagination-bundle.git",
+                "reference": "1123c82910da257bd1c8063844ccf6f970c49a6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pkshetlie/pagination-bundle/zipball/1123c82910da257bd1c8063844ccf6f970c49a6b",
+                "reference": "1123c82910da257bd1c8063844ccf6f970c49a6b",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": ">=1.6",
+                "doctrine/orm": ">=2.5",
+                "php": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pkshetlie\\PaginationBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Pierrick POBELLE",
+                    "email": "pierrick.pobelle@gmail.com",
+                    "homepage": "http://pierrick.pobelle.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easy way to make html table with paginations",
+            "homepage": "https://github.com/pkshetlie/pagination-bundle",
+            "keywords": [
+                "page",
+                "pagination",
+                "symfony",
+                "twig"
+            ],
+            "time": "2020-01-21T15:25:06+00:00"
         },
         {
             "name": "psr/cache",

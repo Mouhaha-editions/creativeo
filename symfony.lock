@@ -106,7 +106,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
@@ -116,6 +116,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.0.1"
+    },
+    "pkshetlie/pagination-bundle": {
+        "version": "v1.2.11"
     },
     "psr/cache": {
         "version": "1.0.1"

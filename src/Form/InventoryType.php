@@ -15,7 +15,7 @@ class InventoryType extends AbstractType
             ->add('productLabel')
             ->add('quantity')
 //            ->add('amountHT')
-            ->add('amountTTC')
+            ->add('price')
 //            ->add('user')
         ;
     }

@@ -215,7 +215,7 @@ to get the desired effect
                     </li>
 
                     <li class="nav-item">
-                        <a href="https://adminlte.io/docs/3.0" class="nav-link">
+                        <a href="{{ url('inventory_index') }}" class="nav-link">
                             <i class="nav-icon fas fa-boxes"></i>
                             <p>Inventaire</p>
                         </a>
@@ -230,22 +230,26 @@ to get the desired effect
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+        {% block contentHeader %}
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Dashboard</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Dashboard v1</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+        {% endblock %}
+        {% block content %}
         <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Dashboard</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v1</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
+
         <!-- /.content-header -->
 
         <!-- Main content -->
@@ -836,6 +840,7 @@ to get the desired effect
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
+        {% endblock %}
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">

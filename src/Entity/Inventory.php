@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InventoryRepository")
@@ -16,11 +17,6 @@ class Inventory
      */
     private $id;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="App\Entity\Supply", inversedBy="inventories")
-//     */
-//    private $supply;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="inventories")
      * @ORM\JoinColumn(nullable=false)
@@ -28,7 +24,7 @@ class Inventory
     private $user;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $productLabel;
 
@@ -40,40 +36,19 @@ class Inventory
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
-    private $amountHT;
-
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private $amountTTC;
-//    /**
-//     * @ORM\ManyToOne(targetEntity="App\Entity\Price", inversedBy="inventories")
-//     */
-//    private $price;
+    private $price;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-//    public function getSupply(): ?Supply
-//    {
-//        return $this->supply;
-//    }
-//
-//    public function setSupply(?Supply $supply): self
-//    {
-//        $this->supply = $supply;
-//
-//        return $this;
-//    }
-
-    public function getUser(): ?User
+    public function getUser(): ?UserInterface
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?UserInterface $user): self
     {
         $this->user = $user;
 
@@ -92,15 +67,33 @@ class Inventory
         return $this;
     }
 
-//    public function getPrice(): ?Price
-//    {
-//        return $this->price;
-//    }
-//
-//    public function setPrice(?Price $price): self
-//    {
-//        $this->price = $price;
-//
-//        return $this;
-//    }
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductLabel()
+    {
+        return $this->productLabel;
+    }
+
+    /**
+     * @param string $productLabel
+     * @return Inventory
+     */
+    public function setProductLabel(string $productLabel): self
+    {
+        $this->productLabel = $productLabel;
+        return $this;
+    }
 }
