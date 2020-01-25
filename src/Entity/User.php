@@ -56,10 +56,31 @@ class User implements UserInterface
      */
     private $components;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Recipe", mappedBy="user")
+     */
+    private $receipts;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=4)
+     */
+    private $hourCost = 20;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $moneyUnit = "EUR";
+
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $useOrderPreference = "DESC";
+
     public function __construct()
     {
         $this->inventories = new ArrayCollection();
         $this->components = new ArrayCollection();
+        $this->receipts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -209,6 +230,73 @@ class User implements UserInterface
                 $component->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Recipe[]
+     */
+    public function getReceipts(): Collection
+    {
+        return $this->receipts;
+    }
+
+    public function addReceipt(Recipe $receipt): self
+    {
+        if (!$this->receipts->contains($receipt)) {
+            $this->receipts[] = $receipt;
+            $receipt->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceipt(Recipe $receipt): self
+    {
+        if ($this->receipts->contains($receipt)) {
+            $this->receipts->removeElement($receipt);
+            // set the owning side to null (unless already changed)
+            if ($receipt->getUser() === $this) {
+                $receipt->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getHourCost(): ?string
+    {
+        return $this->hourCost;
+    }
+
+    public function setHourCost(string $hourCost): self
+    {
+        $this->hourCost = $hourCost;
+
+        return $this;
+    }
+
+    public function getMoneyUnit(): ?string
+    {
+        return $this->moneyUnit;
+    }
+
+    public function setMoneyUnit(string $moneyUnit): self
+    {
+        $this->moneyUnit = $moneyUnit;
+
+        return $this;
+    }
+
+    public function getUseOrderPreference(): ?string
+    {
+        return $this->useOrderPreference;
+    }
+
+    public function setUseOrderPreference(string $useOrderPreference): self
+    {
+        $this->useOrderPreference = $useOrderPreference;
 
         return $this;
     }

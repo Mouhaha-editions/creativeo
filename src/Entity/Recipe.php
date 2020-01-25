@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
@@ -21,22 +22,31 @@ class Recipe
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Label;
+    private $label;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Component", inversedBy="recipes")
-     */
-    private $components;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     private $estimatedHours;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="receipts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipeComponent", mappedBy="recipe",cascade={"persist","remove"})
+     */
+    private $recipeComponents;
+
     public function __construct()
     {
-        $this->components = new ArrayCollection();
+        $this->recipeComponents = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -45,38 +55,12 @@ class Recipe
 
     public function getLabel(): ?string
     {
-        return $this->Label;
+        return $this->label;
     }
 
-    public function setLabel(string $Label): self
+    public function setLabel(string $label): self
     {
-        $this->Label = $Label;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Component[]
-     */
-    public function getComponents(): Collection
-    {
-        return $this->components;
-    }
-
-    public function addComponent(Component $component): self
-    {
-        if (!$this->components->contains($component)) {
-            $this->components[] = $component;
-        }
-
-        return $this;
-    }
-
-    public function removeComponent(Component $component): self
-    {
-        if ($this->components->contains($component)) {
-            $this->components->removeElement($component);
-        }
+        $this->label = $label;
 
         return $this;
     }
@@ -89,6 +73,49 @@ class Recipe
     public function setEstimatedHours(string $estimatedHours): self
     {
         $this->estimatedHours = $estimatedHours;
+
+        return $this;
+    }
+
+    public function getUser(): ?UserInterface
+    {
+        return $this->user;
+    }
+
+    public function setUser(?UserInterface $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecipeComponent[]
+     */
+    public function getRecipeComponents(): Collection
+    {
+        return $this->recipeComponents;
+    }
+
+    public function addRecipeComponent(RecipeComponent $recipeComponent): self
+    {
+        if (!$this->recipeComponents->contains($recipeComponent)) {
+            $this->recipeComponents[] = $recipeComponent;
+            $recipeComponent->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeComponent(RecipeComponent $recipeComponent): self
+    {
+        if ($this->recipeComponents->contains($recipeComponent)) {
+            $this->recipeComponents->removeElement($recipeComponent);
+            // set the owning side to null (unless already changed)
+            if ($recipeComponent->getRecipe() === $this) {
+                $recipeComponent->setRecipe(null);
+            }
+        }
 
         return $this;
     }

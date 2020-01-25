@@ -17,7 +17,7 @@
                         <div class="icon">
                             <i class="fas fa-receipt"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Mes recettes <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ url('recipe_index') }}" class="small-box-footer">Mes recettes <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -25,7 +25,7 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{ inventory_service.countQuantity(app.user) }}</h3>
+                            <h3>{{ inventory_service.countQuantity() }}</h3>
                             <p>Composants</p>
                         </div>
                         <div class="icon">
@@ -39,7 +39,7 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ inventory_service.countTotalPrice(app.user)|number_format(2,',',' ') }}<small>&euro;</small></h3>
+                            <h3>{{ inventory_service.countTotalPrice()|number_format(2,',',' ') }}<small>&euro;</small></h3>
 
                             <p>Valeur de mon inventaire</p>
                         </div>

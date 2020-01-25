@@ -1,4 +1,46 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{% import _self as formMacros %}
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.label) }}
+        {{ form_row(form.estimatedHours) }}
+    </div>
+
+    <div class="col-md-6">
+        {{ form_label(form.recipeComponents) }}
+        <table id="components-fields-list" class="table"
+             data-prototype="{{ formMacros.componentPrototype(form.recipeComponents.vars.prototype)|e('html_attr') }}"
+             data-widget-tags="{{ '<tr></tr>'|e }}"
+             data-widget-counter="{{ form.recipeComponents|length }}">
+            <thead>
+            <tr>
+                <th>{{ "entity.recipe_component.label.component"|trans }}</th>
+                <th>{{ "entity.recipe_component.label.quantity"|trans }}</th>
+            </tr>
+            </thead>
+            {% for component in form.recipeComponents %}
+               <tr>{{ formMacros.componentPrototype(component) }}</tr>
+            {% endfor %}
+        </table>
+        <button type="button"
+                class="add-another-collection-widget"
+                data-list-selector="#components-fields-list">{{ "button.recipe.add_component"|trans }}</button>
+    </div>
+</div>
+
+<button class="btn btn-primary">{{ button_label|default('button.default.save'|trans ) }}</button>
 {{ form_end(form) }}
+
+
+{% macro componentPrototype(recipeComponent) %}
+        <td>
+            {{ form_errors(recipeComponent.component) }}
+            {{ form_widget(recipeComponent.component) }}
+        </td>
+        <td>
+            {{ form_errors(recipeComponent.quantity) }}
+            {{ form_widget(recipeComponent.quantity) }}
+        </td>
+        <td><button class="remove-line btn btn-danger btn-sm" data-confirm="{{ "text.confirm_delete"|trans }}"><i class="fas fa-trash"></i></button></td>
+{% endmacro %}

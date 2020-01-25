@@ -3,3 +3,4 @@ twig:
     form_themes: ['bootstrap_4_layout.html.twig']
     globals:
         inventory_service: '@App\Service\InventoryService'
+        recipe_service: '@App\Service\RecipeService'

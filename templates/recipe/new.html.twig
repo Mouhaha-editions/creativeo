@@ -1,11 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Recipe{% endblock %}
+{% block title %}Nouvelle recette {{ parent() }}{% endblock %}
+{% block contentHeader %}New Recipe{% endblock %}
 
 {% block content %}
-    <h1>Create new Recipe</h1>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ "title.recipe.new"|trans }}</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+            {{ include('recipe/_form.html.twig') }}
+        </div>
+        <!-- /.card-body -->
+    </div>
 
-    {{ include('recipe/_form.html.twig') }}
 
-    <a href="{{ path('recipe_index') }}">back to list</a>
+
+{% endblock %}
+{% block javascripts %}
+{{ encore_entry_script_tags('form_recipe') }}
 {% endblock %}

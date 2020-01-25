@@ -35,11 +35,6 @@ class Component
     private $prices;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Recipe", mappedBy="components")
-     */
-    private $recipes;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="components")
      */
     private $user;
@@ -49,12 +44,17 @@ class Component
      */
     private $inventories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipeComponent", mappedBy="component")
+     */
+    private $recipeComponents;
+
 
     public function __construct()
     {
         $this->prices = new ArrayCollection();
-        $this->recipes = new ArrayCollection();
         $this->inventories = new ArrayCollection();
+        $this->recipeComponents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,34 +131,6 @@ class Component
         return $this;
     }
 
-    /**
-     * @return Collection|Recipe[]
-     */
-    public function getRecipes(): Collection
-    {
-        return $this->recipes;
-    }
-
-    public function addRecipe(Recipe $recipe): self
-    {
-        if (!$this->recipes->contains($recipe)) {
-            $this->recipes[] = $recipe;
-            $recipe->addComponent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRecipe(Recipe $recipe): self
-    {
-        if ($this->recipes->contains($recipe)) {
-            $this->recipes->removeElement($recipe);
-            $recipe->removeComponent($this);
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -196,6 +168,37 @@ class Component
             // set the owning side to null (unless already changed)
             if ($inventory->getComponent() === $this) {
                 $inventory->setComponent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecipeComponent[]
+     */
+    public function getRecipeComponents(): Collection
+    {
+        return $this->recipeComponents;
+    }
+
+    public function addRecipeComponent(RecipeComponent $recipeComponent): self
+    {
+        if (!$this->recipeComponents->contains($recipeComponent)) {
+            $this->recipeComponents[] = $recipeComponent;
+            $recipeComponent->setComponent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeComponent(RecipeComponent $recipeComponent): self
+    {
+        if ($this->recipeComponents->contains($recipeComponent)) {
+            $this->recipeComponents->removeElement($recipeComponent);
+            // set the owning side to null (unless already changed)
+            if ($recipeComponent->getComponent() === $this) {
+                $recipeComponent->setComponent(null);
             }
         }
 

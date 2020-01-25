@@ -1,0 +1,44 @@
+option:
+  user:
+    useOrderPreference:
+      desc: "d'abord les plus cher"
+      asc: "d'abord les moins cher"
+flash:
+  success:
+    save: 'Données enregistrées'
+text:
+  no_recipe: 'Pas de recette'
+  confirm_delete: 'Confirmer la suppression ?'
+  action: 'Actions'
+title:
+  recipe:
+    new: 'Nouvelle recette'
+    edit: 'Modifier une recette'
+    index: 'Mes recettes'
+  home: 'Accueil'
+  user:
+    preference: 'Réglages'
+button:
+  recipe:
+    add_component: 'Ajouter un composant'
+  default:
+    add: 'Ajouter'
+    save: 'Enregistrer'
+    edit: 'Modifier'
+entity:
+  user:
+    label:
+      useOrderPreference: "Préférence d'utilisation des Composants"
+      moneyUnit: "Unité monétaire"
+      hourCost: "Ton coût horaire"
+  recipe_component:
+    label:
+      component: 'Composant'
+      quantity: 'Quantité'
+  recipe:
+    label:
+      label: 'Libellé'
+      estimatedHours: 'Temps estimé'
+      recipeComponents: 'Composants'
+      costNow: 'Coût de fabrication'
+      canDoIt: 'réalisable ?'
