@@ -10,7 +10,7 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>X</h3>
+                            <h3>{{app.user.receipts|length}}</h3>
 
                             <p>Recettes</p>
                         </div>
@@ -27,7 +27,7 @@
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3>{{ inventory_service.countQuantity() }}</h3>
-                            <p>Composants</p>
+                            <p>Elements dans l'inventaire</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-boxes"></i>

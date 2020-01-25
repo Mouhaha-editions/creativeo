@@ -80,12 +80,14 @@ class RecipeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             foreach($originalTags AS $component){
-                $component->setRecipe($recipe);
                 if (false === $recipe->getRecipeComponents()->contains($component)) {
                      $component->setRecipe(null);
                     $entityManager->persist($component);
 //                     $entityManager->remove($component);
                 }
+            }
+            foreach($recipe->getRecipeComponents() AS $component){
+                $component->setRecipe($recipe);
             }
             $entityManager->flush();
 
