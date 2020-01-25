@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Inventory;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,11 +13,24 @@ class InventoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('productLabel')
-            ->add('quantity')
-//            ->add('amountHT')
-            ->add('price')
-//            ->add('user')
+            ->add('productLabel',null,[
+                'label'=>'entity.inventory.label.productLabel',
+                'required'=>true,
+                'attr'=>['class'=>'form-control-sm'],
+            ])
+            ->add('quantity',NumberType::class,[
+                'label'=>'entity.inventory.label.quantity',
+                'scale'=>4,
+                'required'=>true,
+                'attr'=>['class'=>'form-control-sm'],
+
+            ])
+            ->add('price',NumberType::class,[
+                'label'=>'entity.inventory.label.unitPrice',
+                'scale'=>4,
+                'required'=>true,
+                'attr'=>['class'=>'form-control-sm'],
+            ])
         ;
     }
 

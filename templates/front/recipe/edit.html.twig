@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Recipe{% endblock %}
+{% block title %}{{ "title.recipe.edit"|trans }} {{ parent() }}{% endblock %}
 
 {% block contentHeader %}
     {% include 'tools/content_header.html.twig' with {title: "title.recipe.edit"|trans } %}
@@ -11,12 +11,16 @@
         <div class="card-header">
             <h3 class="card-title">{{ "title.recipe.edit"|trans }}</h3>
         </div>
-        <div class="card-body p-0">
-            {{ include('recipe/_form.html.twig', {'button_label': 'button.default.edit'|trans }) }}
+        <div class="card-body p-3">
+            {{ include('front/recipe/_form.html.twig', {'button_label': 'button.default.edit'|trans }) }}
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('form_recipe') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('form_recipe') }}
 {% endblock %}

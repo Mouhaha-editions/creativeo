@@ -1,4 +1,4 @@
-
+import '../../css/form/recipe.scss';
 jQuery(document).ready(function () {
     jQuery('.add-another-collection-widget').click(function (e) {
         var list = jQuery(jQuery(this).attr('data-list-selector'));

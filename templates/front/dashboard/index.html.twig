@@ -17,7 +17,8 @@
                         <div class="icon">
                             <i class="fas fa-receipt"></i>
                         </div>
-                        <a href="{{ url('recipe_index') }}" class="small-box-footer">Mes recettes <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ url('recipe_index') }}" class="small-box-footer">Mes recettes <i
+                                    class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -31,7 +32,8 @@
                         <div class="icon">
                             <i class="fas fa-boxes"></i>
                         </div>
-                        <a href="{{ url('inventory_index') }}" class="small-box-footer">Mes composants <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ url('inventory_index') }}" class="small-box-footer">Mes composants <i
+                                    class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -39,31 +41,30 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ inventory_service.countTotalPrice()|number_format(2,',',' ') }}<small>&euro;</small></h3>
+                            <h3>{{ inventory_service.countTotalPrice()|number_format(2,',',' ') }}
+                                <small>{{ app.user.moneyUnit }}</small></h3>
 
                             <p>Valeur de mon inventaire</p>
                         </div>
-                        <div class="icon">
-                            <i class="fas fa-euro-sign"></i>
-                        </div>
-                        <a href="#" class="small-box-footer"> Créer <i class="fas fa-arrow-circle-right"></i></a>
+
+{#                        <a href="#" class="small-box-footer"> Créer <i class="fas fa-arrow-circle-right"></i></a>#}
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-danger">
-                        <div class="inner">
-                            <h3>8</h3>
+{#                <div class="col-lg-3 col-6">#}
+{#                    <!-- small box -->#}
+{#                    <div class="small-box bg-danger">#}
+{#                        <div class="inner">#}
+{#                            <h3>8</h3>#}
 
-                            <p>Ventes</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-file-invoice"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
+{#                            <p>Ventes</p>#}
+{#                        </div>#}
+{#                        <div class="icon">#}
+{#                            <i class="fas fa-file-invoice"></i>#}
+{#                        </div>#}
+{#                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>#}
+{#                    </div>#}
+{#                </div>#}
                 <!-- ./col -->
             </div>
             <!-- /.row -->

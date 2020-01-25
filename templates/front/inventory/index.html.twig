@@ -1,63 +1,56 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'title.inventory.index'|trans }} {{ parent() }}{% endblock %}
 {% block contentHeader %}
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Inventaire</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Inventaire</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
+    {% include('tools/content_header.html.twig') with {title:'title.inventory.index'|trans} %}
 {% endblock %}
-{% block content %}
-    <section class="content">
-        <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-12">
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ "title.inventory.index"|trans }}</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
                     {{ form_start(form) }}
 
-                    <table class="table">
+                    <table class="table table-condensed">
                         <thead>
                         <tr>
-                            <th>Nom du composant</th>
-                            <th>Quantité</th>
-                            <th>Prix Unitaire</th>
-                            <th>Montant inventaire</th>
-                            <th>Action</th>
+                            <th>{{ "entity.inventory.label.productLabel"|trans }}</th>
+                            <th class="text-right">{{ "entity.inventory.label.quantity"|trans }}</th>
+                            <th class="text-right">{{ "entity.inventory.label.unitPrice"|trans }}</th>
+                            <th class="text-right">{{ "entity.inventory.label_supp.totalAmount"|trans }}</th>
+                            <th>{{ "text.action"|trans }}</th>
                         </tr>
                         <tr>
                             <th>{{ form_widget(form.productLabel) }}</th>
                             <th>{{ form_widget(form.quantity) }}</th>
                             <th>{{ form_widget(form.price) }}</th>
+                            <th>
+                                <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-plus"></i></button>
+                            </th>
                             <th></th>
-                            <th><button type="submit"><i class="fas fa-plus"></i></button></th>
                         </tr>
 
                         </thead>
                         {% for composant in components.entities %}
-                        <tr>
-                            <td>{{ composant.productLabel }}</td>
-                            <td class="text-right">{{ composant.quantity|number_format(2,',',' ') }}</td>
-                            <td class="text-right">{{ composant.price|number_format(2,',',' ') }}</td>
-                            <td class="text-right">{{ (composant.price*composant.quantity)|number_format(2,',',' ') }}&euro;</td>
-                            <td></td>
-                        </tr>
+                            <tr>
+                                <td>{{ composant.productLabel }}</td>
+                                <td class="text-right">{{ composant.quantity|number_format(2,',',' ') }}</td>
+                                <td class="text-right">{{ composant.price|number_format(2,',',' ') }} {{ app.user.moneyUnit }}</td>
+                                <td class="text-right">
+                                    {{ (composant.price*composant.quantity)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
+                                </td>
+                                <td></td>
+                            </tr>
                         {% endfor %}
                     </table>
                     {{ form_end(form) }}
                 </div>
             </div>
-
-
         </div>
-    </section>
+    </div>
 {% endblock %}

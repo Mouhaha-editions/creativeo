@@ -21,7 +21,7 @@ class RecipeController extends AbstractController
      */
     public function index(RecipeRepository $recipeRepository): Response
     {
-        return $this->render('recipe/index.html.twig', [
+        return $this->render('front/recipe/index.html.twig', [
             'recipes' => $recipeRepository->findAll(),
         ]);
     }
@@ -47,7 +47,7 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_index');
         }
 
-        return $this->render('recipe/new.html.twig', [
+        return $this->render('front/recipe/new.html.twig', [
             'recipe' => $recipe,
             'form' => $form->createView(),
         ]);
@@ -58,7 +58,7 @@ class RecipeController extends AbstractController
      */
     public function show(Recipe $recipe): Response
     {
-        return $this->render('recipe/show.html.twig', [
+        return $this->render('front/recipe/show.html.twig', [
             'recipe' => $recipe,
         ]);
     }
@@ -92,7 +92,7 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_index');
         }
 
-        return $this->render('recipe/edit.html.twig', [
+        return $this->render('front/recipe/edit.html.twig', [
             'recipe' => $recipe,
             'form' => $form->createView(),
         ]);

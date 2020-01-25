@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "title.recipe.new"|trans }} {{ parent() }}{% endblock %}
+{% block contentHeader %}
+    {% include 'tools/content_header.html.twig' with {title: "title.recipe.new"|trans } %}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ "title.recipe.new"|trans }}</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-3">
+            {{ include('front/recipe/_form.html.twig') }}
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+{{ encore_entry_script_tags('form_recipe') }}
+{% endblock %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('form_recipe') }}
+{% endblock %}

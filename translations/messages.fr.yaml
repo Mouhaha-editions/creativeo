@@ -18,6 +18,8 @@ title:
   home: 'Accueil'
   user:
     preference: 'Réglages'
+  inventory:
+    index: 'Mon inventaire'
 button:
   recipe:
     add_component: 'Ajouter un composant'
@@ -41,4 +43,11 @@ entity:
       estimatedHours: 'Temps estimé'
       recipeComponents: 'Composants'
       costNow: 'Coût de fabrication'
-      canDoIt: 'réalisable ?'
+      canDoIt: 'Réalisable ?'
+  inventory:
+    label:
+      productLabel: 'Libellé du composant'
+      quantity: 'Quantité'
+      unitPrice: 'Prix unitaire'
+    label_supp:
+      totalAmount: "Montant de l'inventaire"

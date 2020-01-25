@@ -6,10 +6,8 @@
         {{ form_row(form.label) }}
         {{ form_row(form.estimatedHours) }}
     </div>
-
     <div class="col-md-6">
-        {{ form_label(form.recipeComponents) }}
-        <table id="components-fields-list" class="table"
+        <table id="components-fields-list" class="table table-condensed"
              data-prototype="{{ formMacros.componentPrototype(form.recipeComponents.vars.prototype)|e('html_attr') }}"
              data-widget-tags="{{ '<tr></tr>'|e }}"
              data-widget-counter="{{ form.recipeComponents|length }}">
@@ -25,7 +23,7 @@
         </table>
         <button type="button"
                 class="add-another-collection-widget"
-                data-list-selector="#components-fields-list">{{ "button.recipe.add_component"|trans }}</button>
+                data-list-selector="#components-fields-list"><i class="fas fa-plus"></i> {{ "button.recipe.add_component"|trans }}</button>
     </div>
 </div>
 

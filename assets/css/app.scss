@@ -13,3 +13,12 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .delete-button-form{
   display:inline;
 }
+
+label{
+  &.required{
+    &::after{
+      content: "*";
+      color: #ff0000;
+    }
+  }
+}
