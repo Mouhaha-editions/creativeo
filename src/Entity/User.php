@@ -69,7 +69,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $moneyUnit = "EUR";
+    private $moneyUnit = "€";
 
     /**
      * @ORM\Column(type="string", length=5)
