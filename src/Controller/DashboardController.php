@@ -24,7 +24,7 @@ class DashboardController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render('dashboard/index.html.twig');
+        return $this->render('front/dashboard/index.html.twig');
     }
 
 }
