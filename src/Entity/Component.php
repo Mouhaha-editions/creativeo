@@ -30,7 +30,7 @@ class Component
     private $communityEnabled;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Price", mappedBy="supply")
+     * @ORM\OneToMany(targetEntity="App\Entity\Price", mappedBy="components")
      */
     private $prices;
 
