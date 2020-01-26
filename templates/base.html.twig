@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title>{% block title %} - Ma Forge.fr{% endblock %}</title>
-
+    <link rel="icon" href="{{ asset('build/images/ma-forge.ico') }}" />
     <!-- IonIcons -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Google Font: Source Sans Pro -->
@@ -65,8 +65,8 @@ to get the desired effect
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="/" class="brand-link">
-            {#            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"#}
-            {#                 style="opacity: .8">#}
+                        <img src="{{ asset('build/images/ma-forge-white.png') }}" alt="Ma-Forge.fr Logo" class="brand-image img-fluid"
+                             style="opacity: .8">
             <span class="brand-text font-weight-light">Ma Forge</span>
         </a>
 

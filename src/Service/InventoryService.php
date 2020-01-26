@@ -73,8 +73,10 @@ class InventoryService
 
     public function getCostForRecipeComponent(RecipeComponent $compo)
     {
+
         /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
+
 
         /** @var Inventory[] $inventoires */
         $inventoires = $this->entityManager->getRepository(Inventory::class)
@@ -88,6 +90,11 @@ class InventoryService
         $sum = 0;
         $quantityNeeded = $compo->getQuantity();
         foreach ($inventoires AS $inventory) {
+            if(!$this->hasQuantityForRecipeComponent($compo)){
+                $sum += $inventory->getPrice()* $quantityNeeded;
+                break;
+            }
+            
             if($inventory->getQuantity()>=$quantityNeeded){
                 $sum += $inventory->getPrice()* $quantityNeeded;
                 break;
