@@ -94,7 +94,6 @@ class InventoryService
                 $sum += $inventory->getPrice()* $quantityNeeded;
                 break;
             }
-            
             if($inventory->getQuantity()>=$quantityNeeded){
                 $sum += $inventory->getPrice()* $quantityNeeded;
                 break;
