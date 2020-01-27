@@ -118,6 +118,27 @@ to get the desired effect
         {% endblock %}
         <section class="content">
             <div class="container-fluid">
+                {% for flash in app.flashes('danger') %}
+                    <div class="alert alert-danger alert-dismissible fade show mt-2 mb-2">{{ flash }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+                {% for flash in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show mt-2 mb-2">{{ flash }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+                {% for flash in app.flashes('warning') %}
+                    <div class="alert alert-warning alert-dismissible fade show mt-2 mb-2">{{ flash }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
                 {% block content %}{% endblock %}
             </div>
         </section>
@@ -125,8 +146,9 @@ to get the desired effect
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-        All rights reserved.
+        <small>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a> pour le template.</small>
+        <small>Copyright &copy; 2020 <a href="https://mouhaha-editions.com">Mouhaha-éditions</a> pour le reste.</small>
+
         <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 3.0.2
         </div>

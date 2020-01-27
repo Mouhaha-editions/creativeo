@@ -29,7 +29,7 @@ class Unit
     private $children;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=8)
+     * @ORM\Column(type="decimal", precision=50, scale=8)
      */
     private $parentRatio;
 

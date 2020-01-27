@@ -59,6 +59,7 @@ class InventoryService
     {
         $result = $this->entityManager->getRepository(Inventory::class)
             ->createQueryBuilder('i')
+            ->leftJoin('i.unit', 'unit')
             ->select('SUM(i.quantity)')
             ->where('i.user = :user')
             ->andWhere('i.component = :component')
@@ -81,6 +82,7 @@ class InventoryService
         /** @var Inventory[] $inventoires */
         $inventoires = $this->entityManager->getRepository(Inventory::class)
             ->createQueryBuilder('i')
+            ->leftJoin('i.unit', 'unit')
             ->where('i.user = :user')
             ->andWhere('i.component = :component')
             ->setParameter('user', $this->tokenStorage->getUser())
