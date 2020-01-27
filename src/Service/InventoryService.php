@@ -60,7 +60,7 @@ class InventoryService
         $result = $this->entityManager->getRepository(Inventory::class)
             ->createQueryBuilder('i')
             ->leftJoin('i.unit', 'unit')
-            ->select('SUM(i.quantity)')
+            ->select('SUM(i.quantity*unit.parentRatio)')
             ->where('i.user = :user')
             ->andWhere('i.component = :component')
             ->setParameter('user', $this->tokenStorage->getUser())
@@ -69,7 +69,7 @@ class InventoryService
             ->getQuery()->getOneOrNullResult();
 
         $res = is_array($result) ? array_pop($result) : 0;
-        return $res >= $compo->getQuantity();
+        return $res >= $compo->getQuantity()* $compo->getUnit()->getParentRatio();
     }
 
     public function getCostForRecipeComponent(RecipeComponent $compo)
@@ -90,18 +90,18 @@ class InventoryService
             ->orderBy('i.price', $user->getUseOrderPreference())
             ->getQuery()->getResult();
         $sum = 0;
-        $quantityNeeded = $compo->getQuantity();
+        $quantityNeeded = $compo->getQuantity() * $compo->getUnit()->getParentRatio();
         foreach ($inventoires AS $inventory) {
             if(!$this->hasQuantityForRecipeComponent($compo)){
                 $sum += $inventory->getPrice()* $quantityNeeded;
                 break;
             }
-            if($inventory->getQuantity()>=$quantityNeeded){
+            if(($inventory->getQuantity()* $inventory->getUnit()->getParentRatio())>=$quantityNeeded){
                 $sum += $inventory->getPrice()* $quantityNeeded;
                 break;
             }else{
-                $reste = $quantityNeeded - $inventory->getQuantity();
-                $sum += ($quantityNeeded-$reste) *$inventory->getPrice();
+                $reste = $quantityNeeded - ($inventory->getQuantity()* $inventory->getUnit()->getParentRatio());
+                $sum += ($quantityNeeded-$reste) * ($inventory->getPrice()* $inventory->getUnit()->getParentRatio());
                 $quantityNeeded = $reste;
             }
         }
