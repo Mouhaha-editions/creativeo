@@ -65,6 +65,10 @@ class InventoryController extends AbstractController
 
                 VarDumper::dump($e->getMessage());
             }
+            unset($inventory);
+            unset($form);
+            $inventory = new Inventory();
+            $form = $this->createForm(InventoryType::class, $inventory);
             $this->addFlash('success', 'Composant ajouté à l\'inventaire.');
         }
         $qb = $inventoryRepository->createQueryBuilder('i')->where('i.user  = :user')

@@ -20,6 +20,7 @@ title:
     preference: 'Réglages'
   inventory:
     index: 'Mon inventaire'
+    add: "Ajouter dans l'inventaire"
 button:
   recipe:
     add_component: 'Ajouter un composant'

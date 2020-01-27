@@ -7,14 +7,32 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-6">
+            {{ form_start(form) }}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ "title.inventory.add"|trans }}</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+                {{ form_row(form.productLabel) }}
+                {{ form_row(form.quantity) }}
+                {{ form_row(form.unit) }}
+                {{ form_row(form.price) }}
+
+                    <button type="submit" class="btn btn-success btn-sm">Ajouter</button>
+        </div>
+    </div>
+            {{ form_end(form) }}
+
+        </div>
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{ "title.inventory.index"|trans }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
-                    {{ form_start(form) }}
 
                     <table class="table table-condensed">
                         <thead>
@@ -26,17 +44,7 @@
                             <th class="text-right">{{ "entity.inventory.label_supp.totalAmount"|trans }}</th>
                             <th>{{ "text.action"|trans }}</th>
                         </tr>
-                        <tr>
-                            <th>{{ form_widget(form.productLabel) }}</th>
-                            <th>{{ form_widget(form.quantity) }}</th>
-                            <th>{{ form_widget(form.unit) }}</th>
-                            <th>{{ form_widget(form.price) }}</th>
-                            <th>
-                                <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-plus"></i>
-                                </button>
-                            </th>
-                            <th></th>
-                        </tr>
+
 
                         </thead>
                         {% for composant in components.entities %}
@@ -55,7 +63,6 @@
                             </tr>
                         {% endfor %}
                     </table>
-                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
