@@ -46,6 +46,11 @@ class Inventory
      */
     private $component;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="inventory")
+     */
+    private $unit;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -113,6 +118,18 @@ class Inventory
     public function setComponent(?Component $component): self
     {
         $this->component = $component;
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

@@ -39,7 +39,7 @@
                         {% for composant in components.entities %}
                             <tr>
                                 <td>{{ composant.productLabel }}</td>
-                                <td class="text-right">{{ composant.quantity|number_format(2,',',' ') }}</td>
+                                <td class="text-right">{{ composant.quantity|number_format(2,',',' ') }} <a href="#" onclick="alert('Bientôt');" class="btn btn-default btn-xs"><i class="fas fa-edit"></i></a></td>
                                 <td class="text-right">{{ composant.price|number_format(2,',',' ') }} {{ app.user.moneyUnit }}</td>
                                 <td class="text-right">
                                     {{ (composant.price*composant.quantity)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
