@@ -100,8 +100,8 @@ class InventoryService
                 $sum += $inventory->getPrice()* $quantityNeeded;
                 break;
             }else{
-                $reste = $quantityNeeded - ($inventory->getQuantity()/ $inventory->getUnit()->getParentRatio());
-                $sum += ($quantityNeeded-$reste) * ($inventory->getPrice()/ $compo->getUnit()->getParentRatio());
+                $reste = $quantityNeeded - ($inventory->getQuantity()* $inventory->getUnit()->getParentRatio());
+                $sum += ($quantityNeeded-$reste) * ($inventory->getPrice()* $inventory->getUnit()->getParentRatio()/ $compo->getUnit()->getParentRatio());
                 $quantityNeeded = $reste;
             }
         }
