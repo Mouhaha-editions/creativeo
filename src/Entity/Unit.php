@@ -36,17 +36,21 @@ class Unit
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inventory", mappedBy="unit")
      */
-    private $inventory;
+    private $inventories;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $libelle;
 
+    public function __toString()
+    {
+        return $this->getLibelle();
+    }
     public function __construct()
     {
         $this->children = new ArrayCollection();
-        $this->inventory = new ArrayCollection();
+        $this->inventories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,15 +116,15 @@ class Unit
     /**
      * @return Collection|Inventory[]
      */
-    public function getInventory(): Collection
+    public function getInventories(): Collection
     {
-        return $this->inventory;
+        return $this->inventories;
     }
 
     public function addInventory(Inventory $inventory): self
     {
-        if (!$this->inventory->contains($inventory)) {
-            $this->inventory[] = $inventory;
+        if (!$this->inventories->contains($inventory)) {
+            $this->inventories[] = $inventory;
             $inventory->setUnit($this);
         }
 
@@ -129,8 +133,8 @@ class Unit
 
     public function removeInventory(Inventory $inventory): self
     {
-        if ($this->inventory->contains($inventory)) {
-            $this->inventory->removeElement($inventory);
+        if ($this->inventories->contains($inventory)) {
+            $this->inventories->removeElement($inventory);
             // set the owning side to null (unless already changed)
             if ($inventory->getUnit() === $this) {
                 $inventory->setUnit(null);

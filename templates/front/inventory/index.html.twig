@@ -21,6 +21,7 @@
                         <tr>
                             <th>{{ "entity.inventory.label.productLabel"|trans }}</th>
                             <th class="text-right">{{ "entity.inventory.label.quantity"|trans }}</th>
+                            <th class="text-center" style="width:80px;">{{ "entity.inventory.label.unit"|trans }}</th>
                             <th class="text-right">{{ "entity.inventory.label.unitPrice"|trans }}</th>
                             <th class="text-right">{{ "entity.inventory.label_supp.totalAmount"|trans }}</th>
                             <th>{{ "text.action"|trans }}</th>
@@ -28,9 +29,11 @@
                         <tr>
                             <th>{{ form_widget(form.productLabel) }}</th>
                             <th>{{ form_widget(form.quantity) }}</th>
+                            <th>{{ form_widget(form.unit) }}</th>
                             <th>{{ form_widget(form.price) }}</th>
                             <th>
-                                <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-plus"></i></button>
+                                <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-plus"></i>
+                                </button>
                             </th>
                             <th></th>
                         </tr>
@@ -39,7 +42,11 @@
                         {% for composant in components.entities %}
                             <tr>
                                 <td>{{ composant.productLabel }}</td>
-                                <td class="text-right">{{ composant.quantity|number_format(2,',',' ') }} <a href="#" onclick="alert('Bientôt');" class="btn btn-default btn-xs"><i class="fas fa-edit"></i></a></td>
+                                <td class="text-right">
+                                    <a href="#" onclick="alert('Bientôt');" class="btn btn-default btn-xs"> <i class="fas fa-edit"></i></a>
+                                    {{ composant.quantity|number_format(2,',',' ') }}
+                                       </td>
+                                <td class="text-center"><small>{{ composant.unit }}</small></td>
                                 <td class="text-right">{{ composant.price|number_format(2,',',' ') }} {{ app.user.moneyUnit }}</td>
                                 <td class="text-right">
                                     {{ (composant.price*composant.quantity)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}

@@ -49,5 +49,6 @@ entity:
       productLabel: 'Libellé du composant'
       quantity: 'Quantité'
       unitPrice: 'Prix unitaire'
+      unit: 'Unité'
     label_supp:
       totalAmount: "Montant de l'inventaire"

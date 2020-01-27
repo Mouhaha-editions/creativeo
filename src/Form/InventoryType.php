@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Inventory;
+use App\Entity\Unit;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +24,15 @@ class InventoryType extends AbstractType
                 'label'=>'entity.inventory.label.quantity',
                 'scale'=>4,
                 'required'=>true,
+                'attr'=>['class'=>'form-control-sm'],
+
+            ])
+            ->add('unit',EntityTreeType::class,[
+                'label'=>'entity.inventory.label.unit',
+                'class'=>Unit::class,
+                'label_method'=>'getLibelle',
+                'required'=>true,
+                'prefix'=>'',
                 'attr'=>['class'=>'form-control-sm'],
 
             ])
