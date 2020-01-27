@@ -93,11 +93,11 @@ class InventoryService
         $quantityNeeded = $compo->getQuantity() * $compo->getUnit()->getParentRatio();
         foreach ($inventoires AS $inventory) {
             if(!$this->hasQuantityForRecipeComponent($compo)){
-                $sum += $inventory->getPrice()* $quantityNeeded;
+                $sum += ($inventory->getPrice()* $inventory->getUnit()->getParentRatio()/ $compo->getUnit()->getParentRatio())* $quantityNeeded;
                 break;
             }
             if(($inventory->getQuantity()* $inventory->getUnit()->getParentRatio())>=$quantityNeeded){
-                $sum += $inventory->getPrice()* $quantityNeeded;
+                $sum += ($inventory->getPrice()* $inventory->getUnit()->getParentRatio()/ $compo->getUnit()->getParentRatio())* $quantityNeeded;
                 break;
             }else{
                 $reste = $quantityNeeded - ($inventory->getQuantity()* $inventory->getUnit()->getParentRatio());
