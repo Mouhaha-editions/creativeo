@@ -31,6 +31,11 @@ class RecipeComponent
      */
     private $quantity;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="recipeComponents")
+     */
+    private $unit;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class RecipeComponent
     public function setQuantity(string $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

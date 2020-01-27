@@ -40,5 +40,9 @@
             {{ form_errors(recipeComponent.quantity) }}
             {{ form_widget(recipeComponent.quantity) }}
         </td>
+    <td>
+        {{ form_errors(recipeComponent.unit) }}
+        {{ form_widget(recipeComponent.unit) }}
+    </td>
         <td><button class="remove-line btn btn-danger btn-sm" data-confirm="{{ "text.confirm_delete"|trans }}"><i class="fas fa-trash"></i></button></td>
 {% endmacro %}

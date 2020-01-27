@@ -36,6 +36,7 @@ entity:
   recipe_component:
     label:
       component: 'Composant'
+      unit: 'Unité'
       quantity: 'Quantité'
   recipe:
     label:

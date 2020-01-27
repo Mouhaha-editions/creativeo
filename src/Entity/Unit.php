@@ -43,6 +43,11 @@ class Unit
      */
     private $libelle;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipeComponent", mappedBy="unit")
+     */
+    private $recipeComponents;
+
     public function __toString()
     {
         return $this->getLibelle();
@@ -51,6 +56,7 @@ class Unit
     {
         $this->children = new ArrayCollection();
         $this->inventories = new ArrayCollection();
+        $this->recipeComponents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,6 +158,37 @@ class Unit
     public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecipeComponent[]
+     */
+    public function getRecipeComponents(): Collection
+    {
+        return $this->recipeComponents;
+    }
+
+    public function addRecipeComponent(RecipeComponent $recipeComponent): self
+    {
+        if (!$this->recipeComponents->contains($recipeComponent)) {
+            $this->recipeComponents[] = $recipeComponent;
+            $recipeComponent->setUnit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeComponent(RecipeComponent $recipeComponent): self
+    {
+        if ($this->recipeComponents->contains($recipeComponent)) {
+            $this->recipeComponents->removeElement($recipeComponent);
+            // set the owning side to null (unless already changed)
+            if ($recipeComponent->getUnit() === $this) {
+                $recipeComponent->setUnit(null);
+            }
+        }
 
         return $this;
     }

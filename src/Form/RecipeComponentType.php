@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Component;
 use App\Entity\RecipeComponent;
+use App\Entity\Unit;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -30,7 +31,8 @@ class RecipeComponentType extends AbstractType
         $builder
             ->add('component', EntityType::class, [
                 "choice_label" => "label",
-                'label' => 'entity.recipe_component.component',
+                'label' => 'entity.recipe_component.label.component',
+                'attr'=>['class'=>'form-control-sm'],
 
                 "class" => Component::class,
                 "query_builder" => function (EntityRepository $er) use($user) {
@@ -38,7 +40,17 @@ class RecipeComponentType extends AbstractType
                 },
             ])
             ->add('quantity', null, [
-                'label' => 'entity.recipe_component.quantity'
+                'label' => 'entity.recipe_component.label.quantity',
+                'attr'=>['class'=>'form-control-sm'],
+
+            ])
+            ->add('unit',EntityTreeType::class,[
+                'label'=>'entity.recipe_component.label.unit',
+                'class'=>Unit::class,
+                'label_method'=>'getLibelle',
+                'required'=>true,
+                'prefix'=>'',
+                'attr'=>['class'=>'form-control-sm'],
             ]);
     }
 
