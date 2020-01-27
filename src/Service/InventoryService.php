@@ -55,29 +55,10 @@ class InventoryService
 
     }
 
-    public function hasQuantityForRecipeComponent(RecipeComponent $compo)
-    {
-        $result = $this->entityManager->getRepository(Inventory::class)
-            ->createQueryBuilder('i')
-            ->leftJoin('i.unit', 'unit')
-            ->select('SUM(i.quantity*unit.parentRatio)')
-            ->where('i.user = :user')
-            ->andWhere('i.component = :component')
-            ->setParameter('user', $this->tokenStorage->getUser())
-            ->setParameter('component', $compo->getComponent())
-            ->groupBy('i.user')
-            ->getQuery()->getOneOrNullResult();
-
-        $res = is_array($result) ? array_pop($result) : 0;
-        return $res >= $compo->getQuantity()* $compo->getUnit()->getParentRatio();
-    }
-
     public function getCostForRecipeComponent(RecipeComponent $compo)
     {
-
         /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
-
 
         /** @var Inventory[] $inventoires */
         $inventoires = $this->entityManager->getRepository(Inventory::class)
@@ -90,22 +71,44 @@ class InventoryService
             ->orderBy('i.price', $user->getUseOrderPreference())
             ->getQuery()->getResult();
         $sum = 0;
-        $quantityNeeded = $compo->getQuantity() * $compo->getUnit()->getParentRatio();
+        // compos quantity = 500 g
+        //inventaire = 0.500 kg
+
+        $quantityNeeded = $compo->getBaseQuantity();
         foreach ($inventoires AS $inventory) {
-            if(!$this->hasQuantityForRecipeComponent($compo)){
-                $sum += ($inventory->getPrice()* $inventory->getUnit()->getParentRatio()/ $compo->getUnit()->getParentRatio())* $quantityNeeded;
+            if (!$this->hasQuantityForRecipeComponent($compo)) {
+                $sum += $inventory->getBasePrice() * $quantityNeeded;
                 break;
             }
-            if(($inventory->getQuantity()* $inventory->getUnit()->getParentRatio())>=$quantityNeeded){
-                $sum += ($inventory->getPrice()* $inventory->getUnit()->getParentRatio()/ $compo->getUnit()->getParentRatio())* $quantityNeeded;
+            if ($inventory->getBaseQuantity() >= $quantityNeeded) {
+                $sum += $inventory->getBasePrice() * $quantityNeeded;
                 break;
-            }else{
-                $reste = $quantityNeeded - ($inventory->getQuantity()* $inventory->getUnit()->getParentRatio());
-                $sum += ($quantityNeeded-$reste) * ($inventory->getPrice()* $inventory->getUnit()->getParentRatio()/ $compo->getUnit()->getParentRatio());
+            } else {
+                $reste = $quantityNeeded - $inventory->getBaseQuantity() ;
+                $sum += ($quantityNeeded - $reste) * $inventory->getBasePrice();
                 $quantityNeeded = $reste;
             }
         }
         return $sum;
+    }
+
+    public function hasQuantityForRecipeComponent(RecipeComponent $compo)
+    {
+        $result = $this->entityManager->getRepository(Inventory::class)
+            ->createQueryBuilder('i')
+            ->leftJoin('i.unit', 'unit')
+            ->select('SUM(i.quantity*unit.parentRatio)')
+            ->where('i.user = :user')
+            ->andWhere('i.component = :component')
+            ->setParameter('user', $this->tokenStorage->getUser())
+            ->setParameter('component', $compo->getComponent())
+            ->groupBy('i.user')
+            ->getQuery()->getOneOrNullResult();
+// compos quantity = 500 g
+// compos base_quantity = 500 g / 1000 = 0.5Kg
+// inventaire = 0.500 kg
+        $res = is_array($result) ? array_pop($result) : 0;
+        return $res >= $compo->getBaseQuantity();
     }
 
 }

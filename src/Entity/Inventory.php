@@ -68,26 +68,31 @@ class Inventory
         return $this;
     }
 
-    public function getQuantity(): ?string
+    public function getQuantity(): ?float
     {
         return $this->quantity;
     }
 
-    public function setQuantity(?string $quantity): self
+    public function setQuantity(?float $quantity): self
     {
         $this->quantity = $quantity;
 
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getBaseQuantity(): ?float
     {
-        return $this->price;
+        return $this->quantity / $this->getUnit()->getParentRatio();
     }
 
-    public function setPrice(float $price): self
+    public function getUnit(): ?Unit
     {
-        $this->price = $price;
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }
@@ -122,14 +127,19 @@ class Inventory
         return $this;
     }
 
-    public function getUnit(): ?Unit
+    public function getBasePrice()
     {
-        return $this->unit;
+        return $this->getPrice() / $this->getUnit()->getParentRatio();
     }
 
-    public function setUnit(?Unit $unit): self
+    public function getPrice(): ?float
     {
-        $this->unit = $unit;
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

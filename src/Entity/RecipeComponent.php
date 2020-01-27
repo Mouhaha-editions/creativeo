@@ -65,9 +65,14 @@ class RecipeComponent
         return $this;
     }
 
-    public function getQuantity(): ?string
+    public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    public function getBaseQuantity()
+    {
+        return $this->quantity / $this->getUnit()->getParentRatio();
     }
 
     public function setQuantity(string $quantity): self
