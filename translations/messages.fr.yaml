@@ -10,6 +10,10 @@ text:
   no_recipe: 'Pas de recette'
   confirm_delete: 'Confirmer la suppression ?'
   action: 'Actions'
+  help:
+    sellpriceOptimized: 'Cout de fabrication + marge'
+    canDoIt: "On verifie que tu as suffisement d'ingredients dans ton inventaire"
+    costNow: 'Composants necessaires + temps passé'
 title:
   recipe:
     new: 'Nouvelle recette'
@@ -50,6 +54,7 @@ entity:
       costNow: 'Coût de fabrication'
       canDoIt: 'Réalisable ?'
       taxes: 'Taxes'
+      optimizedSellPrice: 'Prix de vente conseillé'
   inventory:
     label:
       productLabel: 'Libellé du composant'
@@ -58,3 +63,8 @@ entity:
       unit: 'Unité'
     label_supp:
       totalAmount: "Montant de l'inventaire"
+  taxe:
+    label:
+      libelle: 'Libellé'
+      type: 'Type'
+      value: 'Valeur'

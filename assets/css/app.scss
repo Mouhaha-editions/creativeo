@@ -14,7 +14,9 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .delete-button-form{
   display:inline;
 }
-
+.pointer{
+  cursor:pointer;
+}
 label{
   &.required{
     &::after{

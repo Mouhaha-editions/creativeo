@@ -40,7 +40,6 @@ class InventoryController extends AbstractController
             $productLabel = ucfirst(strtolower($form->get('productLabel')->getData()));
             try {
                 $component = $componentRepository->findOneBy(['label' => $productLabel, 'user' => $this->getUser()]);
-
                 $em = $this->getDoctrine()->getManager();
                 if ($component == null) {
                     $component = new Component();

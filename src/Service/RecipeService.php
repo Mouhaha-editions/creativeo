@@ -43,6 +43,12 @@ class RecipeService
         return $sum + $user->getHourCost() * $recipe->getEstimatedHours();
     }
 
+    public function SellPriceOptimized(Recipe $recipe)
+    {
+        $sum = $this->estimatedCost($recipe);
+        return $sum / (1-($recipe->getMarge()/100));
+    }
+
     public function canDoIt(Recipe $recipe)
     {
         foreach ($recipe->getRecipeComponents() AS $compo) {

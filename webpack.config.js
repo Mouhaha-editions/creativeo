@@ -35,6 +35,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
+    .addEntry('inventory', './assets/js/inventory.js')
 
 
     .addEntry('form_recipe', './assets/js/form/recipe.js')

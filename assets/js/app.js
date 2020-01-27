@@ -13,12 +13,15 @@ require('bootstrap');
 require('admin-lte/build/js/AdminLTE');
 require("@fortawesome/fontawesome-free");
 require("select2");
+import 'bootstrap/js/dist/popover'
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 const Swal = require('sweetalert2');
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
-
+$('.popover, .help').popover({
+    container: 'body'
+});
 $(".select2").select2({
     tags: true
 });

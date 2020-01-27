@@ -25,8 +25,21 @@
                             <th>{{ "entity.recipe.label.label"|trans }}</th>
                             <th class="text-right">{{ "entity.recipe.label.estimatedHours"|trans }}</th>
                             <th class="text-right">{{ "entity.recipe.label.recipeComponents"|trans }}</th>
-                            <th class="text-right">{{ "entity.recipe.label.costNow"|trans }}</th>
-                            <th>{{ "entity.recipe.label.canDoIt"|trans }}</th>
+                            <th class="text-right">
+                                {{ "entity.recipe.label.costNow"|trans }}
+                                <i class="help fas fa-question-circle text-info pointer" data-placement='top'
+                                   data-content="{{ "text.help.costNow"|trans }}"></i>
+                            </th>
+                            <th class="text-right">
+                                {{ "entity.recipe.label.optimizedSellPrice"|trans }}
+                                <i class="help fas fa-question-circle text-info pointer" data-placement='top'
+                                   data-content="{{ "text.help.sellpriceOptimized"|trans }}"></i>
+                            </th>
+                            <th>
+                                {{ "entity.recipe.label.canDoIt"|trans }}
+                                <i class="help fas fa-question-circle text-info pointer" data-placement='top'
+                                   data-content="{{ "text.help.canDoIt"|trans }}"></i>
+                            </th>
 
                             <th>{{ "text.action"|trans }}</th>
                         </tr>
@@ -35,13 +48,25 @@
                         {% for recipe in recipes %}
                             <tr>
                                 <td>{{ recipe.Label }}</td>
-                                <td class="text-right">{{ recipe.estimatedHours|number_format(2,',',' ') }}h</td>
-                                <td class="text-right">{{ recipe.recipeComponents|length|number_format(0,',',' ') }}</td>
-                                <td class="text-right">{{ recipe_service.estimatedCost(recipe)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}</td>
-                                <td>{{ recipe_service.canDoIt(recipe) ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' }}</td>
+                                <td class="text-right">
+                                    {{ recipe.estimatedHours|number_format(2,',',' ') }}h
+                                </td>
+                                <td class="text-right">
+                                    {{ recipe.recipeComponents|length|number_format(0,',',' ') }}
+                                </td>
+                                <td class="text-right">
+                                    {{ recipe_service.estimatedCost(recipe)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
+                                </td>
+                                <td class="text-right">
+                                    {{ recipe_service.sellPriceOptimized(recipe)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
+                                </td>
+                                <td class="text-center">
+                                    {% set caDoIt = recipe_service.canDoIt(recipe) %}
+                                    {{ canDoIt  ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' }}
+                                </td>
                                 <td>
-{#                                    <a href="{{ path('recipe_show', {'id': recipe.id}) }}"#}
-{#                                       class="btn btn-default btn-xs"><i class="fas fa-eye"></i></a>#}
+                                    {#                                    <a href="{{ path('recipe_show', {'id': recipe.id}) }}"#}
+                                    {#                                       class="btn btn-default btn-xs"><i class="fas fa-eye"></i></a>#}
                                     <a href="{{ path('recipe_edit', {'id': recipe.id}) }}"
                                        class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                     {{ include('front/recipe/_delete_form.html.twig') }}
