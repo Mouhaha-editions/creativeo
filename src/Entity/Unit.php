@@ -38,6 +38,11 @@ class Unit
      */
     private $inventory;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $libelle;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -131,6 +136,18 @@ class Unit
                 $inventory->setUnit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLibelle(): ?string
+    {
+        return $this->libelle;
+    }
+
+    public function setLibelle(string $libelle): self
+    {
+        $this->libelle = $libelle;
 
         return $this;
     }
