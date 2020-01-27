@@ -37,19 +37,29 @@ class InventoryController extends AbstractController
         $form = $this->createForm(InventoryType::class, $inventory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $productLabel = ucfirst(strtolower($form->get('productLabel')->getData()));
             try {
-                $em = $this->getDoctrine()->getManager();
-                $inventory->setUser($this->getUser());
-                $em->persist($inventory);
+                $component = $componentRepository->findOneBy(['label' => $productLabel, 'user' => $this->getUser()]);
 
-                $component = $componentRepository->findBy(['label' => $inventory->getProductLabel(), 'user' => $this->getUser()]);
+                $em = $this->getDoctrine()->getManager();
                 if ($component == null) {
                     $component = new Component();
-                    $component->setLabel($inventory->getProductLabel());
+                    $component->setLabel($productLabel);
                     $component->setUser($this->getUser());
-                    $component->addInventory($inventory);
                     $em->persist($component);
                 }
+
+                $tmpInventory = $inventoryRepository->findOneBy(['user' => $this->getUser(), 'price' => $inventory->getPrice(), 'component' => $component]);
+                if ($tmpInventory != null) {
+                    $tmpInventory->setQuantity($inventory->getQuantity() + $tmpInventory->getQuantity());
+                    $inventory = $tmpInventory;
+                } else {
+                    $inventory->setComponent($component);
+                    $inventory->setUser($this->getUser());
+                    $em->persist($inventory);
+                }
+
+                $component->addInventory($inventory);
                 $component->setCommunityEnabled(false);
                 if (!$component->hasPrices($inventory->getPrice())) {
                     $price = new Price();
@@ -71,9 +81,11 @@ class InventoryController extends AbstractController
             $form = $this->createForm(InventoryType::class, $inventory);
             $this->addFlash('success', 'Composant ajouté à l\'inventaire.');
         }
-        $qb = $inventoryRepository->createQueryBuilder('i')->where('i.user  = :user')
+        $qb = $inventoryRepository->createQueryBuilder('i')
+            ->leftJoin('i.component','c')
+            ->where('i.user  = :user')
             ->setParameter('user', $this->getUser())
-            ->orderBy('i.productLabel', 'ASC');
+            ->orderBy('c.label', 'ASC');
         $components = $paginationService->setDefaults(50)->process($qb, $request);
 
 

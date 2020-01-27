@@ -21,6 +21,9 @@ class PreferenceType extends AbstractType
             ->add('moneyUnit', null, [
                 "label" => "entity.user.label.moneyUnit"
             ])
+            ->add('defaultMarge', null, [
+                "label" => "entity.user.label.defaultMarge"
+            ])
             ->add('useOrderPreference', ChoiceType::class, [
                 "choices"=>[
                     "option.user.useOrderPreference.desc"=>"DESC",

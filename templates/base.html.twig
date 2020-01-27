@@ -119,21 +119,21 @@ to get the desired effect
         <section class="content">
             <div class="container-fluid">
                 {% for flash in app.flashes('danger') %}
-                    <div class="alert alert-danger alert-dismissible fade show mt-2 mb-2">{{ flash }}
+                    <div class="alert alert-danger alert-dismissible fade show mt-2 mb-2">{{ flash|trans }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 {% endfor %}
                 {% for flash in app.flashes('success') %}
-                    <div class="alert alert-success alert-dismissible fade show mt-2 mb-2">{{ flash }}
+                    <div class="alert alert-success alert-dismissible fade show mt-2 mb-2">{{ flash|trans }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 {% endfor %}
                 {% for flash in app.flashes('warning') %}
-                    <div class="alert alert-warning alert-dismissible fade show mt-2 mb-2">{{ flash }}
+                    <div class="alert alert-warning alert-dismissible fade show mt-2 mb-2">{{ flash|trans }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

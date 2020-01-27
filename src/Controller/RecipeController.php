@@ -32,6 +32,7 @@ class RecipeController extends AbstractController
     public function new(Request $request): Response
     {
         $recipe = new Recipe();
+        $recipe->setMarge($this->getUser()->getDefaultMarge());
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
 
@@ -68,8 +69,8 @@ class RecipeController extends AbstractController
      */
     public function edit(Request $request, Recipe $recipe): Response
     {
-        $form = $this->createForm(RecipeType::class, $recipe);
 
+        $form = $this->createForm(RecipeType::class, $recipe);
         $originalTags = new ArrayCollection();
 
         // Create an ArrayCollection of the current Tag objects in the database

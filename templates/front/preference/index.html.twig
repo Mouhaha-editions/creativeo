@@ -12,10 +12,23 @@
                     <h3 class="card-title">{{ "title.user.preference"|trans }}</h3>
                 </div>
                 <div class="card-body p-3">
-                    {{ form_row(form.hourCost) }}
                     {{ form_row(form.moneyUnit) }}
                     {{ form_row(form.useOrderPreference) }}
                     <button class="btn btn-success btn-sm">{{ "button.default.save"|trans }}</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ "title.user.sellpreference"|trans }}</h3>
+                </div>
+                <div class="card-body p-3">
+                    {{ form_row(form.hourCost) }}
+
+                    {{ form_row(form.defaultMarge) }}
+                    <button class="btn btn-success btn-sm">{{ "button.default.save"|trans }}</button>
+
                 </div>
             </div>
         </div>

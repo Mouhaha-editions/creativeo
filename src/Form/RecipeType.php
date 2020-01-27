@@ -18,6 +18,10 @@ class RecipeType extends AbstractType
                 'label'=>'entity.recipe.label.label',
                 'required'=>true,
             ])
+            ->add('marge', null,[
+                'label'=>'entity.recipe.label.marge',
+                'required'=>true,
+            ])
             ->add('estimatedHours', NumberType::class,[
                 'label'=>'entity.recipe.label.estimatedHours',
                 'required'=>true,

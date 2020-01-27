@@ -6,12 +6,13 @@ use App\Entity\Component;
 use App\Form\ComponentType;
 use App\Repository\ComponentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/component")
+ * @Route("/composants")
  */
 class ComponentController extends AbstractController
 {
@@ -23,6 +24,15 @@ class ComponentController extends AbstractController
         return $this->render('component/index.html.twig', [
             'components' => $componentRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/ajax-list", name="component_list", methods={"GET"})
+     */
+    public function ajaxList(ComponentRepository $componentRepository): Response
+    {
+        $components = $componentRepository->findBy(['user'=>$this->getUser()],['label'=>"ASC"]);
+        return new JsonResponse($components);
     }
 
     /**

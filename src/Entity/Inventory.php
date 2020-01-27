@@ -26,11 +26,6 @@ class Inventory
     private $user;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    private $productLabel;
-
-    /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
     private $quantity;
@@ -102,17 +97,7 @@ class Inventory
      */
     public function getProductLabel()
     {
-        return $this->productLabel;
-    }
-
-    /**
-     * @param string $productLabel
-     * @return Inventory
-     */
-    public function setProductLabel(string $productLabel): self
-    {
-        $this->productLabel = $productLabel;
-        return $this;
+        return $this->getComponent()->getLabel();
     }
 
     public function getComponent(): ?Component

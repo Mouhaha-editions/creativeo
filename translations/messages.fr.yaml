@@ -18,6 +18,7 @@ title:
   home: 'Accueil'
   user:
     preference: 'Réglages'
+    sellpreference: 'Réglage pour la vente'
   inventory:
     index: 'Mon inventaire'
     add: "Ajouter dans l'inventaire"
@@ -33,6 +34,7 @@ entity:
     label:
       useOrderPreference: "Préférence d'utilisation des Composants"
       moneyUnit: "Unité monétaire"
+      defaultMarge: "Marge par défaut (%)"
       hourCost: "Ton coût horaire"
   recipe_component:
     label:
@@ -42,10 +44,12 @@ entity:
   recipe:
     label:
       label: 'Libellé'
+      marge: 'Marge à appliquer (%)'
       estimatedHours: 'Temps estimé'
       recipeComponents: 'Composants'
       costNow: 'Coût de fabrication'
       canDoIt: 'Réalisable ?'
+      taxes: 'Taxes'
   inventory:
     label:
       productLabel: 'Libellé du composant'

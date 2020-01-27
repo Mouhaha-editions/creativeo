@@ -41,9 +41,26 @@ class Recipe
      */
     private $recipeComponents;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Creation", mappedBy="recipe", orphanRemoval=true)
+     */
+    private $creations;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=5)
+     */
+    private $marge;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\taxe", inversedBy="recipes")
+     */
+    private $taxes;
+
     public function __construct()
     {
         $this->recipeComponents = new ArrayCollection();
+        $this->creations = new ArrayCollection();
+        $this->taxes = new ArrayCollection();
     }
 
 
@@ -115,6 +132,75 @@ class Recipe
             if ($recipeComponent->getRecipe() === $this) {
                 $recipeComponent->setRecipe(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Creation[]
+     */
+    public function getCreations(): Collection
+    {
+        return $this->creations;
+    }
+
+    public function addCreation(Creation $creation): self
+    {
+        if (!$this->creations->contains($creation)) {
+            $this->creations[] = $creation;
+            $creation->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreation(Creation $creation): self
+    {
+        if ($this->creations->contains($creation)) {
+            $this->creations->removeElement($creation);
+            // set the owning side to null (unless already changed)
+            if ($creation->getRecipe() === $this) {
+                $creation->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMarge(): ?string
+    {
+        return $this->marge;
+    }
+
+    public function setMarge(string $marge): self
+    {
+        $this->marge = $marge;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|taxe[]
+     */
+    public function getTaxes(): Collection
+    {
+        return $this->taxes;
+    }
+
+    public function addTax(taxe $tax): self
+    {
+        if (!$this->taxes->contains($tax)) {
+            $this->taxes[] = $tax;
+        }
+
+        return $this;
+    }
+
+    public function removeTax(taxe $tax): self
+    {
+        if ($this->taxes->contains($tax)) {
+            $this->taxes->removeElement($tax);
         }
 
         return $this;

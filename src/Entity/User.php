@@ -76,11 +76,28 @@ class User implements UserInterface
      */
     private $useOrderPreference = "DESC";
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=4)
+     */
+    private $defaultMarge = 20;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Creation", mappedBy="user", orphanRemoval=true)
+     */
+    private $creations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Taxe", mappedBy="user")
+     */
+    private $taxes;
+
     public function __construct()
     {
         $this->inventories = new ArrayCollection();
         $this->components = new ArrayCollection();
         $this->receipts = new ArrayCollection();
+        $this->creations = new ArrayCollection();
+        $this->taxes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -297,6 +314,80 @@ class User implements UserInterface
     public function setUseOrderPreference(string $useOrderPreference): self
     {
         $this->useOrderPreference = $useOrderPreference;
+
+        return $this;
+    }
+
+    public function getDefaultMarge(): ?string
+    {
+        return $this->defaultMarge;
+    }
+
+    public function setDefaultMarge(string $defaultMarge): self
+    {
+        $this->defaultMarge = $defaultMarge;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Creation[]
+     */
+    public function getCreations(): Collection
+    {
+        return $this->creations;
+    }
+
+    public function addCreation(Creation $creation): self
+    {
+        if (!$this->creations->contains($creation)) {
+            $this->creations[] = $creation;
+            $creation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreation(Creation $creation): self
+    {
+        if ($this->creations->contains($creation)) {
+            $this->creations->removeElement($creation);
+            // set the owning side to null (unless already changed)
+            if ($creation->getUser() === $this) {
+                $creation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Taxe[]
+     */
+    public function getTaxes(): Collection
+    {
+        return $this->taxes;
+    }
+
+    public function addTax(Taxe $tax): self
+    {
+        if (!$this->taxes->contains($tax)) {
+            $this->taxes[] = $tax;
+            $tax->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTax(Taxe $tax): self
+    {
+        if ($this->taxes->contains($tax)) {
+            $this->taxes->removeElement($tax);
+            // set the owning side to null (unless already changed)
+            if ($tax->getUser() === $this) {
+                $tax->setUser(null);
+            }
+        }
 
         return $this;
     }
