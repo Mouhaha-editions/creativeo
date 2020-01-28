@@ -20,7 +20,7 @@ text:
     sellpriceOptimized: 'Cout de fabrication + marge'
     canDoIt: "On verifie que tu as suffisement d'ingredients dans ton inventaire"
     costNow: 'Composants necessaires + temps passé'
-    revenus: 'Les revenus générés par cette recette'
+    revenus: 'Revenus = Prix de vente - coût de fabrication - taxes'
   no_taxe: 'Pas de taxes enregistrées'
 title:
   recipe:
