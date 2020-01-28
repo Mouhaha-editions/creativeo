@@ -39,6 +39,9 @@ class TaxeType extends AbstractType
                 'choices' => Taxe::Types,
                 'required' => true,
                 'label' => 'entity.taxe.label.type',
+            ])->add('enabled', CheckboxType::class, [
+                'required' => false,
+                'label' => 'entity.taxe.label.enabled',
             ]);
     }
 

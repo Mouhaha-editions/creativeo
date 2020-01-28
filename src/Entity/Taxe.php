@@ -71,6 +71,11 @@ class Taxe
      */
     private $isEnabledForCommunity;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled = true;
+
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
@@ -194,6 +199,18 @@ class Taxe
     public function setIsEnabledForCommunity(bool $isEnabledForCommunity): self
     {
         $this->isEnabledForCommunity = $isEnabledForCommunity;
+
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

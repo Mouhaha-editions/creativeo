@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Taxe{% endblock %}
+{% block title %}{{ "title.taxe.new"|trans }} {{ parent() }}{% endblock %}
 
+{% block contentHeader %}
+    {% include "tools/content_header.html.twig" with {title : "title.taxe.new"|trans} %}
+{% endblock %}
 {% block content %}
-    <h1>Create new Taxe</h1>
 
-    {{ include('front/taxe/_form.html.twig') }}
+    {{ include('front/taxe/_form.html.twig',{title:"title.taxe.new"|trans}) }}
 
-    <a href="{{ path('taxe_index') }}">back to list</a>
 {% endblock %}

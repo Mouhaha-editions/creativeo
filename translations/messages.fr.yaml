@@ -29,6 +29,8 @@ title:
     add: "Ajouter dans l'inventaire"
   taxe:
     index: 'Mes taxes'
+    edit: 'Modifier une taxe'
+    new: 'Nouvelle taxe'
 button:
   recipe:
     add_component: 'Ajouter un composant'
@@ -70,6 +72,7 @@ entity:
     label:
       libelle: 'Libellé'
       type: 'Type'
+      enabled: 'Active'
       value: 'Valeur'
       description: 'Description'
       type_percentage: 'Pourcentage'
