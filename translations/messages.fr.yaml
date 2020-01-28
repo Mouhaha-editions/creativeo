@@ -7,6 +7,12 @@ flash:
   success:
     save: 'Données enregistrées'
 text:
+  success:
+    copied_elt: "Elément copié"
+  danger:
+    not_yours: "Cet élément ne vous appartient pas"
+    not_community_elt: "Cet élément n'est pas un élément proposé par la communauté"
+    already_copied: "Cet élément a déjà été copié"
   no_recipe: 'Pas de recette'
   confirm_delete: 'Confirmer la suppression ?'
   action: 'Actions'
@@ -32,6 +38,7 @@ title:
     index: 'Mes taxes'
     edit: 'Modifier une taxe'
     new: 'Nouvelle taxe'
+    index_community: 'Taxes proposées par la communauté'
   dashboard:
     index: 'Tableau de bord'
 button:
@@ -41,6 +48,7 @@ button:
     add: 'Ajouter'
     save: 'Enregistrer'
     edit: 'Modifier'
+  select: ''
 entity:
   user:
     label:

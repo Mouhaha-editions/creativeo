@@ -21,7 +21,8 @@ class TaxeController extends AbstractController
     public function index(TaxeRepository $taxeRepository): Response
     {
         return $this->render('front/taxe/index.html.twig', [
-            'taxes' => $taxeRepository->findBy(['user'=>$this->getUser()]),
+            'taxes' => $taxeRepository->findBy(['user' => $this->getUser()]),
+            'community_taxes' => $taxeRepository->findBy(['isEnabledForCommunity' => $this->getUser(), 'enabled' => true]),
         ]);
     }
 
@@ -66,6 +67,10 @@ class TaxeController extends AbstractController
      */
     public function edit(Request $request, Taxe $taxe): Response
     {
+        if ($this->getUser() != $taxe->getUser()) {
+            $this->addFlash('danger', 'text.danger.not_yours');
+            return $this->redirectToRoute('taxe_index');
+        }
         $form = $this->createForm(TaxeType::class, $taxe);
         $form->handleRequest($request);
 
@@ -81,11 +86,47 @@ class TaxeController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/copy", name="taxe_copy_to_mine", methods={"GET"})
+     */
+    public function copy(Request $request, Taxe $taxe, TaxeRepository $taxeRepository): Response
+    {
+        if (!$taxe->getIsEnabledForCommunity()) {
+            $this->addFlash('danger', 'text.danger.not_community_elt');
+            return $this->redirectToRoute('taxe_index');
+        }
+        if ($taxeRepository->findOneby(['user' => $this->getUser(), 'parent' => $taxe])) {
+            $this->addFlash('danger', 'text.danger.already_copied');
+            return $this->redirectToRoute('taxe_index');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $taxeCopied = new Taxe();
+        $taxeCopied->setUser($this->getUser());
+        $taxeCopied->setLibelle($taxe->getLibelle());
+        $taxeCopied->setParent($taxe);
+        $taxeCopied->setDescription($taxe->getDescription());
+        $taxeCopied->setType($taxe->getType());
+        $taxeCopied->setValue($taxe->getValue());
+        $taxeCopied->setEnabled(true);
+        $taxeCopied->setIsDefault(false);
+        $taxeCopied->setIsEnabledForCommunity(false);
+        $em->persist($taxeCopied);
+        $em->flush();
+        $this->addFlash("success", 'text.success.copied_elt');
+
+        return $this->redirectToRoute('taxe_index');
+
+    }
+
+    /**
      * @Route("/{id}", name="taxe_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Taxe $taxe): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$taxe->getId(), $request->request->get('_token'))) {
+        if ($this->getUser() != $taxe->getUser()) {
+            $this->addFlash('danger', 'text.danger.not_yours');
+            return $this->redirectToRoute('taxe_index');
+        }
+        if ($this->isCsrfTokenValid('delete' . $taxe->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($taxe);
             $entityManager->flush();

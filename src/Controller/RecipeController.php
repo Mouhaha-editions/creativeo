@@ -73,7 +73,10 @@ class RecipeController extends AbstractController
      */
     public function edit(Request $request, Recipe $recipe): Response
     {
-
+        if($this->getUser() != $recipe->getUser()){
+            $this->addFlash('danger','text.danger.not_yours');
+            return $this->redirectToRoute('taxe_index');
+        }
         $form = $this->createForm(RecipeType::class, $recipe);
         $originalTags = new ArrayCollection();
 
@@ -110,6 +113,10 @@ class RecipeController extends AbstractController
      */
     public function delete(Request $request, Recipe $recipe): Response
     {
+        if($this->getUser() != $recipe->getUser()){
+        $this->addFlash('danger','text.danger.not_yours');
+        return $this->redirectToRoute('taxe_index');
+    }
         if ($this->isCsrfTokenValid('delete' . $recipe->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($recipe);

@@ -14,6 +14,7 @@ require('admin-lte/build/js/AdminLTE');
 require("@fortawesome/fontawesome-free");
 // require("select2");
 import 'bootstrap/js/dist/popover'
+import 'bootstrap/js/dist/tooltip'
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // const Swal = require('sweetalert2');
@@ -22,4 +23,6 @@ import 'bootstrap/js/dist/popover'
 $('.popover, .help').popover({
     container: 'body'
 });
+$('[title]').tooltip();
+
 

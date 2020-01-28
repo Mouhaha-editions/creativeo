@@ -48,5 +48,41 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ "title.taxe.index_community"|trans }}</h3>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th>{{ "entity.taxe.label.libelle"|trans }}</th>
+                            <th>{{ "entity.taxe.label.description"|trans }}</th>
+                            <th>{{ "entity.taxe.label.value"|trans }}</th>
+                            <th>{{ "entity.taxe.label.type"|trans }}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for taxe in community_taxes %}
+                            <tr>
+                                <td>{{ taxe.libelle }}</td>
+                                <td>{{ taxe.description }}</td>
+                                <td>{{ taxe.value }}</td>
+                                <td>{{ taxe.typeStr|trans }}</td>
+                                <td><a href="{{ url('taxe_copy_to_mine',{id:taxe.id}) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Ajouter à mes taxes"><i class="fas fa-plus"></i></a></td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">{{ "text.no_taxe"|trans }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
