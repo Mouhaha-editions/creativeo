@@ -44,35 +44,35 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">{{ "entity.recipe.label.taxes"|trans }}</h3>
-            </div>
-            <div class="card-body p-0">
-                <table id="components-fields-list" class="table table-condensed"
-                       data-prototype="{{ formMacros.taxePrototype(form.taxes.vars.prototype)|e('html_attr') }}"
-                       data-widget-tags="{{ '<tr></tr>'|e }}"
-                       data-widget-counter="{{ form.taxes|length }}">
-                    <thead>
-                    <tr>
-                        <th>{{ "entity.taxe.label.libelle"|trans }}</th>
-                        <th>{{ "entity.taxe.label.value"|trans }}</th>
-                        <th>{{ "entity.taxe.label.type"|trans }}</th>
-                    </tr>
-                    </thead>
-                    {% for component in form.recipeComponents %}
-                        <tr>{{ formMacros.componentPrototype(component) }}</tr>
-                    {% endfor %}
-                </table>
-                <div class="p-3">
-                    <button type="button"
-                            class="add-another-collection-widget btn btn-sm btn-secondary"
-                            data-list-selector="#components-fields-list"><i
-                                class="fas fa-plus"></i> {{ "button.recipe.add_component"|trans }}</button></div>
-            </div>
-        </div>
-    </div>
+{#    <div class="col-md-6">#}
+{#        <div class="card">#}
+{#            <div class="card-header">#}
+{#                <h3 class="card-title">{{ "entity.recipe.label.taxes"|trans }}</h3>#}
+{#            </div>#}
+{#            <div class="card-body p-0">#}
+{#                <table id="components-fields-list" class="table table-condensed"#}
+{#                       data-prototype="{{ formMacros.taxePrototype(form.taxes.vars.prototype)|e('html_attr') }}"#}
+{#                       data-widget-tags="{{ '<tr></tr>'|e }}"#}
+{#                       data-widget-counter="{{ form.taxes|length }}">#}
+{#                    <thead>#}
+{#                    <tr>#}
+{#                        <th>{{ "entity.taxe.label.libelle"|trans }}</th>#}
+{#                        <th>{{ "entity.taxe.label.value"|trans }}</th>#}
+{#                        <th>{{ "entity.taxe.label.type"|trans }}</th>#}
+{#                    </tr>#}
+{#                    </thead>#}
+{#                    {% for component in form.recipeComponents %}#}
+{#                        <tr>{{ formMacros.componentPrototype(component) }}</tr>#}
+{#                    {% endfor %}#}
+{#                </table>#}
+{#                <div class="p-3">#}
+{#                    <button type="button"#}
+{#                            class="add-another-collection-widget btn btn-sm btn-secondary"#}
+{#                            data-list-selector="#components-fields-list"><i#}
+{#                                class="fas fa-plus"></i> {{ "button.recipe.add_component"|trans }}</button></div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
     </div>
 
 

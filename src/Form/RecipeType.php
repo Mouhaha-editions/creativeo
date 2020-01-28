@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Recipe;
+use App\Entity\Taxe;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -27,6 +29,13 @@ class RecipeType extends AbstractType
                 'required'=>true,
                 'scale'=>4,
             ])
+//            ->add('taxes', EntityType::class, [
+//                'class' => Taxe::class,
+//                'multiple'=>true,
+//                'label'=>'entity.recipe.label.taxes',
+//
+//
+//            ])
             ->add('recipeComponents', CollectionType::class, [
                 'entry_type' => RecipeComponentType::class,
                 'allow_add' => true,
