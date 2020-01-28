@@ -14,6 +14,7 @@ text:
     sellpriceOptimized: 'Cout de fabrication + marge'
     canDoIt: "On verifie que tu as suffisement d'ingredients dans ton inventaire"
     costNow: 'Composants necessaires + temps passé'
+  no_taxe: 'Pas de taxes enregistrées'
 title:
   recipe:
     new: 'Nouvelle recette'
@@ -26,6 +27,8 @@ title:
   inventory:
     index: 'Mon inventaire'
     add: "Ajouter dans l'inventaire"
+  taxe:
+    index: 'Mes taxes'
 button:
   recipe:
     add_component: 'Ajouter un composant'
@@ -68,3 +71,8 @@ entity:
       libelle: 'Libellé'
       type: 'Type'
       value: 'Valeur'
+      description: 'Description'
+      type_percentage: 'Pourcentage'
+      type_amount: 'Montant'
+      isDefault: 'Préséléctionner sur les recettes'
+      isEnabledForCommunity: 'Proposer à la communauté'

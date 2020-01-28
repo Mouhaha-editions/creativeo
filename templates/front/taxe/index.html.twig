@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.taxe.index'|trans }} {{ parent() }}{% endblock %}
+
+{% block contentHeader %}
+    {% include 'tools/content_header.html.twig' with {title: 'title.taxe.index'|trans} %}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ "title.taxe.index"|trans }}</h3>
+                    <a class='btn btn-sm btn-success float-right' href="{{ path('taxe_new') }}"><i
+                                class="fas fa-plus "></i> {{ "button.default.add"|trans }}</a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th>{{ "entity.taxe.label.libelle"|trans }}</th>
+                            <th>{{ "entity.taxe.label.description"|trans }}</th>
+                            <th>{{ "entity.taxe.label.value"|trans }}</th>
+                            <th>{{ "entity.taxe.label.type"|trans }}</th>
+                            <th>{{ "text.action"|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for taxe in taxes %}
+                            <tr>
+                                <td>{{ taxe.libelle }}</td>
+                                <td>{{ taxe.description }}</td>
+                                <td>{{ taxe.value }}</td>
+                                <td>{{ taxe.typeStr|trans }}</td>
+                                <td>
+                                    <a href="{{ path('taxe_edit', {'id': taxe.id}) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">{{ "text.no_taxe"|trans }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
