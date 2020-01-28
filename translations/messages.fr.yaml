@@ -32,6 +32,8 @@ title:
     index: 'Mes taxes'
     edit: 'Modifier une taxe'
     new: 'Nouvelle taxe'
+  dashboard:
+    index: 'Tableau de bord'
 button:
   recipe:
     add_component: 'Ajouter un composant'

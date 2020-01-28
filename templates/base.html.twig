@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title>{% block title %} - Ma Forge.fr{% endblock %}</title>
-    <link rel="icon" href="{{ asset('build/images/ma-forge.ico') }}" />
+    <link rel="icon" href="{{ asset('build/images/ma-forge.ico') }}"/>
     <!-- IonIcons -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Google Font: Source Sans Pro -->
@@ -43,16 +43,16 @@ to get the desired effect
         </ul>
 
         <!-- SEARCH FORM -->
-{#        <form class="form-inline ml-3">#}
-{#            <div class="input-group input-group-sm">#}
-{#                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">#}
-{#                <div class="input-group-append">#}
-{#                    <button class="btn btn-navbar" type="submit">#}
-{#                        <i class="fas fa-search"></i>#}
-{#                    </button>#}
-{#                </div>#}
-{#            </div>#}
-{#        </form>#}
+        {#        <form class="form-inline ml-3">#}
+        {#            <div class="input-group input-group-sm">#}
+        {#                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">#}
+        {#                <div class="input-group-append">#}
+        {#                    <button class="btn btn-navbar" type="submit">#}
+        {#                        <i class="fas fa-search"></i>#}
+        {#                    </button>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </form>#}
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
@@ -65,8 +65,9 @@ to get the desired effect
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="/" class="brand-link">
-                        <img src="{{ asset('build/images/ma-forge-white.png') }}" alt="Ma-Forge.fr Logo" class="brand-image img-fluid"
-                             style="opacity: .8">
+            <img src="{{ asset('build/images/ma-forge-white.png') }}" alt="Ma-Forge.fr Logo"
+                 class="brand-image img-fluid"
+                 style="opacity: .8">
             <span class="brand-text font-weight-light">Ma Forge</span>
         </a>
 
@@ -79,7 +80,7 @@ to get the desired effect
                          alt="User Image">
                 </div>
                 <div class="info"><a>@{{ app.user.username }}</a><br/><br/>
-                    <a href="{{ url('preference') }}" class="d-block"><i class="fas fa-cogs"></i> {{ "title.user.preference"|trans }} </a>
+
                 </div>
             </div>
 
@@ -90,7 +91,18 @@ to get the desired effect
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="{{ url('recipe_index') }}" class="nav-link">
+                        <a href="{{ url('dashboard') }}"
+                           class="nav-link {% if app.request.get('_route') starts with "dashboard" %}active{% endif %}">
+                            <i class="nav-icon fas fa-chart-line"></i>
+                            <p>
+                                Tableau de bord
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url('recipe_index') }}"
+                           class="nav-link {% if app.request.get('_route') starts with "recipe_" %}active{% endif %}">
                             <i class="nav-icon fas fa-receipt"></i>
                             <p>
                                 Recettes
@@ -99,17 +111,35 @@ to get the desired effect
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('inventory_index') }}" class="nav-link">
+                        <a href="{{ url('inventory_index') }}"
+                           class="nav-link {% if app.request.get('_route') starts with "inventory_" %}active{% endif %}">
                             <i class="nav-icon fas fa-boxes"></i>
                             <p>Inventaire</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ url('taxe_index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-percent"></i>
-                            <p>Mes taxes</p>
+                    <li class="nav-item nav-item has-treeview {% if app.request.get('_route') starts with 'taxe_' or app.request.get('_route') starts with 'preference'%}menu-open{% endif %}">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>Réglages
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('preference') }}" class="nav-link {% if  app.request.get('_route') starts with 'preference'%}active{% endif %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Préférences</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('taxe_index') }}" class="nav-link {% if app.request.get('_route') starts with 'taxe_' %}active{% endif %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Taxes</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
 
+{% block title %}{{ 'title.dashboard.index'|trans }} {{ parent() }}{% endblock %}
+{% block contentHeader %}
+    {% include('tools/content_header.html.twig') with {title:'title.dashboard.index'|trans} %}
+{% endblock %}
 {% block content %}
+
     <section class="content">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
