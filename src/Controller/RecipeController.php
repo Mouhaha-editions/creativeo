@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Recipe;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
+use App\Repository\TaxeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,23 +23,26 @@ class RecipeController extends AbstractController
     public function index(RecipeRepository $recipeRepository): Response
     {
         return $this->render('front/recipe/index.html.twig', [
-            'recipes' => $recipeRepository->findBy(['user'=>$this->getUser()],['label'=>"ASC"]),
+            'recipes' => $recipeRepository->findBy(['user' => $this->getUser()], ['label' => "ASC"]),
         ]);
     }
 
     /**
      * @Route("/new", name="recipe_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TaxeRepository $taxeRepository): Response
     {
         $recipe = new Recipe();
         $recipe->setMarge($this->getUser()->getDefaultMarge());
+        foreach ($taxeRepository->findBy(['user' => $this->getUser(), 'isDefault' => true, 'enabled' => true]) AS $taxe) {
+            $recipe->addTax($taxe);
+        }
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $recipe->setUser($this->getUser());
-            foreach($recipe->getRecipeComponents() AS $component){
+            foreach ($recipe->getRecipeComponents() AS $component) {
                 $component->setRecipe($recipe);
             }
             $entityManager = $this->getDoctrine()->getManager();
@@ -80,14 +84,14 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            foreach($originalTags AS $component){
+            foreach ($originalTags AS $component) {
                 if (false === $recipe->getRecipeComponents()->contains($component)) {
-                     $component->setRecipe(null);
+                    $component->setRecipe(null);
                     $entityManager->persist($component);
 //                     $entityManager->remove($component);
                 }
             }
-            foreach($recipe->getRecipeComponents() AS $component){
+            foreach ($recipe->getRecipeComponents() AS $component) {
                 $component->setRecipe($recipe);
             }
             $entityManager->flush();
@@ -106,7 +110,7 @@ class RecipeController extends AbstractController
      */
     public function delete(Request $request, Recipe $recipe): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$recipe->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $recipe->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($recipe);
             $entityManager->flush();

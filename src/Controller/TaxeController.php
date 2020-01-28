@@ -27,6 +27,8 @@ class TaxeController extends AbstractController
 
     /**
      * @Route("/new", name="taxe_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -69,7 +71,6 @@ class TaxeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('taxe_index');
         }
 

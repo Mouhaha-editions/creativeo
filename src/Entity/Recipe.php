@@ -56,6 +56,11 @@ class Recipe
      */
     private $taxes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Compteur", inversedBy="recipes")
+     */
+    private $compteur;
+
     public function __construct()
     {
         $this->recipeComponents = new ArrayCollection();
@@ -202,6 +207,18 @@ class Recipe
         if ($this->taxes->contains($tax)) {
             $this->taxes->removeElement($tax);
         }
+
+        return $this;
+    }
+
+    public function getCompteur(): ?Compteur
+    {
+        return $this->compteur;
+    }
+
+    public function setCompteur(?Compteur $compteur): self
+    {
+        $this->compteur = $compteur;
 
         return $this;
     }

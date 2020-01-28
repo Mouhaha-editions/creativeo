@@ -91,6 +91,16 @@ class User implements UserInterface
      */
     private $taxes;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $experience = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $level = 0;
+
     public function __construct()
     {
         $this->inventories = new ArrayCollection();
@@ -156,7 +166,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return $this->roles == null ? ["ROLE_USER"]: $this->roles;
+        return $this->roles == null ? ["ROLE_USER"] : $this->roles;
     }
 
     public function setRoles(string $roles): self
@@ -388,6 +398,30 @@ class User implements UserInterface
                 $tax->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getExperience(): ?int
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(int $experience): self
+    {
+        $this->experience = $experience;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }

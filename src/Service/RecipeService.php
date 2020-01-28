@@ -4,11 +4,12 @@
 namespace App\Service;
 
 
-use App\Entity\Inventory;
 use App\Entity\Recipe;
+use App\Entity\Taxe;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class RecipeService
 {
@@ -21,7 +22,7 @@ class RecipeService
      */
     private $inventoryService;
     /**
-     * @var \Symfony\Component\Security\Core\Authentication\Token\TokenInterface|null
+     * @var TokenInterface|null
      */
     private $tokenStorage;
 
@@ -32,27 +33,41 @@ class RecipeService
         $this->tokenStorage = $tokenStorage->getToken();
     }
 
-    public function estimatedCost(Recipe $recipe)
+    public function revenus(Recipe $recipe)
     {
-        /** @var User $user */
-        $user= $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
-        $sum = 0;
-        foreach($recipe->getRecipeComponents() AS $comp){
-            $sum += $this->inventoryService->getCostForRecipeComponent($comp);
+        $startPrice = $this->SellPriceOptimized($recipe);
+        $price = $startPrice - $this->estimatedCost($recipe);
+        foreach($recipe->getTaxes() AS $taxe){
+            if($taxe->getType() == Taxe::TYPE_PERCENTAGE) {
+                $price -= $startPrice * $taxe->getValue()/100;
+            }else{
+                $price -= $taxe->getValue();
+            }
         }
-        return $sum + $user->getHourCost() * $recipe->getEstimatedHours();
+        return $price;
     }
 
     public function SellPriceOptimized(Recipe $recipe)
     {
         $sum = $this->estimatedCost($recipe);
-        return $sum / (1-($recipe->getMarge()/100));
+        return $sum / (1 - ($recipe->getMarge() / 100));
+    }
+
+    public function estimatedCost(Recipe $recipe)
+    {
+        /** @var User $user */
+        $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
+        $sum = 0;
+        foreach ($recipe->getRecipeComponents() AS $comp) {
+            $sum += $this->inventoryService->getCostForRecipeComponent($comp);
+        }
+        return $sum + $user->getHourCost() * $recipe->getEstimatedHours();
     }
 
     public function canDoIt(Recipe $recipe)
     {
         foreach ($recipe->getRecipeComponents() AS $compo) {
-            if( ! $this->inventoryService->hasQuantityForRecipeComponent($compo)){
+            if (!$this->inventoryService->hasQuantityForRecipeComponent($compo)) {
                 return false;
             }
         }
