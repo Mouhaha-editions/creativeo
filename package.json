@@ -1,6 +1,5 @@
 {
     "devDependencies": {
-        "@babel/preset-react": "^7.8.3",
         "@fortawesome/fontawesome-free": "^5.12.0",
         "@symfony/webpack-encore": "^0.28.2",
         "core-js": "^3.0.0",
