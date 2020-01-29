@@ -23,7 +23,6 @@
     "dependencies": {
         "admin-lte": "3.0",
         "bootstrap": "^4.4.1",
-        "prop-types": "^15.7.2",
         "select2": "^4.0.12"
     }
 }
