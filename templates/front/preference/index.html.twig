@@ -19,15 +19,60 @@
             </div>
         </div>
         <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{ "title.user.sellpreference"|trans }}</h3>
                 </div>
                 <div class="card-body p-3">
-                    {{ form_row(form.hourCost) }}
+                    {{ form_row(form.monthlySalary) }}
+                    {{ form_row(form.weeklyHours) }}
+                    {{ form_row(form.monthlyCharges) }}
+                    {{ form_row(form.publicHolidaysWeeks) }}
 
                     {{ form_row(form.defaultMarge) }}
                     <button class="btn btn-success btn-sm">{{ "button.default.save"|trans }}</button>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ "title.user.preferenceHelp"|trans }}</h3>
+                </div>
+                <div class="card-body p-3 " style="font-size:12px">
+                    <p>Voici quelques informations pour t'aider a remplir la partie "Réglages pour la vente"</p>
+                    <p><b>{{ "entity.user.label.weeklyHours"|trans }} : </b>C'est le nombre d'heures que tu passes en
+                        général à créer et vendre tes produits.
+                        Petite complication : il faut entrer un nombre d'heure en décimal 😣 mais
+                        c'est super simple : 30min = 0.5, 15min = 0.25, 45min = 0.75 et pour <b>X</b>min c'est <b>X</b>/60.
+                    </p>
+                    <p><b>{{ "entity.user.label.monthlyCharges"|trans }} : </b>Il s'agit de tout ce que ton entreprise
+                        dépense chaque mois pour fonctionner :
+                        loyer, edf, eau, assurance(s), internet, materiel, marketing, ... essaye de ne rien oublier.
+                        <br/>
+                        Je te conseille également de mettre les dépense que tu fais chaque année en pensant a la diviser
+                        par 12, par exemple la CFE, l'achat de materiel, ... </b></p>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ "title.user.sellpreferenceCalculs"|trans }}</h3>
+                </div>
+                <div class="card-body p-3">
+                    <p>Je peux te dire - d'après ce que tu veux bien me confier - que ...
+                        tu travailles <b id="semaines-travaillees">0</b> semaines par ans,
+                        donc environ <b id="heures-par-mois">0</b> heures par mois<br/>
+                        Pour travailler au plus juste ton taux horaire est de <b
+                                id="cout-horaire">0</b> {{ app.user.moneyUnit }} et enfin
+                        chaque heure tes charges te coûtent <b id="charges-par-heure">0</b> {{ app.user.moneyUnit }}
+                        cela sera également pris en compte dans mes calculs</p>
+                    <div class="alert alert-info"><i class="fas fa-info-circle"></i> Tous ces calculs sont fait pour
+                        pouvoir t'aider à fixer un prix le plus juste possible.
+                    </div>
 
                 </div>
             </div>
@@ -36,4 +81,8 @@
 
     {{ form_end(form) }}
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('preference') }}
 {% endblock %}

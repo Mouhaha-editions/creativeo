@@ -17,11 +17,13 @@ text:
   confirm_delete: 'Confirmer la suppression ?'
   action: 'Actions'
   help:
-    sellpriceOptimized: 'Cout de fabrication + marge'
+    sellpriceOptimized: 'Cout de fabrication + marge + prévision des taxes'
     canDoIt: "On verifie que tu as suffisement d'ingredients dans ton inventaire"
-    costNow: 'Composants necessaires + temps passé'
+    costNow: 'Composants necessaires + temps passé + charges mensuelles'
     revenus: 'Revenus = Prix de vente - coût de fabrication - taxes'
   no_taxe: 'Pas de taxes enregistrées'
+  preference:
+    hourCost: 'Ton tarif horaire'
 title:
   recipe:
     new: 'Nouvelle recette'
@@ -31,6 +33,8 @@ title:
   user:
     preference: 'Réglages'
     sellpreference: 'Réglage pour la vente'
+    sellpreferenceCalculs: 'Ce que je calcule avec tes données'
+    preferenceHelp: "Besoin d'aide ? "
   inventory:
     index: 'Mon inventaire'
     add: "Ajouter dans l'inventaire"
@@ -56,6 +60,10 @@ entity:
       moneyUnit: "Unité monétaire"
       defaultMarge: "Marge par défaut (%)"
       hourCost: "Ton coût horaire"
+      publicHolidaysWeeks: "Nombre de semaines de congés"
+      monthlySalary: "Salaire souhaité en fin de mois"
+      monthlyCharges: "Charges mensuelles de l'entreprise (par mois)"
+      weeklyHours: "Nombre d'heure de travail effectif par semaine"
   recipe_component:
     label:
       component: 'Composant'

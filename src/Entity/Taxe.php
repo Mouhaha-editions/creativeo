@@ -69,7 +69,7 @@ class Taxe
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isEnabledForCommunity;
+    private $isEnabledForCommunity = false;
 
     /**
      * @ORM\Column(type="boolean")

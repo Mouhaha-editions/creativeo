@@ -62,11 +62,6 @@ class User implements UserInterface
     private $receipts;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=4)
-     */
-    private $hourCost = 20;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $moneyUnit = "€";
@@ -100,6 +95,26 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $level = 0;
+
+    /**
+     * @ORM\Column(type="decimal", precision=50, scale=4)
+     */
+    private $monthlySalary = 1500;
+
+    /**
+     * @ORM\Column(type="decimal", precision=50, scale=4)
+     */
+    private $monthlyCharges = 800;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    private $weeklyHours = 35;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    private $publicHolidaysWeeks = 5;
 
     public function __construct()
     {
@@ -292,17 +307,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getHourCost(): ?string
-    {
-        return $this->hourCost;
-    }
 
-    public function setHourCost(string $hourCost): self
-    {
-        $this->hourCost = $hourCost;
-
-        return $this;
-    }
 
     public function getMoneyUnit(): ?string
     {
@@ -422,6 +427,75 @@ class User implements UserInterface
     public function setLevel(int $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getCoutHoraire()
+    {
+        return $this->getMonthlySalary() / $this->getMonthlyHours();
+    }
+
+    public function getMonthlySalary(): ?string
+    {
+        return $this->monthlySalary;
+    }
+
+    public function setMonthlySalary(string $monthlySalary): self
+    {
+        $this->monthlySalary = $monthlySalary;
+
+        return $this;
+    }
+
+    public function getMonthlyHours()
+    {
+        return ($this->getWeeklyHours() * $this->getWorkedWeeks()) / 12;
+    }
+
+    public function getWeeklyHours(): ?string
+    {
+        return $this->weeklyHours;
+    }
+
+    public function setWeeklyHours(string $weeklyHours): self
+    {
+        $this->weeklyHours = $weeklyHours;
+
+        return $this;
+    }
+
+    public function getWorkedWeeks()
+    {
+        return 52 - $this->getPublicHolidaysWeeks();
+    }
+
+    public function getPublicHolidaysWeeks(): ?string
+    {
+        return $this->publicHolidaysWeeks;
+    }
+
+    public function setPublicHolidaysWeeks(string $publicHolidaysWeeks): self
+    {
+        $this->publicHolidaysWeeks = $publicHolidaysWeeks;
+
+        return $this;
+    }
+
+    public function getChargeByHour()
+    {
+        return $this->getMonthlyCharges() / $this->getMonthlyHours();
+
+    }
+
+    public function getMonthlyCharges(): ?string
+    {
+        return $this->monthlyCharges;
+    }
+
+    public function setMonthlyCharges(string $monthlyCharges): self
+    {
+        $this->monthlyCharges = $monthlyCharges;
 
         return $this;
     }

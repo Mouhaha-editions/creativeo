@@ -36,6 +36,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('inventory', './assets/js/inventory.js')
+    .addEntry('preference', './assets/js/preference.js')
 
 
     .addEntry('form_recipe', './assets/js/form/recipe.js')
@@ -70,6 +71,7 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader()
+    .enableReactPreset()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -82,7 +84,6 @@ Encore
     .autoProvidejQuery()
 
 // uncomment if you use API Platform Admin (composer req api-admin)
-//.enableReactPreset()
 //.addEntry('admin', './assets/js/admin.js')
 ;
 
