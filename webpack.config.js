@@ -71,7 +71,7 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader()
-    .enableReactPreset()
+    // .enableReactPreset()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
