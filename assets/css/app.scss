@@ -28,12 +28,14 @@ label{
 
 #addition{
   .ligne{
-    span{font-size:10px;}
+    span{padding-left:15px;font-size:10px;}
     span:first-child{
+      padding-left:0;
       font-weight:bold;
       font-size:14px;
     }
     span:last-child{
+      padding-left:0;
       float: right;
       font-size:14px;
     }
