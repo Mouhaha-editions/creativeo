@@ -1,0 +1,58 @@
+<div id="addition">
+    {% set sum = 0 %}
+{% for component in recipe.recipeComponents %}
+<div class="ligne">
+    <span>{{ component.component.label }}</span>
+    {% set component_price = inventory_service.costForRecipeComponent(component) %}
+    <span>{{ component_price|number_format(3,',',' ') }}</span>
+</div>
+    {% set sum = sum + component_price %}
+{% endfor %}
+
+    <div class="ligne">
+        <span>Cout horaire x temps</span>
+        <span>{{ app.user.coutHoraire|number_format(3,',',' ') }} x {{ recipe.estimatedHours }}</span>
+        {% set add = app.user.coutHoraire*recipe.estimatedHours  %}
+        <span>{{ add|number_format(3,',',' ') }}</span>
+    </div>
+    {% set sum = sum + add %}
+
+    <div class="ligne">
+        <span>Charges horaires x temps</span>
+        <span>{{ app.user.chargeByHour|number_format(3,',',' ') }} x {{ recipe.estimatedHours }}</span>
+        {% set add = app.user.chargeByHour*recipe.estimatedHours  %}
+        <span>{{ add|number_format(3,',',' ') }}</span>
+    </div>
+    {% set sum = sum + add %}
+
+    <div class="ligne">
+        <span>Marge souhaitée</span>
+        <span>{{ recipe.marge|number_format(2,',',' ') }}%</span>
+        {% set add = app.user.coutHoraire*recipe.estimatedHours  %}
+        <span>{{ add|number_format(3,',',' ') }}</span>
+    </div>
+    {% set sum = sum + add %}
+
+    <div class="ligne">
+        <span>Taxes (%)</span>
+        {% set amount = recipe_service.allPercentageTaxes(recipe) %}
+        <span>{{ ((1-amount)*100)|number_format(2,',',' ') }}%</span>
+        {% set add = sum* ((1-amount)*100)  %}
+        <span>{{ add|number_format(3,',',' ') }}</span>
+    </div>
+    <div class="ligne">
+        <span>Taxes montant</span>
+{#        <span>{{ recipe_service.allAmountTaxes(recipe)|number_format(2,',',' ') }}%</span>#}
+        {% set add = recipe_service.allAmountTaxes(recipe)  %}
+        <span>{{ add|number_format(3,',',' ') }}</span>
+    </div>
+    {% set sum = sum + add %}
+
+<hr/>
+    <div class="ligne">
+        <span>Total</span>
+        <span>{{ sum|number_format(3,',',' ') }}</span>
+    </div>
+
+
+</div>

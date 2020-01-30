@@ -25,3 +25,17 @@ label{
     }
   }
 }
+
+#addition{
+  .ligne{
+    span{font-size:10px;}
+    span:first-child{
+      font-weight:bold;
+      font-size:14px;
+    }
+    span:last-child{
+      float: right;
+      font-size:14px;
+    }
+  }
+}

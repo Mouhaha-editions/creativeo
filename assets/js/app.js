@@ -25,4 +25,21 @@ $('.popover, .help').popover({
 });
 $('[title]').tooltip();
 
+$(document).on('click','a[data-toggle=modal]',function(){
+    let $t = $(this);
+    let modal = $t.data('target');
+    let url = $t.data('href');
+    // $(modal).find('.modal-title').html('Contacter '+ $t.text());
+    $.ajax({
+        url: url,
+        dataType:'html',
+        success: function(data){
+            $(modal).find('.modal-body').html(data);
+        },
+        error: function(){
+            $(modal).find('.modal-body').html("J'ai une erreur de calcul, envois moi un message pour me prevenir stp ");
+        }
+    });
+    return false;
+});
 

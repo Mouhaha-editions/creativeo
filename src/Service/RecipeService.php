@@ -98,7 +98,7 @@ class RecipeService
         return (1 - $sumTaxes / 100);
     }
 
-    private function allAmountTaxes(Recipe $recipe)
+    public function allAmountTaxes(Recipe $recipe)
     {
         $sumTaxes = 0;
         foreach ($recipe->getTaxes() AS $taxe) {

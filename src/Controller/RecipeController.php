@@ -59,6 +59,18 @@ class RecipeController extends AbstractController
     }
 
     /**
+     * @param Recipe $recipe
+     * @Route("/ajax/calcul-pose/{id}", name="recipe_calcul")
+     * @return Response
+     */
+    public function calculPose(Recipe $recipe)
+    {
+        return $this->render('front/recipe/partial/addition.html.twig',[
+            'recipe'=>$recipe
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="recipe_show", methods={"GET"})
      */
     public function show(Recipe $recipe): Response
