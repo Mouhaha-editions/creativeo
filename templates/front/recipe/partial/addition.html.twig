@@ -37,9 +37,11 @@
         <span>Taxes (%)</span>
         {% set amount = recipe_service.allPercentageTaxes(recipe) %}
         <span>{{ ((1-amount)*100)|number_format(2,',',' ') }}%</span>
-        {% set add = sum* ((1-amount)*100)  %}
+        {% set add = sum/amount - sum  %}
         <span>{{ add|number_format(3,',',' ') }}</span>
     </div>
+    {% set sum = sum + add %}
+
     <div class="ligne">
         <span>Taxes montant</span>
 {#        <span>{{ recipe_service.allAmountTaxes(recipe)|number_format(2,',',' ') }}%</span>#}
