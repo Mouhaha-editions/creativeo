@@ -28,7 +28,7 @@
     <div class="ligne">
         <span>Marge</span>
         <span>{{ recipe.marge|number_format(2,',',' ') }}%</span>
-        {% set add = sum/((1-recipe.marge/100) %}
+        {% set add = sum/(1-recipe.marge/100) %}
         <span>{{ add|number_format(3,',',' ') }}</span>
     </div>
     {% set sum = sum + add %}
