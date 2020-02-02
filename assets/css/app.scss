@@ -1,5 +1,6 @@
 @import "~sweetalert2/dist/sweetalert2.min.css";
 @import "~bootstrap";
+
 $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
@@ -11,33 +12,72 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~select2/dist/css/select2.min.css';
 
 
-.delete-button-form{
-  display:inline;
+.delete-button-form {
+  display: inline;
 }
-.pointer{
-  cursor:pointer;
+
+.pointer {
+  cursor: pointer;
 }
-label{
-  &.required{
-    &::after{
+
+label {
+  &.required {
+    &::after {
       content: "*";
       color: #ff0000;
     }
   }
 }
 
-#addition{
-  .ligne{
-    span{padding-left:15px;font-size:10px;}
-    span:first-child{
-      padding-left:0;
-      font-weight:bold;
-      font-size:14px;
+#addition {
+  hr {
+    margin: {
+      top: 2px;
+      bottom: 2px;
     }
-    span:last-child{
-      padding-left:0;
+  }
+
+  .ligne {
+    &:last-child {
+      span {
+        color: #388c00;
+        font-size: 16px !important;
+      }
+    }
+
+    &.total {
+      span:first-child {
+        font-style: normal;
+        font-weight: bold;
+      }
+
+      span:last-child {
+        padding-right: 0;
+      }
+    }
+
+    span {
+      padding-left: 15px;
+      font-size: 10px;
+    }
+
+    span:first-child {
+      font-style: italic;
+      padding-left: 0;
+      //font-weight:bold;
+      font-size: 14px;
+    }
+
+    span:last-child {
+      padding-left: 0;
+      padding-right: 70px;
       float: right;
-      font-size:14px;
+      font-size: 14px;
+      b {
+        small {
+          font-weight: 700!important;
+        }
+      }
     }
   }
 }
