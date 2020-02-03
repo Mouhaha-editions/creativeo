@@ -1,5 +1,5 @@
 composer install
-yarn install
+yarn install --suppress-optional fsevents
 php bin/console a:i
 yarn encore production
 php bin/console d:s:u --force
