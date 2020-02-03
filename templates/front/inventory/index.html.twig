@@ -48,23 +48,8 @@
 
                         </thead>
                         {% for composant in components.entities %}
-                            <tr>
-                                <td>{{ composant.productLabel }}</td>
-                                <td class="text-right">
+                            {% include 'front/inventory/partial/inventory_line.html.twig' with {composant: composant} %}
 
-                                    {{ composant.quantity|number_format(2,',',' ') }}
-                                       </td>
-                                <td class="text-center"><small>{{ composant.unit }}</small></td>
-                                <td class="text-right">{{ composant.price|number_format(2,',',' ') }} {{ app.user.moneyUnit }}</td>
-                                <td class="text-right">
-                                    {{ (composant.price*composant.quantity)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
-                                </td>
-                                <td>
-                                    <a href="#" onclick="alert('Bientôt la modification des lignes d\'inventaire');" class="btn btn-default btn-xs"> <i class="fas fa-edit"></i></a>
-                                    <a href="#" onclick="alert('Bientôt la modification des composants');" class="btn btn-default btn-xs"> <i class="fas fa-cogs"></i></a>
-                                    <a href="#" onclick="alert('Bientôt la suppression des lignes d\'inventaire');" class="btn btn-default btn-xs"> <i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
                         {% endfor %}
                     </table>
                 </div>

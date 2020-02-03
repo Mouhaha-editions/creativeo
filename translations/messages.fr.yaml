@@ -1,105 +1,113 @@
 option:
   user:
     useOrderPreference:
-      desc: "d'abord les plus cher"
-      asc: "d'abord les moins cher"
+      desc: d'abord les plus cher
+      asc: d'abord les moins cher
 flash:
   success:
-    save: 'Données enregistrées'
+    save: Données enregistrées
 text:
   success:
-    copied_elt: "Elément copié"
+    copied_elt: Elément copié
   danger:
-    not_yours: "Cet élément ne vous appartient pas"
-    not_community_elt: "Cet élément n'est pas un élément proposé par la communauté"
-    already_copied: "Cet élément a déjà été copié"
-  no_recipe: 'Pas de recette'
-  confirm_delete: 'Confirmer la suppression ?'
-  action: 'Actions'
-  no_taxe: 'Pas de taxes enregistrées'
+    not_yours: Cet élément ne vous appartient pas
+    not_community_elt: Cet élément n'est pas un élément proposé par la communauté
+    already_copied: Cet élément a déjà été copié
+  no_recipe: Pas de recette
+  confirm_delete: Confirmer la suppression ?
+  action: Actions
+  no_taxe: Pas de taxes enregistrées
   preference:
-    hourCost: 'Ton tarif horaire'
+    hourCost: Ton tarif horaire
+  swal:
+    title:
+      edit_inventory: Modifier la quantité dans l'inventaire
+      warning_price_not_here: Pour modifier le prix d'un composant, ajoute plutôt une nouvelle ligne d'inventaire
+      confirm_delete_inventory: STP, confirmes moi que tu veux supprimer la ligne d'inventaire, tout en sachant que c'est définitif, il te faudra la recréer si tu t'es trompé(e)
+    button:
+      confirm_delete_inventory: Oui oui, j'ai bien compris
+      cancel_delete_inventory: Finalement non
 title:
   recipe:
-    new: 'Nouvelle recette'
-    edit: 'Modifier une recette'
-    index: 'Mes recettes'
-  home: 'Accueil'
+    new: Nouvelle recette
+    edit: Modifier une recette
+    index: Mes recettes
+  home: Accueil
   user:
-    preference: 'Réglages'
-    sellpreference: 'Réglage pour la vente'
-    sellpreferenceCalculs: 'Ce que je calcule avec tes données'
-    preferenceHelp: "Besoin d'aide ? "
+    preference: Réglages
+    sellpreference: Réglage pour la vente
+    sellpreferenceCalculs: Ce que je calcule avec tes données
+    preferenceHelp: Besoin d'aide ?
   inventory:
-    index: 'Mon inventaire'
-    add: "Ajouter dans l'inventaire"
+    index: Mon inventaire
+    add: Ajouter dans l'inventaire
   taxe:
-    index: 'Mes taxes'
-    edit: 'Modifier une taxe'
-    new: 'Nouvelle taxe'
-    index_community: 'Taxes proposées par la communauté'
+    index: Mes taxes
+    edit: Modifier une taxe
+    new: Nouvelle taxe
+    index_community: Taxes proposées par la communauté
   dashboard:
-    index: 'Tableau de bord'
+    index: Tableau de bord
 button:
   recipe:
-    add_component: 'Ajouter un composant'
+    add_component: Ajouter un composant
   default:
-    add: 'Ajouter'
-    save: 'Enregistrer'
-    edit: 'Modifier'
+    add: Ajouter
+    save: Enregistrer
+    edit: Modifier
   select: ''
 entity:
   user:
     label:
-      useOrderPreference: "Préférence d'utilisation des Composants"
-      moneyUnit: "Unité monétaire"
-      defaultMarge: "Marge par défaut (%)"
-      hourCost: "Ton coût horaire"
-      publicHolidaysWeeks: "Nombre de semaines de congés"
-      monthlySalary: "Salaire souhaité en fin de mois"
-      monthlyCharges: "Charges mensuelles de l'entreprise (par mois)"
-      weeklyHours: "Nombre d'heure de travail effectif par semaine"
+      useOrderPreference: Préférence d'utilisation des Composants
+      moneyUnit: Unité monétaire
+      defaultMarge: Marge par défaut (%)
+      hourCost: Ton coût horaire
+      publicHolidaysWeeks: Nombre de semaines de congés
+      monthlySalary: Salaire souhaité en fin de mois
+      monthlyCharges: Charges mensuelles de l'entreprise (par mois)
+      weeklyHours: Nombre d'heure de travail effectif par semaine
   recipe_component:
     label:
-      component: 'Composant'
-      unit: 'Unité'
-      quantity: 'Quantité'
+      component: Composant
+      unit: Unité
+      quantity: Quantité
   recipe:
     help:
-      sellpriceOptimized: 'Cout de fabrication + marge + prévision des taxes'
-      canDoIt: "On verifie que tu as suffisement d'ingredients dans ton inventaire"
-      costNow: 'Composants necessaires + temps passé + charges mensuelles'
-      revenus: 'Revenus = Prix de vente - coût de fabrication - taxes'
-      marge: 'Prix de vente - coût de fabrication - taxes'
-      salary: 'Salaire = cout horaire * temps passé'
+      sellpriceOptimized: Cout de fabrication + marge + prévision des taxes
+      canDoIt: On verifie que tu as suffisement d'ingredients dans ton inventaire
+      costNow: Composants necessaires + temps passé + charges mensuelles
+      revenus: Revenus = Prix de vente - coût de fabrication - taxes
+      marge: Prix de vente - coût de fabrication - taxes
+      salary: Salaire = cout horaire * temps passé
     label:
-      label: 'Libellé'
-      marge: 'Marge à appliquer (%)'
-      recipe_marge: 'Marge'
-      estimatedHours: 'Temps estimé'
-      recipeComponents: 'Composants'
-      costNow: 'Coût de fabrication'
-      canDoIt: 'Réalisable ?'
-      taxes: 'Taxes'
-      optimizedSellPrice: 'Prix de vente conseillé'
-      revenus: 'Tes revenus'
-      salary: 'Salaire'
+      label: Libellé
+      marge: Marge à appliquer (%)
+      recipe_marge: Marge
+      estimatedHours: Temps estimé
+      recipeComponents: Composants
+      costNow: Coût de fabrication
+      canDoIt: Réalisable ?
+      taxes: Taxes
+      optimizedSellPrice: Prix de vente conseillé
+      revenus: Tes revenus
+      salary: Salaire
   inventory:
     label:
-      productLabel: 'Libellé du composant'
-      quantity: 'Quantité'
-      unitPrice: 'Prix unitaire'
-      unit: 'Unité'
+      productLabel: Libellé du composant
+      quantity: Quantité
+      unitPrice: Prix unitaire
+      unit: Unité
     label_supp:
-      totalAmount: "Montant de l'inventaire"
+      totalAmount: Montant de l'inventaire
   taxe:
     label:
-      libelle: 'Libellé'
-      type: 'Type'
-      enabled: 'Active'
-      value: 'Valeur'
-      description: 'Description'
-      type_percentage: 'Pourcentage'
-      type_amount: 'Montant'
-      isDefault: 'Préséléctionner sur les recettes'
-      isEnabledForCommunity: 'Proposer à la communauté'
+      libelle: Libellé
+      type: Type
+      enabled: Active
+      value: Valeur
+      description: Description
+      type_percentage: Pourcentage
+      type_amount: Montant
+      isDefault: Préséléctionner sur les recettes
+      isEnabledForCommunity: Proposer à la communauté

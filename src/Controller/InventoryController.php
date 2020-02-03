@@ -11,6 +11,7 @@ use App\Repository\InventoryRepository;
 use Exception;
 use Pkshetlie\PaginationBundle\Service\Calcul;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +24,48 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 class InventoryController extends AbstractController
 {
+
+    /**
+     * @Route("/ajax/update/quantity/{id}", name="inventory_update_quantity", methods={"POST"})
+     * @param Request $request
+     * @param Inventory $inventory
+     * @return RedirectResponse|Response
+     */
+    public function updateQuantityAjax(Request $request, Inventory $inventory)
+    {
+        if ($this->getUser() != $inventory->getUser()) {
+            $this->addFlash('danger', 'text.danger.not_yours');
+            return new Response('', 500);
+        }
+
+        $inventory->setQuantity($request->get('value', 0));
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->render('front/inventory/partial/inventory_line.html.twig', [
+            'composant' => $inventory
+        ]);
+    }
+
+    /**
+     * @Route("/ajax/delete/{id}", name="inventory_delete")
+     * @param Request $request
+     * @param Inventory $inventory
+     * @return RedirectResponse|Response
+     */
+    public function deleteAjax(Request $request, Inventory $inventory)
+    {
+        if ($this->getUser() != $inventory->getUser()) {
+            $this->addFlash('danger', 'text.danger.not_yours');
+            return new Response('', 500);
+        }
+
+
+        $this->getDoctrine()->getManager()->remove($inventory);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new Response('',200);
+    }
+
     /**
      * @Route("/", name="inventory_index")
      * @param Request $request
@@ -81,7 +124,7 @@ class InventoryController extends AbstractController
             $this->addFlash('success', 'Composant ajouté à l\'inventaire.');
         }
         $qb = $inventoryRepository->createQueryBuilder('i')
-            ->leftJoin('i.component','c')
+            ->leftJoin('i.component', 'c')
             ->where('i.user  = :user')
             ->setParameter('user', $this->getUser())
             ->orderBy('c.label', 'ASC');
