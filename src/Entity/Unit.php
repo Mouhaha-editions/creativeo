@@ -25,6 +25,7 @@ class Unit
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Unit", mappedBy="parent")
+     * @ORM\OrderBy({"parent"= "asc", "parentRatio"="ASC"})
      */
     private $children;
 

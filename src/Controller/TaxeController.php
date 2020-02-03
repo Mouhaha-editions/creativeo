@@ -20,10 +20,21 @@ class TaxeController extends AbstractController
      */
     public function index(TaxeRepository $taxeRepository): Response
     {
+        $myTaxes = $taxeRepository->findBy(['user' => $this->getUser()]);
+
+        $qb = $taxeRepository->createQueryBuilder('t')
+            ->leftJoin('t.children', 'child')
+            ->where('t.isEnabledForCommunity = true')
+            ->andWhere('t.enabled = true')
+            ->andWhere('(  child.user != :user  OR child.id IS NULL)')
+            ->setParameter('user', $this->getUser());
+
         return $this->render('front/taxe/index.html.twig', [
-            'taxes' => $taxeRepository->findBy(['user' => $this->getUser()]),
-            'community_taxes' => $taxeRepository->findBy(['isEnabledForCommunity' => $this->getUser(), 'enabled' => true]),
+            'taxes' => $myTaxes,
+            'community_taxes' => $qb->orderBy('t.libelle')->getQUery()->getResult(),
         ]);
+
+
     }
 
     /**
@@ -87,8 +98,11 @@ class TaxeController extends AbstractController
 
     /**
      * @Route("/{id}/copy", name="taxe_copy_to_mine", methods={"GET"})
+     * @param Taxe $taxe
+     * @param TaxeRepository $taxeRepository
+     * @return Response
      */
-    public function copy(Request $request, Taxe $taxe, TaxeRepository $taxeRepository): Response
+    public function copy(Taxe $taxe, TaxeRepository $taxeRepository): Response
     {
         if (!$taxe->getIsEnabledForCommunity()) {
             $this->addFlash('danger', 'text.danger.not_community_elt');

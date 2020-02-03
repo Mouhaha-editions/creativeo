@@ -27,6 +27,8 @@ text:
     button:
       confirm_delete_inventory: Oui oui, j'ai bien compris
       cancel_delete_inventory: Finalement non
+  settings: Réglages
+  preferences: Préférences
 title:
   recipe:
     new: Nouvelle recette
@@ -111,3 +113,42 @@ entity:
       type_amount: Montant
       isDefault: Préséléctionner sur les recettes
       isEnabledForCommunity: Proposer à la communauté
+intro:
+  text:
+    dashboard:
+      number_of_recipe: Ici tu peux voir le nombre de recette créées, avec un lien accès rapide à tes recettes en bas
+      number_of_inventory_lines: Par ici on te présente le nombre de composants differents que tu as entré, avec un lien accès rapide à ton inventaire en bas
+      access_to_recipe: Accès rapide à tes recettes
+      access_to_inventory: Accès rapide à ton inventaire
+      inventory_amount: Montant de ton inventaire
+    settings:
+      componant_use: Dis moi si tu préfères que j'utilise d'abord les composants les plus cher ou d'abord les moins cher, ca va m'aider a te calculer les couts, et à déduire les bons stocks de ton inventaire.
+      money_unit: Pour quoi tavailles tu ? des € ? des Kamas ? des $ ?
+      marge: La marge que tu souhaites appliquer par defaut sur chaque produit, tu pourras la changer dans chaque recette c'est juste histoire de gagner du temps.
+      monthly_salary: Quel est le revenu que tu aimerais te dégager ? hors charge mensuelles et dans le cas où tu vendrais toutes tes créations du mois
+      weekly_hours: Combien d'heures travailles tu par semaine ?
+      monthly_charges: Quelles sont tes charges mensuelles (pour ton entreprise) ?  éléctricité, loyer, assurance, gros outillage, voiture, ... essaye de faire au plus proche.
+      public_holidays_weeks: Combien de semaines de congés prends tu sur une année ? pour te donner un ordre d'idée dans le privé c'ets en général 5 semaines et les profs environ 14 ...
+      calcul: Les calculs que je fais avec tes données, peut être que tu t'en f... mais bon ca me rassure.
+    taxe:
+      add_taxes: Tu peux ajouter tes propres taxes, tu peux même en inventer si tu veux.
+      your_taxes: Tu retrouvera ici toutes tes taxes créées ou copiées.
+      community_taxes: Ca c'est les taxes de la communauté, tu peux les copier si tu veux gagner du temps, ce sont les taxes qui sont identiques pour tout le monde.
+    inventory:
+      add_to_inventory: Le formulaire pour ajouter un composant à ton inventaire
+      components: La liste de tes composants avec la quantité et le tarif au quel tu les a acheté.
+      edit_quantity: Modifie la quantité de ce composant.
+      delete_quantity: Supprime la ligne d'inventaire. Attention c'est definitif !
+    recipe:
+      add: Pour ajouter une recette
+      edit: Pour modifier la recette
+      delete: Pour supprimer la recette
+      calcul: L'explication de pourquoi ce prix de vente proposé
+      forge: Fabrique un produit, déduit de ton inventaire les ingredients et danse la polka
+      liste: La liste de tes recettes
+      label: Le nom de ta recette.
+      marge: La marge que tu souhaites faire sur le produit
+      estimatedHours: Le nombre d'heures éstimées pour la conception de ta recette, tu peux y inclure le temps passé à essayer de le vendre si besoin.
+      add_component: Il est fortement recommandé d'ajouter des composants.
+      taxes: Les taxes qui devraient s'appliquer la majeur partie du temps, tu pourras le modifier lorsque tu lanceras une fabrication.
+      components: Tous les composants qui composent ta recette

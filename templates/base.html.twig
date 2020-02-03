@@ -109,7 +109,6 @@ to get the desired effect
                             </p>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a href="{{ url('inventory_index') }}"
                            class="nav-link {% if app.request.get('_route') starts with "inventory_" %}active{% endif %}">
@@ -120,7 +119,7 @@ to get the desired effect
                     <li class="nav-item nav-item has-treeview {% if app.request.get('_route') starts with 'taxe_' or app.request.get('_route') starts with 'preference'%}menu-open{% endif %}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cogs"></i>
-                            <p>Réglages
+                            <p>{{ "text.settings"|trans }}
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -139,7 +138,17 @@ to get the desired effect
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-header text-uppercase">Besoin d'aide ?</li>
 
+                    <li class="nav-item">
+                        <a href="#"
+                           class="tuto-start nav-link">
+                            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                            <p>
+                                Explique moi
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

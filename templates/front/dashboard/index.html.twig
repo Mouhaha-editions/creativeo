@@ -13,8 +13,8 @@
             <div class="row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
+                    <div class="small-box bg-info" data-intro="{{ "intro.text.dashboard.number_of_recipe"|trans }}">
+                        <div class="inner" >
                             <h3>{{app.user.receipts|length}}</h3>
 
                             <p>Recettes</p>
@@ -29,7 +29,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-success">
+                    <div class="small-box bg-success" data-intro="{{ "intro.text.dashboard.number_of_inventory_lines"|trans }}">
                         <div class="inner">
                             <h3>{{ inventory_service.countQuantity() }}</h3>
                             <p>Elements dans l'inventaire</p>
@@ -44,11 +44,10 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
-                        <div class="inner">
+                    <div class="small-box bg-warning" data-intro="{{ "intro.text.dashboard.inventory_amount"|trans }}">
+                        <div class="inner" >
                             <h3>{{ inventory_service.countTotalPrice()|number_format(2,',',' ') }}
                                 <small>{{ app.user.moneyUnit }}</small></h3>
-
                             <p>Valeur de mon inventaire</p>
                         </div>
 

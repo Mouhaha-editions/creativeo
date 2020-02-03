@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Component;
+use App\Entity\Inventory;
 use App\Form\ComponentType;
 use App\Repository\ComponentRepository;
+use App\Repository\InventoryRepository;
+use App\Repository\UnitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +19,41 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ComponentController extends AbstractController
 {
+    /**
+     * @Route("/ajax/units/{id}", name="ajax_unit_to_remove", methods={"GET"})
+     * @param Component $component
+     * @param InventoryRepository $inventoryRepository
+     * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function unitToRemove(Component $component, InventoryRepository $inventoryRepository): Response
+    {
+        /** @var Inventory $inventory */
+        $inventory = $inventoryRepository->createQueryBuilder('i')
+            ->where('i.component = :component')
+            ->setParameter('component', $component)
+            ->setFirstResult(0)->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
+        if ($inventory == null) {
+            return new JsonResponse([]);
+        }
+        $maxUnit = $inventory->getUnit()->getParent() == null ? $inventory->getUnit() : $inventory->getUnit()->getParent();
+        $units = [];
+        $units[] = [
+            "value"=>$maxUnit->getId(),
+            "name"=>$maxUnit->getLibelle()
+        ];
+        foreach ($maxUnit->getChildren() AS $u) {
+            $units[] = [
+                "value"=>$u->getId(),
+                "name"=>$u->getLibelle()
+            ];
+        }
+
+
+        return new JsonResponse($units);
+    }
+
     /**
      * @Route("/", name="component_index", methods={"GET"})
      */
@@ -31,7 +69,7 @@ class ComponentController extends AbstractController
      */
     public function ajaxList(ComponentRepository $componentRepository): Response
     {
-        $components = $componentRepository->findBy(['user'=>$this->getUser()],['label'=>"ASC"]);
+        $components = $componentRepository->findBy(['user' => $this->getUser()], ['label' => "ASC"]);
         return new JsonResponse($components);
     }
 
@@ -93,7 +131,7 @@ class ComponentController extends AbstractController
      */
     public function delete(Request $request, Component $component): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$component->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $component->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($component);
             $entityManager->flush();

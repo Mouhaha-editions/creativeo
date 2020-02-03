@@ -9,12 +9,18 @@
         {{ (composant.price*composant.quantity)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
     </td>
     <td>
-        <a href="{{ url('inventory_update_quantity',{id:composant.id }) }}"  class="edit-inventory btn btn-info btn-xs" data-title="{{ "text.swal.title.edit_inventory"|trans }}" data-text="{{ "text.swal.title.warning_price_not_here"|trans }}" data-current="{{ composant.quantity }}"> <i class="fas fa-edit"></i></a>
-        <a href="#" onclick="alert('Bientôt la modification des composants');" class="btn btn-default btn-xs"> <i class="fas fa-cogs"></i></a>
-        <a href="{{ url('inventory_delete',{id:composant.id }) }}"
-           data-text="{{ "text.swal.title.confirm_delete_inventory"|trans }}"
-           data-confirm="{{ "text.swal.button.confirm_delete_inventory"|trans }}"
-           data-cancel="{{ "text.swal.button.cancel_delete_inventory"|trans }}"
-           class="delete-inventory btn btn-danger btn-xs"> <i class="fas fa-trash"></i></a>
+        <a {% if i ==1 %} data-intro="{{ "intro.text.inventory.edit_quantity"|trans }}"{% endif %}
+                href="{{ url('inventory_update_quantity',{id:composant.id }) }}"
+                class="edit-inventory btn btn-info btn-xs" data-title="{{ "text.swal.title.edit_inventory"|trans }}"
+                data-text="{{ "text.swal.title.warning_price_not_here"|trans }}"
+                data-current="{{ composant.quantity }}"> <i class="fas fa-edit"></i></a>
+        <a href="#" onclick="alert('Bientôt la modification des composants');" class="btn btn-default btn-xs"> <i
+                    class="fas fa-cogs"></i></a>
+        <a {% if i ==1 %} data-intro="{{ "intro.text.inventory.delete_quantity"|trans }}"{% endif %}
+                href="{{ url('inventory_delete',{id:composant.id }) }}"
+                data-text="{{ "text.swal.title.confirm_delete_inventory"|trans }}"
+                data-confirm="{{ "text.swal.button.confirm_delete_inventory"|trans }}"
+                data-cancel="{{ "text.swal.button.cancel_delete_inventory"|trans }}"
+                class="delete-inventory btn btn-danger btn-xs"> <i class="fas fa-trash"></i></a>
     </td>
 </tr>

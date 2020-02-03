@@ -12,11 +12,11 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{ "title.taxe.index"|trans }}</h3>
-                    <a class='btn btn-sm btn-success float-right' href="{{ path('taxe_new') }}"><i
+                    <a data-intro="{{ "intro.text.taxe.add_taxes"|trans }}" class='btn btn-sm btn-success float-right' href="{{ path('taxe_new') }}"><i
                                 class="fas fa-plus "></i> {{ "button.default.add"|trans }}</a>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-condensed">
+                    <table class="table table-condensed" data-intro="{{ "intro.text.taxe.your_taxes"|trans }}">
                         <thead>
                         <tr>
                             <th>{{ "entity.taxe.label.libelle"|trans }}</th>
@@ -55,7 +55,7 @@
                     <h3 class="card-title">{{ "title.taxe.index_community"|trans }}</h3>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-condensed">
+                    <table class="table table-condensed"  data-intro="{{ "intro.text.taxe.community_taxes"|trans }}">
                         <thead>
                         <tr>
                             <th>{{ "entity.taxe.label.libelle"|trans }}</th>
@@ -72,7 +72,11 @@
                                 <td>{{ taxe.description }}</td>
                                 <td>{{ taxe.value }}</td>
                                 <td>{{ taxe.typeStr|trans }}</td>
-                                <td><a href="{{ url('taxe_copy_to_mine',{id:taxe.id}) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Ajouter à mes taxes"><i class="fas fa-plus"></i></a></td>
+                                <td>
+                                    <a href="{{ url('taxe_copy_to_mine',{id:taxe.id}) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Ajouter à mes taxes">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                </td>
                             </tr>
                         {% else %}
                             <tr>
