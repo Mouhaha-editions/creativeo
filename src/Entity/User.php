@@ -132,8 +132,9 @@ class User implements UserInterface
 
     public function getUsername(): ?string
     {
-        $fakeUser = explode('@', $this->getEmail());
-        return $this->username == null ? $fakeUser[0] : $this->username;
+        return $this->email;
+//        $fakeUser = explode('@', $this->getEmail());
+//        return $this->username == null ? $fakeUser[0] : $this->username;
     }
 
     public function setUsername(string $username): self
@@ -200,6 +201,7 @@ class User implements UserInterface
      */
     public function getSalt()
     {
+        return null;
         // TODO: Implement getSalt() method.
     }
 
@@ -211,6 +213,7 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
+
         // TODO: Implement eraseCredentials() method.
     }
 
