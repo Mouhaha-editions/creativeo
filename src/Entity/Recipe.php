@@ -52,7 +52,7 @@ class Recipe
     private $marge;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\taxe", inversedBy="recipes")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Taxe", inversedBy="recipes")
      */
     private $taxes;
 
