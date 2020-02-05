@@ -3,7 +3,6 @@ import '../../css/form/recipe.scss';
 
 jQuery(document).ready(function () {
 
-
     $(document).on('change', 'select[id$=_component]', function () {
         let unit = $(this).closest('tr').find('select[id$=_unit]');
         $.ajax({
@@ -20,7 +19,10 @@ jQuery(document).ready(function () {
             }
         });
     });
+    $('select[id$=_component]').each(function() {
+        $(this).trigger('change');
 
+    });
     $(document).on('addcomponent', function (evt, elt) {
         let unit = $(elt).find('select[id$=_unit]');
         $.ajax({

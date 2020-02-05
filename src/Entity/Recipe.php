@@ -61,6 +61,16 @@ class Recipe
      */
     private $compteur;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $community;
+
     public function __construct()
     {
         $this->recipeComponents = new ArrayCollection();
@@ -219,6 +229,30 @@ class Recipe
     public function setCompteur(?Compteur $compteur): self
     {
         $this->compteur = $compteur;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCommunity(): ?bool
+    {
+        return $this->community;
+    }
+
+    public function setCommunity(bool $community): self
+    {
+        $this->community = $community;
 
         return $this;
     }

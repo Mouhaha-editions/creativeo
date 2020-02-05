@@ -7,8 +7,10 @@ use App\Entity\Taxe;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -37,6 +39,14 @@ class RecipeType extends AbstractType
             ->add('marge', null, [
                 'label' => 'entity.recipe.label.marge',
                 'required' => true,
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'entity.recipe.label.description',
+                'required' => false,
+            ])
+            ->add('community', CheckboxType::class, [
+                'label' => 'entity.recipe.label.community',
+                'required' => false,
             ])
             ->add('estimatedHours', NumberType::class, [
                 'label' => 'entity.recipe.label.estimatedHours',

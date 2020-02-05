@@ -17,7 +17,21 @@
                 <div data-intro="{{ "intro.text.recipe.estimatedHours"|trans }}">
                     {{ form_row(form.estimatedHours) }}
                 </div>
+                <div data-intro="{{ "intro.text.recipe.community"|trans }}">
+                    {{ form_row(form.community) }}
+                </div>
+
                 <button class="btn btn-sm btn-primary">{{ button_label|default('button.default.save'|trans ) }}</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ "entity.recipe.label.taxes"|trans }}</h3>
+            </div>
+            <div class="card-body p-3" data-intro="{{ "intro.text.recipe.taxes"|trans }}">
+                {{ form_widget(form.taxes) }}
             </div>
         </div>
     </div>
@@ -51,18 +65,20 @@
                 </div>
             </div>
         </div>
+
     </div>
+
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ "entity.recipe.label.taxes"|trans }}</h3>
+                <h3 class="card-title">{{ "entity.recipe.label.description"|trans }}</h3>
             </div>
-            <div class="card-body p-3" data-intro="{{ "intro.text.recipe.taxes"|trans }}">
-                {{ form_widget(form.taxes) }}
+            <div class="card-body p-3" data-intro="{{ "intro.text.recipe.description"|trans }}">
+                {{ form_widget(form.description) }}
             </div>
         </div>
-    </div>
 
+    </div>
 
     {#    <div class="col-md-6">#}
     {#        <div class="card">#}

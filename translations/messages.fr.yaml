@@ -91,9 +91,11 @@ entity:
       costNow: Coût de fabrication
       canDoIt: Réalisable ?
       taxes: Taxes
+      community: Partager avec la commuauté
       optimizedSellPrice: Prix de vente conseillé
       revenus: Tes revenus
       salary: Salaire
+      description: Decription de la recette
   inventory:
     label:
       productLabel: Libellé du composant
@@ -152,3 +154,5 @@ intro:
       add_component: Il est fortement recommandé d'ajouter des composants.
       taxes: Les taxes qui devraient s'appliquer la majeur partie du temps, tu pourras le modifier lorsque tu lanceras une fabrication.
       components: Tous les composants qui composent ta recette
+      description: La description de la recette est facultative, mais tu peux l'ajouter ici si tu le souhaites
+      community: En activant cette fonctionnalité, tu peux partager ta recette (et les composants) avec les autres utilisateurs.
