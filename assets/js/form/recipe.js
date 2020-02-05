@@ -5,6 +5,7 @@ jQuery(document).ready(function () {
 
     $(document).on('change', 'select[id$=_component]', function () {
         let unit = $(this).closest('tr').find('select[id$=_unit]');
+        let selected = parseInt(unit.val());
         $.ajax({
             url: '/composants/ajax/units/' + $(this).val(),
             async: false,
@@ -14,29 +15,29 @@ jQuery(document).ready(function () {
                 for (let i = 0; i < units.length; i++) {
                     let val = units[i].value;
                     let name = units[i].name;
-                    unit.prepend('<option value=' + val + '>' + name + '</option>');
+                    unit.prepend('<option value=' + val + ' '+(selected === parseInt(val)? "selected='selected'":'')+'>' + name + '</option>');
                 }
             }
         });
     });
     $('select[id$=_component]').each(function() {
         $(this).trigger('change');
-
     });
     $(document).on('addcomponent', function (evt, elt) {
         let unit = $(elt).find('select[id$=_unit]');
+        let selected = parseInt(unit.val());
         $.ajax({
             url: '/composants/ajax/units/' + $(elt).find('select[id$=_component]').val(),
             async: false,
             dataType: 'json',
             success: function (units) {
                 unit.html("");
+                console.log(selected);
                     for (let i = 0; i < units.length; i++) {
-                        let val = units[i].value;
+                        let val = (units[i].value);
                         let name = units[i].name;
-                        unit.prepend('<option value=' + val + '>' + name + '</option>');
+                        unit.prepend('<option value=' + val + ' '+(selected === parseInt(val)? "selected='selected'":'')+'>' + name + '</option>');
                     }
-
             }
         });
 
