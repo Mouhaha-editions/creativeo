@@ -72,7 +72,6 @@ doctrine:
                 std: DoctrineExtensions\Query\Mysql\Std
                 tan: DoctrineExtensions\Query\Mysql\Tan
                 variance: DoctrineExtensions\Query\Mysql\Variance
-
             string_functions:
                 aes_decrypt: DoctrineExtensions\Query\Mysql\AesDecrypt
                 aes_encrypt: DoctrineExtensions\Query\Mysql\AesEncrypt

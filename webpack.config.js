@@ -40,6 +40,7 @@ Encore
 
 
     .addEntry('form_recipe', './assets/js/form/recipe.js')
+    .addEntry('form_recipe_fabrication', './assets/js/form/recipe_fabrication.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

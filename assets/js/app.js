@@ -27,7 +27,10 @@ $('.popover, .help').popover({
     container: 'body'
 });
 $('[title]').tooltip();
-
+$(document).on("change", "[type=file]", (function() {
+    var c = $(this).val().replace("C:\\fakepath\\", "").trim();
+    $(this).closest("div").find(".custom-file-label").text("" !== c ? c : $(this).attr("placeholder"))
+}));
 $(document).on('click', 'a[data-toggle=modal]', function () {
     let $t = $(this);
     let modal = $t.data('target');

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -71,11 +72,22 @@ class Recipe
      */
     private $community;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipeFabrication", mappedBy="recipe", orphanRemoval=true)
+     */
+    private $recipeFabrications;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photoPath;
+
     public function __construct()
     {
         $this->recipeComponents = new ArrayCollection();
         $this->creations = new ArrayCollection();
         $this->taxes = new ArrayCollection();
+        $this->recipeFabrications = new ArrayCollection();
     }
 
 
@@ -253,6 +265,61 @@ class Recipe
     public function setCommunity(bool $community): self
     {
         $this->community = $community;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecipeFabrication[]
+     */
+    public function getRecipeFabrications(): Collection
+    {
+        return $this->recipeFabrications;
+    }
+    /**
+     * @return RecipeFabrication
+     */
+    public function getNotEndedRecipeFabrication(): ?RecipeFabrication
+    {
+        foreach($this->getRecipeFabrications() AS $fabrication){
+            if(!$fabrication->getEnded()){
+                return $fabrication;
+            }
+        }
+        return null;
+    }
+
+    public function addRecipeFabrication(RecipeFabrication $recipeFabrication): self
+    {
+        if (!$this->recipeFabrications->contains($recipeFabrication)) {
+            $this->recipeFabrications[] = $recipeFabrication;
+            $recipeFabrication->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeFabrication(RecipeFabrication $recipeFabrication): self
+    {
+        if ($this->recipeFabrications->contains($recipeFabrication)) {
+            $this->recipeFabrications->removeElement($recipeFabrication);
+            // set the owning side to null (unless already changed)
+            if ($recipeFabrication->getRecipe() === $this) {
+                $recipeFabrication->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPhotoPath(): ?string
+    {
+        return $this->photoPath;
+    }
+
+    public function setPhotoPath(?string $photoPath): self
+    {
+        $this->photoPath = $photoPath;
 
         return $this;
     }

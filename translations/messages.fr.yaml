@@ -29,11 +29,16 @@ text:
       cancel_delete_inventory: Finalement non
   settings: Réglages
   preferences: Préférences
+  hours: Heures
 title:
   recipe:
     new: Nouvelle recette
     edit: Modifier une recette
     index: Mes recettes
+    start_recipe: Fabriquer
+    start_recipe %recipe%: Fabriquer "%recipe%"
+    addition: Détail de la recette
+    plz_wait_addition: 2 sec stp on te pose l'addition ...
   home: Accueil
   user:
     preference: Réglages
@@ -50,6 +55,8 @@ title:
     index_community: Taxes proposées par la communauté
   dashboard:
     index: Tableau de bord
+  recipe_fabrication:
+    real_time: Temps réellement passé
 button:
   recipe:
     add_component: Ajouter un composant
@@ -58,7 +65,18 @@ button:
     save: Enregistrer
     edit: Modifier
   select: ''
+  recipe_fabrication:
+    start: Demarrer
+    stop: Terminer
+    programmer: Programmer (bientôt)
+    continue: Continuer
+
 entity:
+  recipe_fabrication:
+    label:
+      quantity: Quantité à fabriquer
+      marge: Marge à appliquer
+
   user:
     label:
       useOrderPreference: Préférence d'utilisation des Composants
@@ -74,6 +92,7 @@ entity:
       component: Composant
       unit: Unité
       quantity: Quantité
+      option: Déclinaison
   recipe:
     help:
       sellpriceOptimized: Cout de fabrication + marge + prévision des taxes
@@ -91,6 +110,7 @@ entity:
       costNow: Coût de fabrication
       canDoIt: Réalisable ?
       taxes: Taxes
+      photoPath: Photo de la recette
       community: Partager avec la commuauté
       optimizedSellPrice: Prix de vente conseillé
       revenus: Tes revenus
@@ -99,6 +119,7 @@ entity:
   inventory:
     label:
       productLabel: Libellé du composant
+      optionLabel: Déclinaison
       quantity: Quantité
       unitPrice: Prix unitaire
       unit: Unité
@@ -156,3 +177,6 @@ intro:
       components: Tous les composants qui composent ta recette
       description: La description de la recette est facultative, mais tu peux l'ajouter ici si tu le souhaites
       community: En activant cette fonctionnalité, tu peux partager ta recette (et les composants) avec les autres utilisateurs.
+      fabricate: 'messages'
+      stop_fabricate: 'messages'
+      photoPath: Illustrons un peu votre recette

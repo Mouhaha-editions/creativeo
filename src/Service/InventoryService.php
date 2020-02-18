@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\Component;
 use App\Entity\Inventory;
 use App\Entity\RecipeComponent;
 use App\Entity\User;
@@ -84,7 +85,7 @@ class InventoryService
                 $sum += $inventory->getBasePrice() * $quantityNeeded;
                 break;
             } else {
-                $reste = $quantityNeeded - $inventory->getBaseQuantity() ;
+                $reste = $quantityNeeded - $inventory->getBaseQuantity();
                 $sum += ($quantityNeeded - $reste) * $inventory->getBasePrice();
                 $quantityNeeded = $reste;
             }
@@ -109,6 +110,48 @@ class InventoryService
 // inventaire = 0.500 kg
         $res = is_array($result) ? array_pop($result) : 0;
         return $res >= $compo->getBaseQuantity();
+    }
+
+    public function sub(Component $component, int $quantity)
+    {
+        /** @var User $user */
+        $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
+
+        /** @var Inventory[] $inventories */
+        $inventories = $this->entityManager->getRepository(Inventory::class)
+            ->createQueryBuilder('i')
+            ->leftJoin('i.unit', 'unit')
+            ->where('i.user = :user')
+            ->andWhere('i.component = :component')
+            ->setParameter('user', $this->tokenStorage->getUser())
+            ->setParameter('component', $component)
+            ->orderBy('i.price', $user->getUseOrderPreference())
+            ->getQuery()->getResult();
+        // compos quantity = 500 g
+        //inventaire = 0.500 kg
+
+        $quantityNeeded = $quantity;
+        foreach ($inventories AS $inventory) {
+            $qty = $inventory->getQuantity();
+            if ($qty == $quantityNeeded) {
+                $inventory->setQuantity(0);
+                $this->entityManager->flush();
+                return true;
+            } elseif ($qty > $quantityNeeded){
+                $inventory->setQuantity($qty-$quantityNeeded);
+                $this->entityManager->flush();
+                return true;
+            }else{
+                $inventory->setQuantity(0);
+                $quantityNeeded = $quantityNeeded - $qty;
+                $this->entityManager->flush();
+            }
+
+            if($quantityNeeded == 0){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

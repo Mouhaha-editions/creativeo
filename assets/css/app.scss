@@ -10,6 +10,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~admin-lte/build/scss/AdminLTE';
 @import '~admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
 @import '~select2/dist/css/select2.min.css';
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/mixins/box-shadow";
+@import "~bootstrap/scss/mixins/border-radius";
+
+@import '~admin-lte/build/scss/mixins/backgrounds';
 
 @import '~intro.js/introjs.css';
 
@@ -74,15 +79,32 @@ label {
       padding-right: 70px;
       float: right;
       font-size: 14px;
+
       b {
         small {
-          font-weight: 700!important;
+          font-weight: 700 !important;
         }
       }
     }
   }
 }
 
+div.img-circle {
+  width: 90px;
+  height: 90px;
+  line-height: 120px;
+  background: #ffffff;
+}
+.widget-user .card-footer {
+  padding-top: 25px;
+  .description-text{
+    text-transform: none;
+
+  }
+}
+.btn-square{
+  border-radius: 0;
+}
 //.introjs-helperLayer{
 //  background:transparent!important;;
 //}

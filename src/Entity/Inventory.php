@@ -44,6 +44,11 @@ class Inventory
      */
     private $unit;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $optionLabel;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -127,4 +132,20 @@ class Inventory
         return $this;
     }
 
+    public function getOptionLabel(): ?string
+    {
+        return $this->optionLabel;
+    }
+
+    public function setOptionLabel(?string $optionLabel): self
+    {
+        $this->optionLabel = $optionLabel;
+
+        return $this;
+    }
+
+    public function getFullname()
+    {
+        return $this->getComponent()->getLabel().($this->getOptionLabel() != null ? ' - '.$this->getOptionLabel():'');
+    }
 }

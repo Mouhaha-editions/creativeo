@@ -9,11 +9,11 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
-
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{ "title.recipe.index"|trans }}</h3>
-                    <a data-intro="{{ "intro.text.recipe.add"|trans }}" class='btn btn-sm btn-success float-right' href="{{ path('recipe_new') }}"><i
+                    <a data-intro="{{ "intro.text.recipe.add"|trans }}" class='btn btn-sm btn-success float-right'
+                       href="{{ path('recipe_new') }}"><i
                                 class="fas fa-plus "></i> {{ "button.default.add"|trans }}</a>
                 </div>
                 <div class="card-body p-0">
@@ -81,11 +81,29 @@
                                 <td>
                                     {#                                    <a href="{{ path('recipe_show', {'id': recipe.id}) }}"#}
                                     {#                                       class="btn btn-default btn-xs"><i class="fas fa-eye"></i></a>#}
-                                    <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.edit"|trans }}"{% endif %} href="{{ path('recipe_edit', {'id': recipe.id}) }}" title="Modifier la recette"
-                                       class="btn btn-info btn-sm"><i class="fas fa-edit" ></i></a>
-                                    <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.calcul"|trans }}"{% endif %} data-href="{{ path('recipe_calcul', {'id': recipe.id}) }}" data-toggle="modal" data-target="#detailModal" title="Voir le calcul"
+                                    <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.edit"|trans }}"{% endif %}
+                                       href="{{ path('recipe_edit', {'id': recipe.id}) }}" title="Modifier la recette"
+                                       class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.calcul"|trans }}"{% endif %}
+                                       data-href="{{ path('recipe_calcul', {'id': recipe.id}) }}" data-toggle="modal"
+                                       data-target="#detailModal" title="Voir le calcul"
                                        class="btn btn-default btn-sm"><i class="fas fa-search-dollar"></i></a>
-                                   <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.delete"|trans }}"{% endif %}> {{ include('front/recipe/_delete_form.html.twig') }}</span>
+                                    <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.delete"|trans }}"{% endif %}> {{ include('front/recipe/_delete_form.html.twig') }}</span>
+                                    {% if recipe.notEndedRecipeFabrication is null %}
+                                        <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.fabricate"|trans }}"{% endif %}>
+                                        <a
+                                                title="Fabriquer la recette"
+                                                class="btn btn-success btn-sm"
+                                                href="{{ url("recipe_fabricate",{id: recipe.id}) }}"><i
+                                                    class="fas fa-play"></i></a></span>
+                                    {% else %}
+                                        <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.stop_fabricate"|trans }}"{% endif %}>
+                                        <a
+                                                title="Terminer la fabrication"
+                                                class="btn btn-danger btn-sm"
+                                                href="{{ url("recipe_continue_fabricate",{id: recipe.notEndedRecipeFabrication.id}) }}"><i
+                                                    class="fas fa-stop"></i></a></span>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% else %}
@@ -103,13 +121,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Détail de la recette</h5>
+                    <h5 class="modal-title">{{ "title.recipe.addition"|trans }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>2 sec stp on te pose l'addition ...</p>
+                    <p>{{ "title.recipe.plz_wait_addition"|trans }}</p>
                 </div>
             </div>
         </div>

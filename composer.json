@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "api-platform/admin-pack": "^1.0",
         "beberlei/doctrineextensions": "^1.2",
+        "gedmo/doctrine-extensions": "^2.4",
         "pkshetlie/pagination-bundle": "^1.2",
         "sensio/framework-extra-bundle": "^5.5",
         "sentry/sentry-symfony": "^3.4",
@@ -33,7 +34,9 @@
         "symfony/validator": "5.0.*",
         "symfony/web-link": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
-        "symfony/yaml": "5.0.*"
+        "symfony/yaml": "5.0.*",
+      "ext-gd": "*",
+        "ext-intl": "*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

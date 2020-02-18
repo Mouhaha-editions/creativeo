@@ -86,10 +86,16 @@ class Taxe
      */
     private $children;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\RecipeFabrication", mappedBy="taxes")
+     */
+    private $recipeFabrications;
+
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->recipeFabrications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,6 +270,34 @@ class Taxe
             if ($child->getParent() === $this) {
                 $child->setParent(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecipeFabrication[]
+     */
+    public function getRecipeFabrications(): Collection
+    {
+        return $this->recipeFabrications;
+    }
+
+    public function addRecipeFabrication(RecipeFabrication $recipeFabrication): self
+    {
+        if (!$this->recipeFabrications->contains($recipeFabrication)) {
+            $this->recipeFabrications[] = $recipeFabrication;
+            $recipeFabrication->addTax($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeFabrication(RecipeFabrication $recipeFabrication): self
+    {
+        if ($this->recipeFabrications->contains($recipeFabrication)) {
+            $this->recipeFabrications->removeElement($recipeFabrication);
+            $recipeFabrication->removeTax($this);
         }
 
         return $this;

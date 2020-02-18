@@ -42,7 +42,8 @@ class InventoryController extends AbstractController
         $this->getDoctrine()->getManager()->flush();
 
         return $this->render('front/inventory/partial/inventory_line.html.twig', [
-            'composant' => $inventory
+            'composant' => $inventory,
+            'i' => 0,
         ]);
     }
 
@@ -91,7 +92,7 @@ class InventoryController extends AbstractController
                     $em->persist($component);
                 }
 
-                $tmpInventory = $inventoryRepository->findOneBy(['user' => $this->getUser(), 'price' => $inventory->getPrice(), 'component' => $component]);
+                $tmpInventory = $inventoryRepository->findOneBy(['user' => $this->getUser(), 'price' => $inventory->getPrice(),'optionLabel'=>$inventory->getOptionLabel(), 'component' => $component]);
                 if ($tmpInventory != null) {
                     $tmpInventory->setQuantity($inventory->getQuantity() + $tmpInventory->getQuantity());
                     $inventory = $tmpInventory;

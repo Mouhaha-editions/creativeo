@@ -9,12 +9,14 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Validator\Constraints\File;
 
 class RecipeType extends AbstractType
 {
@@ -68,7 +70,27 @@ class RecipeType extends AbstractType
                 },
                 'expanded' => true,
                 'label' => 'entity.recipe.label.taxes',
-
+            ])
+            ->add('photoFile', FileType::class, [
+                'label' => 'entity.recipe.label.photoPath',
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+                // make it optional so you don't have to re-upload the PDF file
+                // everytime you edit the Product details
+                'required' => false,
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/gif',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Seules les images : jpeg, png et gif sont acceptées et le fichier doit faire moins de 2Mo',
+                    ])
+                ],
             ])
             ->add('recipeComponents', CollectionType::class, [
         'entry_type' => RecipeComponentType::class,
