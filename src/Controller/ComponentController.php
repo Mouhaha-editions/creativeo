@@ -48,7 +48,7 @@ class ComponentController extends AbstractController
             $recipeComponent->setOptionLabel($i->getOptionLabel());
             $data['options'][] = [
                 "label"=>$i->getOptionLabel(),
-                "price"=>$inventoryService->getCostForRecipeComponent($recipeComponent)
+                "price"=>number_format($inventoryService->getCostForRecipeComponent($recipeComponent),5,',',' ')." &euro;"
             ];
         }
         return new JsonResponse($data);
@@ -75,7 +75,7 @@ class ComponentController extends AbstractController
             $recipeFabricationComponent->setOptionLabel($i->getOptionLabel());
             $data['options'][] = [
                 "label"=>$i->getOptionLabel(),
-                "price"=>$inventoryService->getCostForRecipeComponent($recipeFabricationComponent)
+                "price"=>number_format($inventoryService->getCostForRecipeComponent($recipeFabricationComponent),5,',',' ')." &euro;"
             ];
         }
         return new JsonResponse($data);
