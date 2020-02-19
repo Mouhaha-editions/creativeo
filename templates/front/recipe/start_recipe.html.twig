@@ -39,15 +39,27 @@
                             <th>{{ "entity.recipe_component.label.cost"|trans }}</th>
                         </tr>
                         </thead>
-                        {% for component in recipe.recipeComponents %}
-                            <tr>
-                                <td>{{ component.component.label }}</td>
-                                <td data-type="{{ fabrication.id is null ? "new":"edit" }}" data-component="{{ component.id }}"></td>
-                                <td>{{ component.quantity }}</td>
-                                <td>{{ component.unit.libelle }}</td>
-                                <td class="price"></td>
-                            </tr>
-                        {% endfor %}
+                        {% if fabrication.id is null %}
+                            {% for component in recipe.recipeComponents %}
+                                <tr>
+                                    <td>{{ component.component.label }}</td>
+                                    <td data-type="new" data-component="{{ component.id }}"></td>
+                                    <td>{{ component.quantity }}</td>
+                                    <td>{{ component.unit.libelle }}</td>
+                                    <td class="price"></td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            {% for component in fabrication.recipeFabricationComponents %}
+                                <tr>
+                                    <td>{{ component.component.label }}</td>
+                                    <td data-type="edit" data-component="{{ component.id }}"></td>
+                                    <td>{{ component.quantity }}</td>
+                                    <td>{{ component.unit.libelle }}</td>
+                                    <td class="price"></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
                     </table>
                 </div>
             </div>

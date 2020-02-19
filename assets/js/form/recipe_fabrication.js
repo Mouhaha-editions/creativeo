@@ -16,7 +16,7 @@ $(".submit").on('click', function (e) {
         }).then((result) => {
             if (result.value) {
                 $("#recipe_fabrication_hours").val(result.value);
-                $("#recipe_fabrication_end").val(true);
+                $("#recipe_fabrication_end").val("1");
                 $t.closest('form').submit();
                 return true;
             } else {
@@ -43,9 +43,10 @@ jQuery(document).ready(function () {
                 for (let i = 0; i < data.options.length; i++) {
                     let option = data.options[i].label;
                     let price = data.options[i].price;
+                    let selected = data.options[i].selected;
 
                     option = option === null ? "sans déclinaison" : option;
-                    html += "<option data-price='" + price + "' value='" + option + "'>" + option + "</option>";
+                    html += "<option "+(selected ? "selected='selected'":'')+" data-price='" + price + "' value='" + option + "'>" + option + "</option>";
                     count++;
                 }
                 html += "</select>";

@@ -59,7 +59,7 @@ class RecipeController extends AbstractController
                 $component->setRecipe($recipe);
             }
             $entityManager = $this->getDoctrine()->getManager();
-            $this->gestionUploadVignette($recipe, $form,$imageService);
+            $this->gestionUploadVignette($recipe, $form, $imageService);
             $entityManager->persist($recipe);
             $entityManager->flush();
 
@@ -70,6 +70,34 @@ class RecipeController extends AbstractController
             'recipe' => $recipe,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @param Recipe $recipe
+     * @param FormInterface $form
+     * @param ImageService $imageService
+     */
+    private function gestionUploadVignette(Recipe $recipe, FormInterface $form, ImageService $imageService)
+    {
+        /** @var UploadedFile $file */
+        $file = $form->get('photoFile')->getData();
+        if ($file) {
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+            $shortDir = "/upload/recipe/" . $this->getUser()->getId() . "/";
+            try {
+                $dir = $this->getParameter('kernel.project_dir') . "/public" . $shortDir;
+
+                $file->move(
+                    $dir,
+                    $newFilename
+                );
+                $imageService->compress($dir . $newFilename);
+                $recipe->setPhotoPath($shortDir . $newFilename);
+            } catch (FileException $e) {
+            }
+        }
     }
 
     /**
@@ -127,7 +155,7 @@ class RecipeController extends AbstractController
             foreach ($recipe->getRecipeComponents() AS $component) {
                 $component->setRecipe($recipe);
             }
-            $this->gestionUploadVignette($recipe, $form,$imageService);
+            $this->gestionUploadVignette($recipe, $form, $imageService);
 
             $entityManager->flush();
 
@@ -158,11 +186,16 @@ class RecipeController extends AbstractController
         foreach ($recipe->getTaxes() AS $taxe) {
             $recipeFabrication->addTax($taxe);
         }
+        $options = $request->get('options', []);
+
         foreach ($recipe->getRecipeComponents() AS $component) {
             $recipeCompo = new RecipeFabricationComponent();
             $recipeCompo->setQuantity($component->getQuantity());
             $recipeCompo->setComponent($component->getComponent());
-            $recipeCompo->setOptionLabel($component->getOptionLabel());
+            if (isset($options[$component->getId()])) {
+                $recipeCompo->setOptionLabel($options[$component->getId()]);
+            }
+
             $recipeCompo->setUnit($component->getUnit());
             $recipeCompo->setRecipeFabrication($recipeFabrication);
             $entityManager->persist($recipeCompo);
@@ -176,7 +209,7 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
-                $inventoryService->sub($component, $recipeFabrication->getQuantity()*$component->getQuantity());
+                $inventoryService->sub($component, $recipeFabrication->getQuantity() * $component->getQuantity());
             }
             $entityManager->persist($recipeFabrication);
             $entityManager->flush();
@@ -187,9 +220,10 @@ class RecipeController extends AbstractController
         return $this->render('front/recipe/start_recipe.html.twig', [
             'recipe' => $recipe,
             'form' => $form->createView(),
-            'fabrication'=>$recipeFabrication,
+            'fabrication' => $recipeFabrication,
         ]);
     }
+
     /**
      * @Route("/{id}/fabrique/continue", name="recipe_continue_fabricate", methods={"GET","POST"})
      * @param Request $request
@@ -207,6 +241,12 @@ class RecipeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $options = $request->get('options', []);
+            foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
+                if (isset($options[$component->getId()])) {
+                    $component->setOptionLabel($options[$component->getId()]);
+                }
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($recipeFabrication);
             $entityManager->flush();
@@ -216,7 +256,7 @@ class RecipeController extends AbstractController
         return $this->render('front/recipe/start_recipe.html.twig', [
             'recipe' => $recipeFabrication->getRecipe(),
             'form' => $form->createView(),
-            'fabrication'=>$recipeFabrication,
+            'fabrication' => $recipeFabrication,
         ]);
     }
 
@@ -236,34 +276,6 @@ class RecipeController extends AbstractController
         }
 
         return $this->redirectToRoute('recipe_index');
-    }
-
-    /**
-     * @param Recipe $recipe
-     * @param FormInterface $form
-     * @param ImageService $imageService
-     */
-    private function gestionUploadVignette(Recipe $recipe, FormInterface $form, ImageService $imageService)
-    {
-        /** @var UploadedFile $file */
-        $file = $form->get('photoFile')->getData();
-        if ($file) {
-            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-            $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-            $shortDir = "/upload/recipe/".$this->getUser()->getId()."/";
-            try {
-                $dir = $this->getParameter('kernel.project_dir') . "/public" . $shortDir;
-
-                $file->move(
-                    $dir,
-                    $newFilename
-                );
-                $imageService->compress($dir . $newFilename);
-                $recipe->setPhotoPath($shortDir . $newFilename);
-            } catch (FileException $e) {
-            }
-        }
     }
 
 }

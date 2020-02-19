@@ -33,7 +33,7 @@ class ComponentController extends AbstractController
      * @param InventoryRepository $inventoryRepository
      * @return Response
      */
-    public function getOptionChoicesNew(RecipeComponent $recipeComponent,InventoryService $inventoryService, InventoryRepository $inventoryRepository): Response
+    public function getOptionChoicesNew(RecipeComponent $recipeComponent, InventoryService $inventoryService, InventoryRepository $inventoryRepository): Response
     {
         /** @var Inventory[] $inventories */
         $inventories = $inventoryRepository->createQueryBuilder('i')
@@ -45,15 +45,18 @@ class ComponentController extends AbstractController
         $data = [];
         $data['options'] = [];
         foreach ($inventories AS $i) {
+            $selected = $recipeComponent->getOptionLabel() == $i->getOptionLabel();
             $recipeComponent->setOptionLabel($i->getOptionLabel());
             $data['options'][] = [
-                "label"=>$i->getOptionLabel(),
-                "price"=>number_format($inventoryService->getCostForRecipeComponent($recipeComponent),5,',',' ')." &euro;",
+                "label" => $i->getOptionLabel(),
+                "price" => number_format($inventoryService->getCostForRecipeComponent($recipeComponent), 5, ',', ' ') . " &euro;",
+                "selected" => $selected,
 //                "enougth"=>$inventoryService->hasQuantityForRecipeComponent($recipeComponent) ? "<i class='fas fa-check text-success'></i>" : "<i class='fas fa-check'></i>",
             ];
         }
         return new JsonResponse($data);
     }
+
     /**
      * @Route("/ajax/options/edit/{id}", name="ajax_option_edit", methods={"GET"})
      * @param RecipeFabricationComponent $recipeFabricationComponent
@@ -61,7 +64,7 @@ class ComponentController extends AbstractController
      * @param InventoryRepository $inventoryRepository
      * @return Response
      */
-    public function getOptionChoicesEdit(RecipeFabricationComponent $recipeFabricationComponent,InventoryService $inventoryService, InventoryRepository $inventoryRepository): Response
+    public function getOptionChoicesEdit(RecipeFabricationComponent $recipeFabricationComponent, InventoryService $inventoryService, InventoryRepository $inventoryRepository): Response
     {
         /** @var Inventory[] $inventories */
         $inventories = $inventoryRepository->createQueryBuilder('i')
@@ -73,11 +76,16 @@ class ComponentController extends AbstractController
         $data = [];
         $data['options'] = [];
         foreach ($inventories AS $i) {
+            $label = $recipeFabricationComponent->getOptionLabel() ;
+            $selected = $recipeFabricationComponent->getOptionLabel() == $i->getOptionLabel();
             $recipeFabricationComponent->setOptionLabel($i->getOptionLabel());
             $data['options'][] = [
-                "label"=>$i->getOptionLabel(),
-                "price"=>number_format($inventoryService->getCostForRecipeComponent($recipeFabricationComponent),5,',',' ')." &euro;"
+                "label" => $i->getOptionLabel(),
+                "price" => number_format($inventoryService->getCostForRecipeComponent($recipeFabricationComponent), 5, ',', ' ') . " &euro;",
+                "selected" => $selected,
             ];
+            $recipeFabricationComponent->setOptionLabel($label);
+
         }
         return new JsonResponse($data);
     }

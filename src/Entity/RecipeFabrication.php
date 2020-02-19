@@ -167,13 +167,14 @@ class RecipeFabrication implements IRecipe
         return $this;
     }
 
-    public function getEnded(): ?bool
+    public function getEnded(): bool
     {
         return $this->ended;
     }
 
-    public function setEnded(bool $ended): self
+    public function setEnded(bool $ended = null): self
     {
+        $ended = $ended === null ? false: $ended;
         $this->ended = $ended;
 
         return $this;
