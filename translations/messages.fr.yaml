@@ -93,6 +93,7 @@ entity:
       unit: Unité
       quantity: Quantité
       option: Déclinaison
+      cost: Coût
   recipe:
     help:
       sellpriceOptimized: Cout de fabrication + marge + prévision des taxes

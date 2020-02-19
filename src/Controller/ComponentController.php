@@ -48,7 +48,8 @@ class ComponentController extends AbstractController
             $recipeComponent->setOptionLabel($i->getOptionLabel());
             $data['options'][] = [
                 "label"=>$i->getOptionLabel(),
-                "price"=>number_format($inventoryService->getCostForRecipeComponent($recipeComponent),5,',',' ')." &euro;"
+                "price"=>number_format($inventoryService->getCostForRecipeComponent($recipeComponent),5,',',' ')." &euro;",
+//                "enougth"=>$inventoryService->hasQuantityForRecipeComponent($recipeComponent) ? "<i class='fas fa-check text-success'></i>" : "<i class='fas fa-check'></i>",
             ];
         }
         return new JsonResponse($data);
