@@ -126,6 +126,29 @@ class ComponentController extends AbstractController
     }
 
     /**
+     * @Route("/ajax/text/units/{text}", name="ajax_unit_to_remove", methods={"GET"})
+     * @param Component $component
+     * @param InventoryRepository $inventoryRepository
+     * @return Response
+     * @throws NonUniqueResultException
+     */
+    public function unitToSelect(string $text, InventoryRepository $inventoryRepository): Response
+    {
+        /** @var Inventory $inventory */
+        $inventory = $inventoryRepository->createQueryBuilder('i')
+            ->leftJoin('i.component','component')
+            ->where('component.label = :text')
+            ->setParameter('text', $text)
+            ->setFirstResult(0)->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
+        if ($inventory == null) {
+            return new JsonResponse([]);
+        }
+
+        return new JsonResponse(['unit'=>$inventory->getUnit()->getId()]);
+    }
+
+    /**
      * @Route("/", name="component_index", methods={"GET"})
      * @param ComponentRepository $componentRepository
      * @return Response
