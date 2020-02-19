@@ -16,13 +16,12 @@ $(".submit").on('click', function (e) {
         }).then((result) => {
             if (result.value) {
                 $("#recipe_fabrication_hours").val(result.value);
-                $("#recipe_fabrication_end").val("1");
+                $("#recipe_fabrication_ended").val("1");
                 $t.closest('form').submit();
                 return true;
             } else {
                 return false;
             }
-
         })
     } else {
         return false;
