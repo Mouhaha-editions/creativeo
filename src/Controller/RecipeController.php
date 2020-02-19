@@ -198,7 +198,6 @@ class RecipeController extends AbstractController
 
             $recipeCompo->setUnit($component->getUnit());
             $recipeCompo->setRecipeFabrication($recipeFabrication);
-            $entityManager->persist($recipeCompo);
             $recipeFabrication->addRecipeFabricationComponents($recipeCompo);
         }
         $recipeFabrication->setMarge($recipe->getMarge());
