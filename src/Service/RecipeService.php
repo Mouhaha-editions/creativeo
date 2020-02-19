@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\Recipe;
 use App\Entity\Taxe;
 use App\Entity\User;
+use App\Interfaces\IRecipe;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -34,7 +35,7 @@ class RecipeService
         $this->tokenStorage = $tokenStorage->getToken();
     }
 
-    public function marge(Recipe $recipe)
+    public function marge(IRecipe $recipe)
     {
         $startPrice = $this->SellPriceOptimized($recipe);
         $price = $startPrice - $this->estimatedCost($recipe);
@@ -47,7 +48,7 @@ class RecipeService
         }
         return $price;
     }
-    public function revenus(Recipe $recipe)
+    public function revenus(IRecipe $recipe)
     {
         $startPrice = $this->SellPriceOptimized($recipe);
         $price = $startPrice - $this->estimatedCost($recipe);
@@ -61,25 +62,25 @@ class RecipeService
         return $price;
     }
 
-    public function priceWithMarge(Recipe $recipe)
+    public function priceWithMarge(IRecipe $recipe)
     {
         $sum = $this->estimatedCost($recipe);
         $this->priceWithMarge = $sum * (1 + ($recipe->getMarge() / 100));
         return $this->priceWithMarge;
     }
 
-    public function estimatedCost(Recipe $recipe)
+    public function estimatedCost(IRecipe $recipe)
     {
         /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
         $sum = 0;
-        foreach ($recipe->getRecipeComponents() AS $comp ) {
+        foreach ($recipe->getTheRecipeComponents() AS $comp ) {
             $sum += $this->inventoryService->getCostForRecipeComponent($comp);
         }
         return $sum + (($user->getCoutHoraire() + $user->getChargeByHour())* $recipe->getEstimatedHours()) ;
     }
 
-    public function SellPriceOptimized(Recipe $recipe)
+    public function SellPriceOptimized(IRecipe $recipe)
     {
         $base = $this->priceWithMarge($recipe);
         $taxes_prct = $this->allPercentageTaxes($recipe);
@@ -87,7 +88,7 @@ class RecipeService
         return ($base / $taxes_prct) + $taxes_amount;
     }
 
-    public function allPercentageTaxes(Recipe $recipe)
+    public function allPercentageTaxes(IRecipe $recipe)
     {
         $sumTaxes = 0;
         foreach ($recipe->getTaxes() AS $taxe) {
@@ -98,7 +99,7 @@ class RecipeService
         return (1 - $sumTaxes / 100);
     }
 
-    public function allAmountTaxes(Recipe $recipe)
+    public function allAmountTaxes(IRecipe $recipe)
     {
         $sumTaxes = 0;
         foreach ($recipe->getTaxes() AS $taxe) {
@@ -109,7 +110,7 @@ class RecipeService
         return $sumTaxes;
     }
 
-    public function canDoIt(Recipe $recipe)
+    public function canDoIt(IRecipe $recipe)
     {
         foreach ($recipe->getRecipeComponents() AS $compo) {
             if (!$this->inventoryService->hasQuantityForRecipeComponent($compo)) {

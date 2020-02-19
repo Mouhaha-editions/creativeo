@@ -41,9 +41,10 @@
                         {% for component in recipe.recipeComponents %}
                             <tr>
                                 <td>{{ component.component.label }}</td>
-                                <td data-component="{{ component.component.id }}"></td>
+                                <td data-type="{{ fabrication.id is null ? "new":"edit" }}" data-component="{{ component.id }}"></td>
                                 <td>{{ component.quantity }}</td>
                                 <td>{{ component.unit.libelle }}</td>
+                                <td class="price"></td>
                             </tr>
                         {% endfor %}
                     </table>

@@ -36,6 +36,7 @@ class RecipeComponent implements IRecipeComponent
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="recipeComponents")
      */
     private $unit;
+    private $optionLabel;
 
     public function getId(): ?int
     {
@@ -97,6 +98,11 @@ class RecipeComponent implements IRecipeComponent
 
     public function getOptionLabel()
     {
-        return null;
+        return $this->optionLabel;
+    }
+
+    public function setOptionLabel(?string $optionLabel)
+    {
+        $this->optionLabel = $optionLabel;
     }
 }

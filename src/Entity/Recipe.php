@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interfaces\IRecipe;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
  */
-class Recipe
+class Recipe implements IRecipe
 {
     /**
      * @ORM\Id()
@@ -139,6 +140,14 @@ class Recipe
     public function getRecipeComponents(): Collection
     {
         return $this->recipeComponents;
+    }
+
+    /**
+     * @return Collection|RecipeComponent[]
+     */
+    public function getTheRecipeComponents(): Collection
+    {
+        return $this->getRecipeComponents();
     }
 
     public function addRecipeComponent(RecipeComponent $recipeComponent): self

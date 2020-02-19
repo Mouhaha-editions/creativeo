@@ -4,10 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Component;
 use App\Entity\Inventory;
+use App\Entity\RecipeComponent;
+use App\Entity\RecipeFabrication;
+use App\Entity\RecipeFabricationComponent;
 use App\Form\ComponentType;
+use App\Interfaces\IRecipeComponent;
 use App\Repository\ComponentRepository;
 use App\Repository\InventoryRepository;
 use App\Repository\UnitRepository;
+use App\Service\InventoryService;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +25,68 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ComponentController extends AbstractController
 {
+
+    /**
+     * @Route("/ajax/options/new/{id}", name="ajax_option_new", methods={"GET"})
+     * @param RecipeComponent $recipeFabricationComponent
+     * @param InventoryService $inventoryService
+     * @param InventoryRepository $inventoryRepository
+     * @return Response
+     */
+    public function getOptionChoicesNew(RecipeComponent $recipeComponent,InventoryService $inventoryService, InventoryRepository $inventoryRepository): Response
+    {
+        /** @var Inventory[] $inventories */
+        $inventories = $inventoryRepository->createQueryBuilder('i')
+            ->where('i.component = :component')
+            ->setParameter('component', $recipeComponent->getComponent())
+            ->groupBy('i.optionLabel')
+            ->orderBy('i.optionLabel', 'ASC')
+            ->getQuery()->getResult();
+        $data = [];
+        $data['options'] = [];
+        foreach ($inventories AS $i) {
+            $recipeComponent->setOptionLabel($i->getOptionLabel());
+            $data['options'][] = [
+                "label"=>$i->getOptionLabel(),
+                "price"=>$inventoryService->getCostForRecipeComponent($recipeComponent)
+            ];
+        }
+        return new JsonResponse($data);
+    }
+    /**
+     * @Route("/ajax/options/edit/{id}", name="ajax_option_edit", methods={"GET"})
+     * @param RecipeFabricationComponent $recipeFabricationComponent
+     * @param InventoryService $inventoryService
+     * @param InventoryRepository $inventoryRepository
+     * @return Response
+     */
+    public function getOptionChoicesEdit(RecipeFabricationComponent $recipeFabricationComponent,InventoryService $inventoryService, InventoryRepository $inventoryRepository): Response
+    {
+        /** @var Inventory[] $inventories */
+        $inventories = $inventoryRepository->createQueryBuilder('i')
+            ->where('i.component = :component')
+            ->setParameter('component', $recipeFabricationComponent->getComponent())
+            ->groupBy('i.optionLabel')
+            ->orderBy('i.optionLabel', 'ASC')
+            ->getQuery()->getResult();
+        $data = [];
+        $data['options'] = [];
+        foreach ($inventories AS $i) {
+            $recipeFabricationComponent->setOptionLabel($i->getOptionLabel());
+            $data['options'][] = [
+                "label"=>$i->getOptionLabel(),
+                "price"=>$inventoryService->getCostForRecipeComponent($recipeFabricationComponent)
+            ];
+        }
+        return new JsonResponse($data);
+    }
+
     /**
      * @Route("/ajax/units/{id}", name="ajax_unit_to_remove", methods={"GET"})
      * @param Component $component
      * @param InventoryRepository $inventoryRepository
      * @return Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function unitToRemove(Component $component, InventoryRepository $inventoryRepository): Response
     {
@@ -40,13 +102,13 @@ class ComponentController extends AbstractController
         $maxUnit = $inventory->getUnit()->getParent() == null ? $inventory->getUnit() : $inventory->getUnit()->getParent();
         $units = [];
         $units[] = [
-            "value"=>$maxUnit->getId(),
-            "name"=>$maxUnit->getLibelle()
+            "value" => $maxUnit->getId(),
+            "name" => $maxUnit->getLibelle()
         ];
         foreach ($maxUnit->getChildren() AS $u) {
             $units[] = [
-                "value"=>$u->getId(),
-                "name"=>$u->getLibelle()
+                "value" => $u->getId(),
+                "name" => $u->getLibelle()
             ];
         }
 
@@ -56,6 +118,8 @@ class ComponentController extends AbstractController
 
     /**
      * @Route("/", name="component_index", methods={"GET"})
+     * @param ComponentRepository $componentRepository
+     * @return Response
      */
     public function index(ComponentRepository $componentRepository): Response
     {
@@ -66,6 +130,8 @@ class ComponentController extends AbstractController
 
     /**
      * @Route("/ajax-list", name="component_list", methods={"GET"})
+     * @param ComponentRepository $componentRepository
+     * @return Response
      */
     public function ajaxList(ComponentRepository $componentRepository): Response
     {
@@ -75,6 +141,8 @@ class ComponentController extends AbstractController
 
     /**
      * @Route("/new", name="component_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -98,6 +166,8 @@ class ComponentController extends AbstractController
 
     /**
      * @Route("/{id}", name="component_show", methods={"GET"})
+     * @param Component $component
+     * @return Response
      */
     public function show(Component $component): Response
     {
@@ -108,6 +178,9 @@ class ComponentController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="component_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Component $component
+     * @return Response
      */
     public function edit(Request $request, Component $component): Response
     {

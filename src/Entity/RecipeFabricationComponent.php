@@ -23,7 +23,7 @@ class RecipeFabricationComponent implements IRecipeComponent
     private $recipeFabrication;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Component", inversedBy="recipeComponents")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Component", inversedBy="recipeFabricationComponents")
      */
     private $component;
 

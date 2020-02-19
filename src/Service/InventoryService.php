@@ -10,6 +10,7 @@ use App\Entity\RecipeComponent;
 use App\Entity\User;
 use App\Interfaces\IRecipeComponent;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class InventoryService
@@ -57,21 +58,31 @@ class InventoryService
 
     }
 
-    public function getCostForRecipeComponent(RecipeComponent $compo)
+    public function getCostForRecipeComponent(IRecipeComponent $compo)
     {
         /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
 
+        $option = $compo->getOptionLabel();
         /** @var Inventory[] $inventoires */
-        $inventoires = $this->entityManager->getRepository(Inventory::class)
-            ->createQueryBuilder('i')
+        /** @var QueryBuilder $qb */
+        $qb = $this->entityManager->getRepository(Inventory::class)
+            ->createQueryBuilder('i');
+        $qb
             ->leftJoin('i.unit', 'unit')
             ->where('i.user = :user')
             ->andWhere('i.component = :component')
             ->setParameter('user', $this->tokenStorage->getUser())
             ->setParameter('component', $compo->getComponent())
-            ->orderBy('i.price', $user->getUseOrderPreference())
-            ->getQuery()->getResult();
+            ->orderBy('i.price', $user->getUseOrderPreference());
+        if ($compo->getOptionLabel() != null) {
+            $qb->andWhere($qb->expr()->eq('i.optionLabel', ':option'))
+                ->setParameter('option', $compo->getOptionLabel());
+        } else {
+            $qb->andWhere($qb->expr()->isNull('i.optionLabel'));
+        }
+
+        $inventoires = $qb->getQuery()->getResult();
         $sum = 0;
         // compos quantity = 500 g
         //inventaire = 0.500 kg
@@ -94,7 +105,7 @@ class InventoryService
         return $sum;
     }
 
-    public function hasQuantityForRecipeComponent(RecipeComponent $compo)
+    public function hasQuantityForRecipeComponent(IRecipeComponent $compo)
     {
         $result = $this->entityManager->getRepository(Inventory::class)
             ->createQueryBuilder('i')
@@ -102,8 +113,10 @@ class InventoryService
             ->select('SUM(i.quantity*unit.parentRatio)')
             ->where('i.user = :user')
             ->andWhere('i.component = :component')
+            ->andWhere('i.optionLabel = :option')
             ->setParameter('user', $this->tokenStorage->getUser())
             ->setParameter('component', $compo->getComponent())
+            ->setParameter('option', $compo->getOptionLabel())
             ->groupBy('i.user')
             ->getQuery()->getOneOrNullResult();
 // compos quantity = 500 g
@@ -140,17 +153,17 @@ class InventoryService
                 $inventory->setQuantity(0);
                 $this->entityManager->flush();
                 return true;
-            } elseif ($qty > $quantityNeeded){
-                $inventory->setQuantity($qty-$quantityNeeded);
+            } elseif ($qty > $quantityNeeded) {
+                $inventory->setQuantity($qty - $quantityNeeded);
                 $this->entityManager->flush();
                 return true;
-            }else{
+            } else {
                 $inventory->setQuantity(0);
                 $quantityNeeded = $quantityNeeded - $qty;
                 $this->entityManager->flush();
             }
 
-            if($quantityNeeded == 0){
+            if ($quantityNeeded == 0) {
                 return true;
             }
         }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interfaces\IRecipe;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +11,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RecipeFabricationRepository")
  */
-class RecipeFabrication
+class RecipeFabrication implements IRecipe
 {
     use TimestampableEntity;
 
@@ -43,7 +44,7 @@ class RecipeFabrication
     private $taxes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\RecipeFabricationComponent", inversedBy="recipeFabrications")
+     * @ORM\ManyToMany(targetEntity="App\Entity\RecipeFabricationComponent", inversedBy="recipeFabrication")
      */
     private $recipeFabricationComponents;
 
@@ -183,5 +184,12 @@ class RecipeFabrication
         $diff = (new \DateTime())->diff($this->getCreatedAt());
         $hours = round($diff->s / 3600 + $diff->i / 60 + $diff->h + $diff->days * 24, 2);
         return $hours;
+    }
+    /**
+     * @return Collection|RecipeComponent[]
+     */
+    public function getTheRecipeComponents(): Collection
+    {
+        return $this->getRecipeFabricationComponents();
     }
 }
