@@ -43,6 +43,11 @@ class RecipeFabrication
     private $taxes;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\RecipeFabricationComponent", inversedBy="recipeFabrications")
+     */
+    private $recipeFabricationComponents;
+
+    /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     private $hours=0;
@@ -55,6 +60,7 @@ class RecipeFabrication
     public function __construct()
     {
         $this->taxes = new ArrayCollection();
+        $this->recipeFabricationComponents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,7 +129,31 @@ class RecipeFabrication
 
         return $this;
     }
+    /**
+     * @return Collection|RecipeFabricationComponent[]
+     */
+    public function getRecipeFabricationComponents(): Collection
+    {
+        return $this->recipeFabricationComponents;
+    }
 
+    public function addRecipeFabricationComponents(RecipeFabricationComponent $recipeFabricationComponent): self
+    {
+        if (!$this->recipeFabricationComponents->contains($recipeFabricationComponent)) {
+            $this->recipeFabricationComponents[] = $recipeFabricationComponent;
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeFabricationComponent(RecipeFabricationComponent $recipeFabricationComponent): self
+    {
+        if ($this->recipeFabricationComponents->contains($recipeFabricationComponent)) {
+            $this->recipeFabricationComponents->removeElement($recipeFabricationComponent);
+        }
+
+        return $this;
+    }
     public function getHours(): ?string
     {
         return $this->hours;

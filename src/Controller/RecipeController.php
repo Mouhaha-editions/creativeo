@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Entity\RecipeFabrication;
+use App\Entity\RecipeFabricationComponent;
 use App\Form\RecipeFabricationType;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
@@ -11,6 +12,7 @@ use App\Repository\TaxeRepository;
 use App\Service\ImageService;
 use App\Service\InventoryService;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -145,7 +147,7 @@ class RecipeController extends AbstractController
      * @param InventoryService $inventoryService
      * @return Response
      */
-    public function fabricate(Request $request, Recipe $recipe, InventoryService $inventoryService): Response
+    public function fabricate(Request $request, Recipe $recipe, InventoryService $inventoryService, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser() != $recipe->getUser()) {
             $this->addFlash('danger', 'text.danger.not_yours');
@@ -156,6 +158,16 @@ class RecipeController extends AbstractController
         foreach ($recipe->getTaxes() AS $taxe) {
             $recipeFabrication->addTax($taxe);
         }
+        foreach ($recipe->getRecipeComponents() AS $component) {
+            $recipeCompo = new RecipeFabricationComponent();
+            $recipeCompo->setQuantity($component->getQuantity());
+            $recipeCompo->setComponent($component->getComponent());
+            $recipeCompo->setOptionLabel($component->getOptionLabel());
+            $recipeCompo->setUnit($component->getUnit());
+            $recipeCompo->setRecipeFabrication($recipeFabrication);
+            $entityManager->persist($recipeCompo);
+            $recipeFabrication->addRecipeFabricationComponents($recipeCompo);
+        }
         $recipeFabrication->setMarge($recipe->getMarge());
         $recipeFabrication->setQuantity(1);
 
@@ -163,10 +175,9 @@ class RecipeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($recipe->getRecipeComponents() AS $component) {
-                $inventoryService->sub($component->getComponent(), $recipeFabrication->getQuantity()*$component->getQuantity());
+            foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
+                $inventoryService->sub($component, $recipeFabrication->getQuantity()*$component->getQuantity());
             }
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($recipeFabrication);
             $entityManager->flush();
 

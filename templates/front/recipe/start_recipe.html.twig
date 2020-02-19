@@ -41,7 +41,7 @@
                         {% for component in recipe.recipeComponents %}
                             <tr>
                                 <td>{{ component.component.label }}</td>
-                                <td>{{ component.component.label }}</td>
+                                <td data-component="{{ component.component.id }}"></td>
                                 <td>{{ component.quantity }}</td>
                                 <td>{{ component.unit.libelle }}</td>
                             </tr>
@@ -80,7 +80,6 @@
                                 value="stop"
                                 data-title="{{ "title.recipe_fabrication.real_time"|trans }}"
                                 data-hours="{{ fabrication.hours == 0 ? recipe.estimatedHours : fabrication.calculatedHours }}"
-
                         ><i
                                     class="fas fa-stop"></i> {{ "button.recipe_fabrication.stop"|trans }}</button>
                         <button class="btn btn-info btn-block disabled" name="programmer"><i

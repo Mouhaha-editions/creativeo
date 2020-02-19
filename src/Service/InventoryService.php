@@ -8,6 +8,7 @@ use App\Entity\Component;
 use App\Entity\Inventory;
 use App\Entity\RecipeComponent;
 use App\Entity\User;
+use App\Interfaces\IRecipeComponent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -112,7 +113,7 @@ class InventoryService
         return $res >= $compo->getBaseQuantity();
     }
 
-    public function sub(Component $component, int $quantity)
+    public function sub(IRecipeComponent $recipeComponent, int $quantity)
     {
         /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
@@ -123,8 +124,10 @@ class InventoryService
             ->leftJoin('i.unit', 'unit')
             ->where('i.user = :user')
             ->andWhere('i.component = :component')
+            ->andWhere('i.optionLabel = :option')
             ->setParameter('user', $this->tokenStorage->getUser())
-            ->setParameter('component', $component)
+            ->setParameter('component', $recipeComponent->getComponent())
+            ->setParameter('option', $recipeComponent->getOptionLabel())
             ->orderBy('i.price', $user->getUseOrderPreference())
             ->getQuery()->getResult();
         // compos quantity = 500 g

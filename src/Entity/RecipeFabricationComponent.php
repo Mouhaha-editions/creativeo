@@ -6,9 +6,9 @@ use App\Interfaces\IRecipeComponent;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RecipeComponentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\RecipeFabricationComponentRepository")
  */
-class RecipeComponent implements IRecipeComponent
+class RecipeFabricationComponent implements IRecipeComponent
 {
     /**
      * @ORM\Id()
@@ -18,9 +18,9 @@ class RecipeComponent implements IRecipeComponent
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Recipe", inversedBy="recipeComponents")
+     * @ORM\ManyToOne(targetEntity="App\Entity\RecipeFabrication", inversedBy="recipeFabricationComponents")
      */
-    private $recipe;
+    private $recipeFabrication;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Component", inversedBy="recipeComponents")
@@ -37,19 +37,24 @@ class RecipeComponent implements IRecipeComponent
      */
     private $unit;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $optionLabel;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getRecipe(): ?Recipe
+    public function getRecipeFabrication(): ?RecipeFabrication
     {
-        return $this->recipe;
+        return $this->recipeFabrication;
     }
 
-    public function setRecipe(?Recipe $recipe): self
+    public function setRecipeFabrication(?RecipeFabrication $recipeFabrication): self
     {
-        $this->recipe = $recipe;
+        $this->recipeFabrication = $recipeFabrication;
 
         return $this;
     }
@@ -71,16 +76,16 @@ class RecipeComponent implements IRecipeComponent
         return $this->quantity;
     }
 
+    public function getBaseQuantity()
+    {
+        return $this->quantity / $this->getUnit()->getParentRatio();
+    }
+
     public function setQuantity(string $quantity): self
     {
         $this->quantity = $quantity;
 
         return $this;
-    }
-
-    public function getBaseQuantity()
-    {
-        return $this->quantity / $this->getUnit()->getParentRatio();
     }
 
     public function getUnit(): ?Unit
@@ -95,8 +100,15 @@ class RecipeComponent implements IRecipeComponent
         return $this;
     }
 
-    public function getOptionLabel()
+    public function getOptionLabel(): ?string
     {
-        return null;
+        return $this->optionLabel;
+    }
+
+    public function setOptionLabel(?string $optionLabel): self
+    {
+        $this->optionLabel = $optionLabel;
+
+        return $this;
     }
 }

@@ -46,15 +46,22 @@ class Component
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecipeComponent", mappedBy="component")
+     * @ORM\Column(nullable=true)
      */
     private $recipeComponents;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipeFabricationComponent", mappedBy="component")
+     * @ORM\Column(nullable=true)
+     */
+    private $recipeFabricationComponents;
 
     public function __construct()
     {
         $this->prices = new ArrayCollection();
         $this->inventories = new ArrayCollection();
         $this->recipeComponents = new ArrayCollection();
+        $this->recipeFabricationComponents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,6 +206,37 @@ class Component
             // set the owning side to null (unless already changed)
             if ($recipeComponent->getComponent() === $this) {
                 $recipeComponent->setComponent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecipeFabricationComponent[]
+     */
+    public function getRecipeFabricationComponents(): Collection
+    {
+        return $this->recipeFabricationComponents;
+    }
+
+    public function addRecipeFabricationComponent(RecipeFabricationComponent $recipeFabricationComponent): self
+    {
+        if (!$this->recipeFabricationComponents->contains($recipeFabricationComponent)) {
+            $this->recipeFabricationComponents[] = $recipeFabricationComponent;
+            $recipeFabricationComponent->setComponent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeFabricationComponent(RecipeFabricationComponent $recipeFabricationComponent): self
+    {
+        if ($this->recipeFabricationComponents->contains($recipeFabricationComponent)) {
+            $this->recipeFabricationComponents->removeElement($recipeFabricationComponent);
+            // set the owning side to null (unless already changed)
+            if ($recipeFabricationComponent->getComponent() === $this) {
+                $recipeFabricationComponent->setComponent(null);
             }
         }
 
