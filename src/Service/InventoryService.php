@@ -107,18 +107,26 @@ class InventoryService
 
     public function hasQuantityForRecipeComponent(IRecipeComponent $compo)
     {
-        $result = $this->entityManager->getRepository(Inventory::class)
+        $qb = $this->entityManager->getRepository(Inventory::class)
             ->createQueryBuilder('i')
             ->leftJoin('i.unit', 'unit')
             ->select('SUM(i.quantity*unit.parentRatio)')
             ->where('i.user = :user')
             ->andWhere('i.component = :component')
-            ->andWhere('i.optionLabel = :option')
             ->setParameter('user', $this->tokenStorage->getUser())
             ->setParameter('component', $compo->getComponent())
-            ->setParameter('option', $compo->getOptionLabel())
-            ->groupBy('i.user')
-            ->getQuery()->getOneOrNullResult();
+            ->groupBy('i.user');
+        if ($compo->getOptionLabel() != null) {
+            $qb->andWhere($qb->expr()->eq('i.optionLabel', ':option'))
+                ->setParameter('option', $compo->getOptionLabel());
+        } else {
+            $qb->andWhere($qb->expr()->isNull('i.optionLabel'));
+        }
+
+
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+
 // compos quantity = 500 g
 // compos base_quantity = 500 g / 1000 = 0.5Kg
 // inventaire = 0.500 kg
@@ -132,17 +140,24 @@ class InventoryService
         $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
 
         /** @var Inventory[] $inventories */
-        $inventories = $this->entityManager->getRepository(Inventory::class)
+        $qb = $this->entityManager->getRepository(Inventory::class)
             ->createQueryBuilder('i')
             ->leftJoin('i.unit', 'unit')
             ->where('i.user = :user')
             ->andWhere('i.component = :component')
-            ->andWhere('i.optionLabel = :option')
             ->setParameter('user', $this->tokenStorage->getUser())
             ->setParameter('component', $recipeComponent->getComponent())
-            ->setParameter('option', $recipeComponent->getOptionLabel())
-            ->orderBy('i.price', $user->getUseOrderPreference())
-            ->getQuery()->getResult();
+            ->orderBy('i.price', $user->getUseOrderPreference());
+
+        if ($recipeComponent->getOptionLabel() != null) {
+            $qb->andWhere($qb->expr()->eq('i.optionLabel', ':option'))
+                ->setParameter('option', $compo->getOptionLabel());
+        } else {
+            $qb->andWhere($qb->expr()->isNull('i.optionLabel'));
+        }
+
+
+        $inventories = $qb->getQuery()->getResult();
         // compos quantity = 500 g
         //inventaire = 0.500 kg
 

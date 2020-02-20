@@ -1,0 +1,76 @@
+<div id="addition">
+    {% set sum = 0 %}
+    {% for component in recipe.recipeComponents %}
+        <div class="ligne">
+            <span>{{ component.component.label }} <small>x{{ component.quantity|number_format(3,',',' ') }} {{ component.unit }}</small></span>
+            {% set component_price = inventory_service.costForRecipeComponent(component) %}
+            <span><small>{{ component_price|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
+        </div>
+        {% set sum = sum + component_price %}
+    {% endfor %}
+<hr/>
+    <div class="ligne sous-total">
+        <span>
+            Sous total Composants</span>
+        <span><b><small>{{ sum|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></b></span>
+    </div>
+    <hr/>
+    <div class="ligne">
+        <span>Cout horaire x temps <small>{{ app.user.coutHoraire|number_format(3,',',' ') }} x {{ recipe.estimatedHours }}</small></span>
+        {% set add = app.user.coutHoraire*recipe.estimatedHours %}
+        <span><small>{{ add|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
+    </div>
+    {% set sum = sum + add %}
+
+    <div class="ligne">
+        <span>Charges horaires x temps</span>
+        <span>{{ app.user.chargeByHour|number_format(3,',',' ') }} x {{ recipe.estimatedHours }}</span>
+        {% set add = app.user.chargeByHour*recipe.estimatedHours %}
+        <span><small>{{ add|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
+    </div>
+    {% set sum = sum + add %}
+<hr/>
+    <div class="ligne total">
+        <span>Coût de fabrication</span>
+        <span></span>
+        <span><b>{{ sum|number_format(3,',',' ') }} <small>{{ app.user.moneyUnit }}</small></b></span>
+    </div>
+<hr/>
+    <div class="ligne total">
+        <span>Marge</span>
+        <span>{{ recipe.marge|number_format(2,',',' ') }}%</span>
+        {% set add = sum*(recipe.marge/100) %}
+        <span><b>{{ add|number_format(3,',',' ') }} <small>{{ app.user.moneyUnit }}</small></b></span>
+    </div>
+    {% set sum = sum + add %}
+<hr/>
+    {% set subSum = 0 %}
+    {% for taxe in recipe.taxes %}
+        <div class="ligne">
+            <span>{{ taxe.libelle }}</span>
+            {% set amount = 1-(taxe.value/100) %}
+            {% if taxe.type == constant("\\App\\Entity\\Taxe::TYPE_PERCENTAGE") %}
+                <span>{{ taxe.value|number_format(2,',',' ') }}%</span>
+                {% set add = sum/amount - sum %}
+            {% else %}
+                <span></span>
+                {% set add = amount %}
+            {% endif %}
+            <span><small>{{ add|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
+        </div>
+        {% set subSum = subSum + add %}
+        {% set sum = sum + add %}
+    {% endfor %}
+    <hr/>
+    <div class="ligne total">
+        <span>Sous total : Taxes</span>
+        <span><b>{{ subSum|number_format(3,',',' ') }} <small>{{ app.user.moneyUnit }}</small></b></span>
+    </div>
+    <hr/>
+    <div class="ligne total">
+        <span>Total (Prix de vente conseillé)</span>
+        <span><b>{{ sum|number_format(3,',',' ') }} <small>{{ app.user.moneyUnit }}</small></b></span>
+    </div>
+
+
+</div>

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "title.recipe.new"|trans }} {{ parent() }}{% endblock %}
+{% block contentHeader %}
+    {% include 'tools/content_header.html.twig' with {title: "title.recipe.new"|trans } %}
+{% endblock %}
+
+{% block content %}
+    {{ include('front/recipe/_form.html.twig',{title:"title.recipe.new"|trans }) }}
+{% endblock %}
+{% block javascripts %}
+{{ encore_entry_script_tags('form_recipe') }}
+{% endblock %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('form_recipe') }}
+{% endblock %}

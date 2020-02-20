@@ -57,6 +57,7 @@ title:
     index: Tableau de bord
   recipe_fabrication:
     real_time: Temps réellement passé
+    index: Mes fabrications
 button:
   recipe:
     add_component: Ajouter un composant

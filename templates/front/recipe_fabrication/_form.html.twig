@@ -1,0 +1,137 @@
+{{ form_start(form) }}
+{% import _self as formMacros %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ title }}</h3>
+            </div>
+            <div class="card-body p-3">
+                <div data-intro="{{ "intro.text.recipe.label"|trans }}">
+                    {{ form_row(form.label) }}
+                </div>
+                <div data-intro="{{ "intro.text.recipe.photoPath"|trans }}">
+                    {{ form_row(form.photoFile) }}
+                </div>
+                <div data-intro="{{ "intro.text.recipe.marge"|trans }}">
+                    {{ form_row(form.marge) }}
+                </div>
+                <div data-intro="{{ "intro.text.recipe.estimatedHours"|trans }}">
+                    {{ form_row(form.estimatedHours) }}
+                </div>
+                <div data-intro="{{ "intro.text.recipe.community"|trans }}">
+                    {{ form_row(form.community) }}
+                </div>
+
+                <button class="btn btn-sm btn-primary">{{ button_label|default('button.default.save'|trans ) }}</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ "entity.recipe.label.taxes"|trans }}</h3>
+            </div>
+            <div class="card-body p-3" data-intro="{{ "intro.text.recipe.taxes"|trans }}">
+                {{ form_widget(form.taxes) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ "entity.recipe.label.recipeComponents"|trans }}</h3>
+            </div>
+            <div class="card-body p-0" data-intro="{{ "intro.text.recipe.components"|trans }}">
+                <table id="components-fields-list" class="table table-condensed"
+                       data-prototype="{{ formMacros.componentPrototype(form.recipeComponents.vars.prototype)|e('html_attr') }}"
+                       data-widget-tags="{{ '<tr></tr>'|e }}"
+                       data-widget-counter="{{ form.recipeComponents|length }}">
+                    <thead>
+                    <tr>
+                        <th>{{ "entity.recipe_component.label.component"|trans }}</th>
+                        <th>{{ "entity.recipe_component.label.quantity"|trans }}</th>
+                        <th>{{ "entity.recipe_component.label.unit"|trans }}</th>
+                    </tr>
+                    </thead>
+                    {% for component in form.recipeComponents %}
+                        <tr>{{ formMacros.componentPrototype(component) }}</tr>
+                    {% endfor %}
+                </table>
+                <div class="p-3">
+                    <button data-intro="{{ "intro.text.recipe.add_component"|trans }}"
+                            type="button"
+                            class="add-another-collection-widget btn btn-sm btn-secondary"
+                            data-list-selector="#components-fields-list"><i
+                                class="fas fa-plus"></i> {{ "button.recipe.add_component"|trans }}</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ "entity.recipe.label.description"|trans }}</h3>
+            </div>
+            <div class="card-body p-3" data-intro="{{ "intro.text.recipe.description"|trans }}">
+                {{ form_widget(form.description) }}
+            </div>
+        </div>
+
+    </div>
+
+    {#    <div class="col-md-6">#}
+    {#        <div class="card">#}
+    {#            <div class="card-header">#}
+    {#                <h3 class="card-title">{{ "entity.recipe.label.taxes"|trans }}</h3>#}
+    {#            </div>#}
+    {#            <div class="card-body p-0">#}
+    {#                <table id="components-fields-list" class="table table-condensed"#}
+    {#                       data-prototype="{{ formMacros.taxePrototype(form.taxes.vars.prototype)|e('html_attr') }}"#}
+    {#                       data-widget-tags="{{ '<tr></tr>'|e }}"#}
+    {#                       data-widget-counter="{{ form.taxes|length }}">#}
+    {#                    <thead>#}
+    {#                    <tr>#}
+    {#                        <th>{{ "entity.taxe.label.libelle"|trans }}</th>#}
+    {#                        <th>{{ "entity.taxe.label.value"|trans }}</th>#}
+    {#                        <th>{{ "entity.taxe.label.type"|trans }}</th>#}
+    {#                    </tr>#}
+    {#                    </thead>#}
+    {#                    {% for component in form.recipeComponents %}#}
+    {#                        <tr>{{ formMacros.componentPrototype(component) }}</tr>#}
+    {#                    {% endfor %}#}
+    {#                </table>#}
+    {#                <div class="p-3">#}
+    {#                    <button type="button"#}
+    {#                            class="add-another-collection-widget btn btn-sm btn-secondary"#}
+    {#                            data-list-selector="#components-fields-list"><i#}
+    {#                                class="fas fa-plus"></i> {{ "button.recipe.add_component"|trans }}</button></div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+</div>
+
+
+{{ form_end(form) }}
+
+
+{% macro componentPrototype(recipeComponent) %}
+    <td>
+        {{ form_errors(recipeComponent.component) }}
+        {{ form_widget(recipeComponent.component) }}
+    </td>
+    <td>
+        {{ form_errors(recipeComponent.quantity) }}
+        {{ form_widget(recipeComponent.quantity) }}
+    </td>
+    <td>
+        {{ form_errors(recipeComponent.unit) }}
+        {{ form_widget(recipeComponent.unit) }}
+    </td>
+    <td>
+        <button class="remove-line btn btn-danger btn-sm" data-confirm="{{ "text.confirm_delete"|trans }}"><i
+                    class="fas fa-trash"></i></button>
+    </td>
+{% endmacro %}
