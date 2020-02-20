@@ -37,9 +37,9 @@ class RecipeFabricationController extends AbstractController
         return $this->render('front/recipe_fabrication/index.html.twig', [
             'recipes' => $recipeFabricationRepository->createQueryBuilder('r')
                 ->leftJoin('r.recipe', 'recipe')
-            ->where('recipe.user = :user')
-                ->setParameter('user',$this->getUser())
-                ->orderBy('r.createdAt','DESC')
+                ->where('recipe.user = :user')
+                ->setParameter('user', $this->getUser())
+                ->orderBy('r.createdAt', 'DESC')
                 ->getQuery()->getResult()
         ]);
     }

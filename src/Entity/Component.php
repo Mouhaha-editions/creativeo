@@ -47,6 +47,7 @@ class Component
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecipeComponent", mappedBy="component")
      * @ORM\Column(nullable=true)
+
      */
     private $recipeComponents;
 

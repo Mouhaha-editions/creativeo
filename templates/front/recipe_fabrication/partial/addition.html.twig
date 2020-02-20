@@ -8,7 +8,7 @@
         </div>
         {% set sum = sum + component_price %}
     {% endfor %}
-<hr/>
+    <hr/>
     <div class="ligne sous-total">
         <span>
             Sous total Composants</span>
@@ -29,13 +29,13 @@
         <span><small>{{ add|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
     </div>
     {% set sum = sum + add %}
-<hr/>
+    <hr/>
     <div class="ligne total">
         <span>Coût de fabrication</span>
         <span></span>
         <span><b>{{ sum|number_format(3,',',' ') }} <small>{{ app.user.moneyUnit }}</small></b></span>
     </div>
-<hr/>
+    <hr/>
     <div class="ligne total">
         <span>Marge</span>
         <span>{{ recipe.marge|number_format(2,',',' ') }}%</span>
@@ -43,24 +43,33 @@
         <span><b>{{ add|number_format(3,',',' ') }} <small>{{ app.user.moneyUnit }}</small></b></span>
     </div>
     {% set sum = sum + add %}
-<hr/>
+    <hr/>
     {% set subSum = 0 %}
+    {% set val = 0 %}
+    {% for taxe in recipe.taxes %}
+        {% if taxe.type == constant("\\App\\Entity\\Taxe::TYPE_PERCENTAGE") %}
+            {% set val = val + taxe.value %}
+        {% endif %}
+    {% endfor %}
+    {% set val = 1-val/100 %}
     {% for taxe in recipe.taxes %}
         <div class="ligne">
             <span>{{ taxe.libelle }}</span>
-            {% set amount = 1-(taxe.value/100) %}
+            {% set amount = taxe.value/100 %}
             {% if taxe.type == constant("\\App\\Entity\\Taxe::TYPE_PERCENTAGE") %}
                 <span>{{ taxe.value|number_format(2,',',' ') }}%</span>
-                {% set add = sum/amount - sum %}
+                {% set add = sum/val*amount %}
             {% else %}
                 <span></span>
+                {% set amount = taxe.value %}
                 {% set add = amount %}
             {% endif %}
             <span><small>{{ add|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
         </div>
         {% set subSum = subSum + add %}
-        {% set sum = sum + add %}
     {% endfor %}
+    {% set sum = sum + subSum %}
+
     <hr/>
     <div class="ligne total">
         <span>Sous total : Taxes</span>

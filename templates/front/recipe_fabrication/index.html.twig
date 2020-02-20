@@ -33,16 +33,7 @@
                                 <i class="help fas fa-question-circle text-info pointer" data-placement='top'
                                    data-content="{{ "entity.recipe.help.sellpriceOptimized"|trans }}"></i>
                             </th>
-                            <th class="text-right">
-                                {{ "entity.recipe.label.recipe_marge"|trans }}
-                                <i class="help fas fa-question-circle text-info pointer" data-placement='top'
-                                   data-content="{{ "entity.recipe.help.marge"|trans }}"></i>
-                            </th>
-                            <th class="text-right">
-                                {{ "entity.recipe.label.salary"|trans }}
-                                <i class="help fas fa-question-circle text-info pointer" data-placement='top'
-                                   data-content="{{ "entity.recipe.help.salary"|trans }}"></i>
-                            </th>
+
 {#                            <th>#}
 {#                                {{ "entity.recipe.label.canDoIt"|trans }}#}
 {#                                <i class="help fas fa-question-circle text-info pointer" data-placement='top'#}
@@ -68,12 +59,7 @@
                                 <td class="text-right">
                                     {{ recipe_service.sellPriceOptimized(recipe)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
                                 </td>
-                                <td class="text-right">
-                                    {{ recipe_service.revenus(recipe)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
-                                </td>
-                                <td class="text-right">
-                                    {{ (app.user.coutHoraire * recipe.hours)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
-                                </td>
+
 {#                                <td class="text-center">#}
 {#                                    {% set canDoIt = recipe_service.canDoIt(recipe) %}#}
 {#                                    {{ canDoIt  ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' }}#}

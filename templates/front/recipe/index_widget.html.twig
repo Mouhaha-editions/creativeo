@@ -73,12 +73,12 @@
                         <div class=" flex-fill">
                             <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.delete"|trans }}"{% endif %}> {{ include('front/recipe/_delete_form.html.twig') }}</span>
                         </div>
-                        <div class=" flex-fill">
-                            <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.calcul"|trans }}"{% endif %}
-                               data-href="{{ path('recipe_calcul', {'id': recipe.id}) }}" data-toggle="modal"
-                               data-target="#detailModal" title="Voir le calcul"
-                               class="btn btn-default btn-block btn-square "><i class="fas fa-search-dollar"></i></a>
-                        </div>
+{#                        <div class=" flex-fill">#}
+{#                            <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.calcul"|trans }}"{% endif %}#}
+{#                               data-href="{{ path('recipe_calcul', {'id': recipe.id}) }}" data-toggle="modal"#}
+{#                               data-target="#detailModal" title="Voir le calcul"#}
+{#                               class="btn btn-default btn-block btn-square "><i class="fas fa-search-dollar"></i></a>#}
+{#                        </div>#}
                         <div class=" flex-fill">
                             {% if recipe.notEndedRecipeFabrication is null %}
                                 <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.fabricate"|trans }}"{% endif %}>

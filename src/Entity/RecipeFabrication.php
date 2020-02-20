@@ -44,7 +44,7 @@ class RecipeFabrication implements IRecipe
     private $taxes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\RecipeFabricationComponent", inversedBy="recipeFabrication",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipeFabricationComponent", mappedBy="recipeFabrication",cascade={"persist"})
      */
     private $recipeFabricationComponents;
 
