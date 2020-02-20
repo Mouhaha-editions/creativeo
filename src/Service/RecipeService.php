@@ -77,7 +77,7 @@ class RecipeService
         foreach ($recipe->getTheRecipeComponents() AS $comp ) {
             $sum += $this->inventoryService->getCostForRecipeComponent($comp);
         }
-        return $sum + (($user->getCoutHoraire() + $user->getChargeByHour())* $recipe->getEstimatedHours()) ;
+        return $sum + (($user->getCoutHoraire() + $user->getChargeByHour())* $recipe->getHours()) ;
     }
 
     public function SellPriceOptimized(IRecipe $recipe)
@@ -112,7 +112,7 @@ class RecipeService
 
     public function canDoIt(IRecipe $recipe)
     {
-        foreach ($recipe->getRecipeComponents() AS $compo) {
+        foreach ($recipe->getTheRecipeComponents() AS $compo) {
             if (!$this->inventoryService->hasQuantityForRecipeComponent($compo)) {
                 return false;
             }

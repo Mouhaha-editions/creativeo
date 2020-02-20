@@ -43,11 +43,11 @@
                                 <i class="help fas fa-question-circle text-info pointer" data-placement='top'
                                    data-content="{{ "entity.recipe.help.salary"|trans }}"></i>
                             </th>
-                            <th>
-                                {{ "entity.recipe.label.canDoIt"|trans }}
-                                <i class="help fas fa-question-circle text-info pointer" data-placement='top'
-                                   data-content="{{ "entity.recipe.help.canDoIt"|trans }}"></i>
-                            </th>
+{#                            <th>#}
+{#                                {{ "entity.recipe.label.canDoIt"|trans }}#}
+{#                                <i class="help fas fa-question-circle text-info pointer" data-placement='top'#}
+{#                                   data-content="{{ "entity.recipe.help.canDoIt"|trans }}"></i>#}
+{#                            </th>#}
 
                             <th>{{ "text.action"|trans }}</th>
                         </tr>
@@ -74,36 +74,36 @@
                                 <td class="text-right">
                                     {{ (app.user.coutHoraire * recipe.hours)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
                                 </td>
-                                <td class="text-center">
-                                    {% set canDoIt = recipe_service.canDoIt(recipe) %}
-                                    {{ canDoIt  ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' }}
-                                </td>
+{#                                <td class="text-center">#}
+{#                                    {% set canDoIt = recipe_service.canDoIt(recipe) %}#}
+{#                                    {{ canDoIt  ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' }}#}
+{#                                </td>#}
                                 <td>
-                                    {#                                    <a href="{{ path('recipe_show', {'id': recipe.id}) }}"#}
-                                    {#                                       class="btn btn-default btn-xs"><i class="fas fa-eye"></i></a>#}
-                                    <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.edit"|trans }}"{% endif %}
-                                       href="{{ path('recipe_edit', {'id': recipe.id}) }}" title="Modifier la recette"
-                                       class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                                    <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.calcul"|trans }}"{% endif %}
-                                       data-href="{{ path('recipe_calcul', {'id': recipe.id}) }}" data-toggle="modal"
-                                       data-target="#detailModal" title="Voir le calcul"
-                                       class="btn btn-default btn-sm"><i class="fas fa-search-dollar"></i></a>
-                                    <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.delete"|trans }}"{% endif %}> {{ include('front/recipe/_delete_form.html.twig') }}</span>
-                                    {% if recipe.ended is null %}
-                                        <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.fabricate"|trans }}"{% endif %}>
-                                        <a
-                                                title="Fabriquer la recette"
-                                                class="btn btn-success btn-sm"
-                                                href="{{ url("recipe_fabricate",{id: recipe.id}) }}"><i
-                                                    class="fas fa-play"></i></a></span>
-                                    {% else %}
-                                        <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.stop_fabricate"|trans }}"{% endif %}>
-                                        <a
-                                                title="Terminer la fabrication"
-                                                class="btn btn-danger btn-sm"
-                                                href="{{ url("recipe_continue_fabricate",{id: recipe.id}) }}"><i
-                                                    class="fas fa-stop"></i></a></span>
-                                    {% endif %}
+{#                                    #}{#                                    <a href="{{ path('recipe_show', {'id': recipe.id}) }}"#}
+{#                                    #}{#                                       class="btn btn-default btn-xs"><i class="fas fa-eye"></i></a>#}
+{#                                    <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.edit"|trans }}"{% endif %}#}
+{#                                       href="{{ path('recipe_edit', {'id': recipe.id}) }}" title="Modifier la recette"#}
+{#                                       class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>#}
+{#                                    <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.calcul"|trans }}"{% endif %}#}
+{#                                       data-href="{{ path('recipe_calcul', {'id': recipe.id}) }}" data-toggle="modal"#}
+{#                                       data-target="#detailModal" title="Voir le calcul"#}
+{#                                       class="btn btn-default btn-sm"><i class="fas fa-search-dollar"></i></a>#}
+{#                                    <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.delete"|trans }}"{% endif %}> {{ include('front/recipe/_delete_form.html.twig') }}</span>#}
+{#                                    {% if recipe.ended is null %}#}
+{#                                        <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.fabricate"|trans }}"{% endif %}>#}
+{#                                        <a#}
+{#                                                title="Fabriquer la recette"#}
+{#                                                class="btn btn-success btn-sm"#}
+{#                                                href="{{ url("recipe_fabricate",{id: recipe.id}) }}"><i#}
+{#                                                    class="fas fa-play"></i></a></span>#}
+{#                                    {% else %}#}
+{#                                        <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.stop_fabricate"|trans }}"{% endif %}>#}
+{#                                        <a#}
+{#                                                title="Terminer la fabrication"#}
+{#                                                class="btn btn-danger btn-sm"#}
+{#                                                href="{{ url("recipe_continue_fabricate",{id: recipe.id}) }}"><i#}
+{#                                                    class="fas fa-stop"></i></a></span>#}
+{#                                    {% endif %}#}
                                 </td>
                             </tr>
                         {% else %}

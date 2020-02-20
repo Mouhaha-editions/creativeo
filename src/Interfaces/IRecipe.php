@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 
 interface IRecipe
 {
+    public function getHours(): ?string;
 
     public function getMarge(): ?string;
 

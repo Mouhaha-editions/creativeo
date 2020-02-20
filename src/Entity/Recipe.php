@@ -92,7 +92,6 @@ class Recipe implements IRecipe
     }
 
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -106,18 +105,6 @@ class Recipe implements IRecipe
     public function setLabel(string $label): self
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    public function getEstimatedHours(): ?string
-    {
-        return $this->estimatedHours;
-    }
-
-    public function setEstimatedHours(string $estimatedHours): self
-    {
-        $this->estimatedHours = $estimatedHours;
 
         return $this;
     }
@@ -137,17 +124,17 @@ class Recipe implements IRecipe
     /**
      * @return Collection|RecipeComponent[]
      */
-    public function getRecipeComponents(): Collection
+    public function getTheRecipeComponents(): Collection
     {
-        return $this->recipeComponents;
+        return $this->getRecipeComponents();
     }
 
     /**
      * @return Collection|RecipeComponent[]
      */
-    public function getTheRecipeComponents(): Collection
+    public function getRecipeComponents(): Collection
     {
-        return $this->getRecipeComponents();
+        return $this->recipeComponents;
     }
 
     public function addRecipeComponent(RecipeComponent $recipeComponent): self
@@ -279,23 +266,24 @@ class Recipe implements IRecipe
     }
 
     /**
+     * @return RecipeFabrication
+     */
+    public function getNotEndedRecipeFabrication(): ?RecipeFabrication
+    {
+        foreach ($this->getRecipeFabrications() AS $fabrication) {
+            if (!$fabrication->getEnded()) {
+                return $fabrication;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @return Collection|RecipeFabrication[]
      */
     public function getRecipeFabrications(): Collection
     {
         return $this->recipeFabrications;
-    }
-    /**
-     * @return RecipeFabrication
-     */
-    public function getNotEndedRecipeFabrication(): ?RecipeFabrication
-    {
-        foreach($this->getRecipeFabrications() AS $fabrication){
-            if(!$fabrication->getEnded()){
-                return $fabrication;
-            }
-        }
-        return null;
     }
 
     public function addRecipeFabrication(RecipeFabrication $recipeFabrication): self
@@ -329,6 +317,23 @@ class Recipe implements IRecipe
     public function setPhotoPath(?string $photoPath): self
     {
         $this->photoPath = $photoPath;
+
+        return $this;
+    }
+
+    public function getHours(): ?string
+    {
+        return $this->getEstimatedHours();
+    }
+
+    public function getEstimatedHours(): ?string
+    {
+        return $this->estimatedHours;
+    }
+
+    public function setEstimatedHours(string $estimatedHours): self
+    {
+        $this->estimatedHours = $estimatedHours;
 
         return $this;
     }
