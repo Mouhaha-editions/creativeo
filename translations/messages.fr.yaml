@@ -91,6 +91,14 @@ entity:
   recipe_component:
     label:
       component: Composant
+      description: Utilisation
+      unit: Unité
+      quantity: Quantité
+      option: Déclinaison
+      cost: Coût
+    placeholder:
+      component: Composant
+      description: Description/Utilisation (facultatif)
       unit: Unité
       quantity: Quantité
       option: Déclinaison

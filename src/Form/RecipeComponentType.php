@@ -9,6 +9,8 @@ use App\Repository\UnitRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -41,9 +43,18 @@ class RecipeComponentType extends AbstractType
                     return $er->createQueryBuilder('c')->where('c.user = :user')->setParameter('user', $user)->orderBy('c.label');
                 },
             ])
-            ->add('quantity', null, [
+            ->add('description', TextType::class, [
+                'label' => 'entity.recipe_component.label.description',
+                'required'=>false,
+                'attr'=>[
+                    'placeholder'=>"entity.recipe_component.placeholder.description",
+                    'class' => 'form-control-sm',
+                ]
+            ])
+            ->add('quantity', NumberType::class, [
                 'label' => 'entity.recipe_component.label.quantity',
                 'attr' => ['class' => 'form-control-sm'],
+                'scale'=>4
 
             ])
             ->add('unit', EntityTreeType::class, [

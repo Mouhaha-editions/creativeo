@@ -55,7 +55,7 @@
                     </tr>
                     </thead>
                     {% for component in form.recipeComponents %}
-                        <tr>{{ formMacros.componentPrototype(component) }}</tr>
+                        {{ formMacros.componentPrototype(component) }}
                     {% endfor %}
                 </table>
                 <div class="p-3">
@@ -118,7 +118,11 @@
 
 
 {% macro componentPrototype(recipeComponent) %}
-    <td>
+
+
+    <tr>
+
+    <td style="border-bottom-width: 2px;">
         {{ form_errors(recipeComponent.component) }}
         {{ form_widget(recipeComponent.component) }}
     </td>
@@ -130,8 +134,13 @@
         {{ form_errors(recipeComponent.unit) }}
         {{ form_widget(recipeComponent.unit) }}
     </td>
-    <td>
-        <button class="remove-line btn btn-danger btn-sm" data-confirm="{{ "text.confirm_delete"|trans }}"><i
+    <td rowspan="2"  style="vertical-align: middle;border-bottom: 2px solid #bdbdbd!important;" class="text-center">
+        <button class="remove-line btn btn-danger btn-block btn-sm" data-confirm="{{ "text.confirm_delete"|trans }}"><i
                     class="fas fa-trash"></i></button>
     </td>
+   </tr>
+    <tr style="border-bottom: 2px solid #bdbdbd!important;">
+        <td colspan="3">{{ form_widget(recipeComponent.description) }}{{ form_errors(recipeComponent.description) }}</td>
+    </tr>
+
 {% endmacro %}
