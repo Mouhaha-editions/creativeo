@@ -128,7 +128,7 @@ class ComponentController extends AbstractController
     }
 
     /**
-     * @Route("/ajax/text/units/{text}", name="ajax_unit_to_remove", methods={"GET"})
+     * @Route("/ajax/text/units/{text}", name="ajax_unit_to_select", methods={"GET"})
      * @param Component $component
      * @param InventoryRepository $inventoryRepository
      * @return Response
