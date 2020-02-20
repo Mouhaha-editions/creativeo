@@ -57,13 +57,13 @@ jQuery(document).ready(function () {
                     $t.html(option);
                     let price = data.options[0].price;
                     let enougth = data.options[0].enougth;
-                    $t.closest('tr').find('td.price').html(price);
+                    $t.closest('tr').find('td.price').html(price+ "<input type='hidden' name=\"options["+val+"]\" value=\""+option+"\">");
                     $t.closest('tr').find('td.enougth').html(enougth);
                 } else {
                     $t.html(html);
                     let $select = $("[name='options[" + val + "]']");
                     $select.on('change', function () {
-                        let price = $(this).find('option:selected').data('price');
+                        let price = $(this).find('option:selected').data('price') ;
                         let enougth = $(this).find('option:selected').data('enougth');
                         $t.closest('tr').find('td.price').html(price);
                         $t.closest('tr').find('td.enougth').html(enougth);
