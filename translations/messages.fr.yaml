@@ -130,6 +130,7 @@ entity:
     label:
       productLabel: Libellé du composant
       optionLabel: Déclinaison
+      reference: Référence
       quantity: Quantité
       unitPrice: Prix unitaire
       unit: Unité

@@ -151,7 +151,7 @@ class Inventory
 
     public function getFullname()
     {
-        return $this->getComponent()->getLabel().($this->getOptionLabel() != null ? ' - '.$this->getOptionLabel():'');
+        return $this->getComponent()->getLabel().($this->getReference() != null ? ' - '.$this->getReference():'').($this->getOptionLabel() != null ? ' - '.$this->getOptionLabel():'');
     }
 
     public function getReference(): ?string

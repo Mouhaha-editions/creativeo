@@ -128,7 +128,8 @@ class InventoryController extends AbstractController
             ->leftJoin('i.component', 'c')
             ->where('i.user  = :user')
             ->setParameter('user', $this->getUser())
-            ->orderBy('c.label', 'ASC');
+            ->orderBy('c.label', 'ASC')
+            ->addOrderBy('i.optionLabel', 'ASC');
         $components = $paginationService->setDefaults(50)->process($qb, $request);
 
 
