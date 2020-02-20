@@ -24,12 +24,12 @@ class Inventory
     private $user;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(type="decimal", precision=10, scale=4, nullable=true)
      */
     private $quantity;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(type="decimal", precision=10, scale=4, nullable=true)
      */
     private $price;
 
