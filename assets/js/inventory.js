@@ -8,7 +8,7 @@ $(function () {
         let text = $(this).data('text');
         Swal.fire({
             title: title,
-            input: 'number',
+            input: 'text',
             text: text,
             inputValue: $(this).data('current')
         }).then((result) => {
