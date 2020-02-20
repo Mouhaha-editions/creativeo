@@ -49,6 +49,11 @@ class Inventory
      */
     private $optionLabel;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reference;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -147,5 +152,17 @@ class Inventory
     public function getFullname()
     {
         return $this->getComponent()->getLabel().($this->getOptionLabel() != null ? ' - '.$this->getOptionLabel():'');
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
     }
 }

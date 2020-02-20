@@ -26,6 +26,11 @@ class InventoryType extends AbstractType
                 'required'=>false,
                 'attr'=>['class'=>'form-control-sm'],
             ])
+            ->add('reference',null,[
+                'label'=>'entity.inventory.label.reference',
+                'required'=>false,
+                'attr'=>['class'=>'form-control-sm'],
+            ])
             ->add('quantity',NumberType::class,[
                 'label'=>'entity.inventory.label.quantity',
                 'scale'=>4,
