@@ -51,7 +51,7 @@ class ComponentController extends AbstractController
                 "label" => $i->getOptionLabel(),
                 "price" => number_format($inventoryService->getCostForRecipeComponent($recipeComponent), 5, ',', ' ') . " &euro;",
                 "selected" => $selected,
-                "enougth"=>$inventoryService->hasQuantityForRecipeComponent($recipeComponent) ? '<i class="fas fa-check text-success"></i>' : '<i data-toggle="tooltip" title="stock : '.($inventoryService->getQuantityForRecipeComponent($recipeComponent) ).'" class="fas fa-times text-danger"></i>',
+                "enougth"=>$inventoryService->hasQuantityForRecipeComponent($recipeComponent) ? '<i class="fas fa-check text-success"></i>' : '<i data-toggle="tooltip" title="stock : '.number_format($inventoryService->getQuantityForRecipeComponent($recipeComponent),4,',',' ' ).'" class="fas fa-times text-danger"></i>',
             ];
         }
         return new JsonResponse($data);
@@ -83,7 +83,7 @@ class ComponentController extends AbstractController
                 "label" => $i->getOptionLabel(),
                 "price" => number_format($inventoryService->getCostForRecipeComponent($recipeFabricationComponent), 5, ',', ' ') . " &euro;",
                 "selected" => $selected,
-                "enougth"=>$inventoryService->hasQuantityForRecipeComponent($recipeFabricationComponent) ?'<i class="fas fa-check text-success"></i>' : '<i  data-toggle="tooltip" title="stock : '.($inventoryService->getQuantityForRecipeComponent($recipeFabricationComponent) ).'" class="fas fa-times text-danger"></i>',
+                "enougth"=>$inventoryService->hasQuantityForRecipeComponent($recipeFabricationComponent) ?'<i class="fas fa-check text-success"></i>' : '<i  data-toggle="tooltip" title="stock : '.number_format($inventoryService->getQuantityForRecipeComponent($recipeFabricationComponent),4,',',' ' ).'" class="fas fa-times text-danger"></i>',
 
             ];
             $recipeFabricationComponent->setOptionLabel($label);
