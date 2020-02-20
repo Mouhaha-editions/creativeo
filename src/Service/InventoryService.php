@@ -151,7 +151,7 @@ class InventoryService
 
         if ($recipeComponent->getOptionLabel() != null) {
             $qb->andWhere($qb->expr()->eq('i.optionLabel', ':option'))
-                ->setParameter('option', $compo->getOptionLabel());
+                ->setParameter('option', $recipeComponent->getOptionLabel());
         } else {
             $qb->andWhere($qb->expr()->isNull('i.optionLabel'));
         }
