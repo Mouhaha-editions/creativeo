@@ -46,14 +46,11 @@ class Component
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecipeComponent", mappedBy="component")
-     * @ORM\Column(nullable=true)
-
      */
     private $recipeComponents;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecipeFabricationComponent", mappedBy="component")
-     * @ORM\Column(nullable=true)
      */
     private $recipeFabricationComponents;
 
