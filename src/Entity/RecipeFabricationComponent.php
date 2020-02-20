@@ -30,7 +30,7 @@ class RecipeFabricationComponent implements IRecipeComponent
     /**
      * @ORM\Column(type="decimal", precision=10, scale=4)
      */
-    private $quantity;
+    private $quantity = 1;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="recipeComponents")
