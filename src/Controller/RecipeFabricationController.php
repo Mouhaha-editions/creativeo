@@ -44,6 +44,40 @@ class RecipeFabricationController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/sell/{id}", name="fabrication_sell", methods={"GET"})
+     * @param RecipeFabricationRepository $recipeFabricationRepository
+     * @return Response
+     */
+    public function sell(RecipeFabricationRepository $recipeFabricationRepository): Response
+    {
+        return $this->render('front/recipe_fabrication/index.html.twig', [
+            'recipes' => $recipeFabricationRepository->createQueryBuilder('r')
+                ->leftJoin('r.recipe', 'recipe')
+                ->where('recipe.user = :user')
+                ->setParameter('user', $this->getUser())
+                ->orderBy('r.createdAt', 'DESC')
+                ->getQuery()->getResult()
+        ]);
+    }
+
+    /**
+     * @Route("/inventoring/{id}", name="fabrication_inventoring", methods={"GET"})
+     * @param RecipeFabricationRepository $recipeFabricationRepository
+     * @return Response
+     */
+    public function inventoring(RecipeFabricationRepository $recipeFabricationRepository): Response
+    {
+        return $this->render('front/recipe_fabrication/index.html.twig', [
+            'recipes' => $recipeFabricationRepository->createQueryBuilder('r')
+                ->leftJoin('r.recipe', 'recipe')
+                ->where('recipe.user = :user')
+                ->setParameter('user', $this->getUser())
+                ->orderBy('r.createdAt', 'DESC')
+                ->getQuery()->getResult()
+        ]);
+    }
     /**
      * @Route("/{id}/fabrique", name="recipe_fabricate", methods={"GET","POST"})
      * @param Request $request
