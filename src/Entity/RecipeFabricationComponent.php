@@ -71,7 +71,7 @@ class RecipeFabricationComponent implements IRecipeComponent
         return $this;
     }
 
-    public function getQuantity()
+    public function getQuantity():?float
     {
         return $this->quantity;
     }
@@ -81,7 +81,7 @@ class RecipeFabricationComponent implements IRecipeComponent
         return $this->quantity / $this->getUnit()->getParentRatio();
     }
 
-    public function setQuantity(string $quantity): self
+    public function setQuantity(float $quantity): self
     {
         $this->quantity = $quantity;
 

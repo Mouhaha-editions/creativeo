@@ -34,7 +34,7 @@ class RecipeFabrication implements IRecipe
     private $marge;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal",precision=10,scale=4)
      */
     private $quantity;
 
@@ -93,12 +93,12 @@ class RecipeFabrication implements IRecipe
         return $this;
     }
 
-    public function getQuantity(): ?int
+    public function getQuantity(): ?float
     {
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): self
+    public function setQuantity(float $quantity): self
     {
         $this->quantity = $quantity;
 

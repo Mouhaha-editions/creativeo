@@ -209,7 +209,7 @@ class RecipeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($recipeFabrication->getEnded() == true) {
                 foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
-                    $inventoryService->sub($component, $recipeFabrication->getQuantity() * $component->getQuantity());
+                    $inventoryService->sub($component, floatval($recipeFabrication->getQuantity()) * floatval($component->getQuantity()));
                 }
             }
             $entityManager->persist($recipeFabrication);
@@ -244,7 +244,7 @@ class RecipeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($recipeFabrication->getEnded() == true) {
                 foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
-                    $inventoryService->sub($component, $recipeFabrication->getQuantity() * $component->getQuantity());
+                    $inventoryService->sub($component, floatval($recipeFabrication->getQuantity()) * floatval($component->getQuantity()));
                 }
             }
 

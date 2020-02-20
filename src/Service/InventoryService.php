@@ -130,7 +130,7 @@ class InventoryService
         $result = $qb->getQuery()->getOneOrNullResult();
         return  is_array($result) ? array_pop($result) : 0;
     }
-    public function sub(IRecipeComponent $recipeComponent, int $quantity)
+    public function sub(IRecipeComponent $recipeComponent, float $quantity)
     {
         /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)->find($this->tokenStorage->getUser());
