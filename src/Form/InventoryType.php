@@ -7,6 +7,7 @@ use App\Entity\Unit;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,10 +32,10 @@ class InventoryType extends AbstractType
 //                'required'=>false,
 //                'attr'=>['class'=>'form-control-sm'],
 //            ])
-            ->add('quantity',NumberType::class,[
+            ->add('quantityCalculated',TextType::class,[
                 'label'=>'entity.inventory.label.quantity',
-                'scale'=>4,
                 'required'=>true,
+                "mapped"=>false,
                 'attr'=>['class'=>'form-control-sm'],
 
             ])
