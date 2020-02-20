@@ -1,6 +1,9 @@
 {{ form_start(form) }}
 {% import _self as formMacros %}
 <div class="row">
+    <div class="col-12 text-right mb-3">
+        <button class="btn btn-primary">{{ button_label|default('button.default.save'|trans ) }}</button>
+    </div>
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -23,11 +26,8 @@
                     {{ form_row(form.community) }}
                 </div>
 
-                <button class="btn btn-sm btn-primary">{{ button_label|default('button.default.save'|trans ) }}</button>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">{{ "entity.recipe.label.taxes"|trans }}</h3>
@@ -36,7 +36,17 @@
                 {{ form_widget(form.taxes) }}
             </div>
         </div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ "entity.recipe.label.description"|trans }}</h3>
+            </div>
+            <div class="card-body p-3" data-intro="{{ "intro.text.recipe.description"|trans }}">
+                {{ form_widget(form.description) }}
+            </div>
+        </div>
     </div>
+
+
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -45,7 +55,7 @@
             <div class="card-body p-0" data-intro="{{ "intro.text.recipe.components"|trans }}">
                 <table id="components-fields-list" class="table table-condensed"
                        data-prototype="{{ formMacros.componentPrototype(form.recipeComponents.vars.prototype)|e('html_attr') }}"
-                       data-widget-tags="{{ '<tr></tr>'|e }}"
+                       data-widget-tags="{{ '<tbody></tbody>'|e }}"
                        data-widget-counter="{{ form.recipeComponents|length }}">
                     <thead>
                     <tr>
@@ -68,17 +78,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">{{ "entity.recipe.label.description"|trans }}</h3>
-            </div>
-            <div class="card-body p-3" data-intro="{{ "intro.text.recipe.description"|trans }}">
-                {{ form_widget(form.description) }}
-            </div>
-        </div>
 
     </div>
 
@@ -118,8 +117,7 @@
 
 
 {% macro componentPrototype(recipeComponent) %}
-    <tr>
-        <td style="border-bottom-width: 2px;">
+    <tr> <td style="border-bottom-width: 2px;">
             {{ form_errors(recipeComponent.component) }}
             {{ form_widget(recipeComponent.component) }}
         </td>
@@ -140,5 +138,4 @@
     <tr style="border-bottom: 2px solid #bdbdbd!important;">
         <td colspan="3">{{ form_widget(recipeComponent.description) }}{{ form_errors(recipeComponent.description) }}</td>
     </tr>
-
 {% endmacro %}

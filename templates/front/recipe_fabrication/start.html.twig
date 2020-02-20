@@ -35,7 +35,7 @@
                             <th>{{ "entity.recipe_component.label.component"|trans }}</th>
                             <th>{{ "entity.recipe_component.label.option"|trans }}</th>
                             <th>{{ "entity.recipe_component.label.quantity"|trans }}</th>
-                            <th>{{ "entity.recipe_component.label.unit"|trans }}</th>
+                            <th></th>
                             <th>{{ "entity.recipe_component.label.cost"|trans }}</th>
                         </tr>
                         </thead>
@@ -44,20 +44,23 @@
                                 <tr>
                                     <td>{{ component.component.label }}</td>
                                     <td data-type="new" data-component="{{ component.id }}"></td>
-                                    <td>{{ component.quantity }}</td>
-                                    <td>{{ component.unit.libelle }}</td>
+                                    <td>{{ component.quantity }} {{ component.unit.libelle }}</td>
+                                    <td class="enougth"><i class="fas fa-question text-warning"></i></td>
                                     <td class="price"></td>
                                 </tr>
+                                <tr><td colspan="5">{{ component.description }}</td></tr>
                             {% endfor %}
                         {% else %}
                             {% for component in fabrication.recipeFabricationComponents %}
                                 <tr>
                                     <td>{{ component.component.label }}</td>
                                     <td data-type="edit" data-component="{{ component.id }}"></td>
-                                    <td>{{ component.quantity }}</td>
-                                    <td>{{ component.unit.libelle }}</td>
+                                    <td>{{ component.quantity }} {{ component.unit.libelle }}</td>
+                                    <td class="enougth"><i class="fas fa-question text-warning"></i></td>
                                     <td class="price"></td>
                                 </tr>
+                                <tr><td colspan="5">{{ component.description }}</td></tr>
+
                             {% endfor %}
                         {% endif %}
                     </table>
@@ -80,23 +83,23 @@
                 </div>
                 <div class="card-body p-3">
                     {% if fabrication.id is not null %}
-                        <button type="submit" class="submit btn btn-primary btn-block" value="start"><i
+                        <button data-toggle="tooltip" type="submit" class="submit btn btn-primary btn-block" value="start"><i
                                     class="fas fa-play"></i> {{ "button.recipe_fabrication.continue"|trans }}</button>
-                        <button type="submit" class="submit btn btn-danger btn-block"
+                        <button data-toggle="tooltip" type="submit" class="submit btn btn-danger btn-block"
                                 value="stop"
                                 data-title="{{ "title.recipe_fabrication.real_time"|trans }}"
                                 data-hours="{{ fabrication.hours == 0 ? recipe.estimatedHours : fabrication.calculatedHours }}"
                         ><i class="fas fa-stop"></i> {{ "button.recipe_fabrication.stop"|trans }}</button>
                     {% else %}
-                        <button type="submit" class="submit btn btn-primary btn-block" value="start"><i
+                        <button data-toggle="tooltip" type="submit" class="submit btn btn-primary btn-block" value="start"><i
                                     class="fas fa-play"></i> {{ "button.recipe_fabrication.start"|trans }}</button>
-                        <button type="submit" class="submit btn btn-danger btn-block"
+                        <button data-toggle="tooltip" type="submit" class="submit btn btn-danger btn-block"
                                 value="stop"
                                 data-title="{{ "title.recipe_fabrication.real_time"|trans }}"
                                 data-hours="{{ fabrication.hours == 0 ? recipe.estimatedHours : fabrication.calculatedHours }}"
                         ><i
                                     class="fas fa-stop"></i> {{ "button.recipe_fabrication.stop"|trans }}</button>
-                        <button class="btn btn-info btn-block disabled" name="programmer"><i
+                        <button data-toggle="tooltip" class="btn btn-info btn-block disabled" name="programmer"><i
                                     class="fas fa-clock-o"></i> {{ "button.recipe_fabrication.programmer"|trans }}
                         </button>
                     {% endif %}
@@ -107,7 +110,6 @@
 
     </div>
     {{ form_end(form) }}
-
 {% endblock %}
 
 {% block javascripts %}

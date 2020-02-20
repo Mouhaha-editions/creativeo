@@ -13,6 +13,7 @@ interface IRecipeComponent
 
     public function getComponent(): ?Component;
 
+    public function getAmount(): ?float;
     public function getQuantity();
 
     public function getBaseQuantity();

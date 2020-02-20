@@ -1,9 +1,9 @@
 <div id="addition">
     {% set sum = 0 %}
-    {% for component in recipe.recipeComponents %}
+    {% for component in recipe.recipeFabricationComponents %}
         <div class="ligne">
-            <span>{{ component.component.label }} <small>x{{ component.quantity|number_format(3,',',' ') }} {{ component.unit }}</small></span>
-            {% set component_price = inventory_service.costForRecipeComponent(component) %}
+            <span>{{ component.fullname }} <small>x{{ component.quantity|number_format(3,',',' ') }} {{ component.unit }}</small></span>
+            {% set component_price = component.amount %}
             <span><small>{{ component_price|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
         </div>
         {% set sum = sum + component_price %}
@@ -16,16 +16,16 @@
     </div>
     <hr/>
     <div class="ligne">
-        <span>Cout horaire x temps <small>{{ app.user.coutHoraire|number_format(3,',',' ') }} x {{ recipe.estimatedHours }}</small></span>
-        {% set add = app.user.coutHoraire*recipe.estimatedHours %}
+        <span>Cout horaire x temps <small>{{ app.user.coutHoraire|number_format(3,',',' ') }} x {{ recipe.hours }}</small></span>
+        {% set add = app.user.coutHoraire*recipe.hours %}
         <span><small>{{ add|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
     </div>
     {% set sum = sum + add %}
 
     <div class="ligne">
         <span>Charges horaires x temps</span>
-        <span>{{ app.user.chargeByHour|number_format(3,',',' ') }} x {{ recipe.estimatedHours }}</span>
-        {% set add = app.user.chargeByHour*recipe.estimatedHours %}
+        <span>{{ app.user.chargeByHour|number_format(3,',',' ') }} x {{ recipe.hours }}</span>
+        {% set add = app.user.chargeByHour*recipe.hours %}
         <span><small>{{ add|number_format(3,',',' ') }} {{ app.user.moneyUnit }}</small></span>
     </div>
     {% set sum = sum + add %}

@@ -50,6 +50,7 @@ class RecipeFabricationType extends AbstractType
                 'required' => true,
                 'scale' => 2,
             ])
+
             ->add('taxes', EntityType::class, [
                 'class' => Taxe::class,
                 'multiple' => true,

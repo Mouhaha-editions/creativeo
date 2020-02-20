@@ -100,7 +100,7 @@ entity:
       component: Composant
       description: Description/Utilisation (facultatif)
       unit: Unité
-      quantity: Quantité
+      quantity: Quantité necessaire
       option: Déclinaison
       cost: Coût
   recipe:

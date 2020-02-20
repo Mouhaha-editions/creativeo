@@ -44,4 +44,124 @@ class RecipeFabricationController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}/fabrique", name="recipe_fabricate", methods={"GET","POST"})
+     * @param Request $request
+     * @param Recipe $recipe
+     * @param InventoryService $inventoryService
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    public function start(Request $request, Recipe $recipe, InventoryService $inventoryService, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->getUser() != $recipe->getUser()) {
+            $this->addFlash('danger', 'text.danger.not_yours');
+            return $this->redirectToRoute('taxe_index');
+        }
+        $recipeFabrication = new RecipeFabrication();
+        $recipeFabrication->setRecipe($recipe);
+        foreach ($recipe->getTaxes() AS $taxe) {
+            $recipeFabrication->addTax($taxe);
+        }
+        $options = $request->get('options', []);
+        $prices = $request->get('prices', []);
+
+        foreach ($recipe->getRecipeComponents() AS $component) {
+            $recipeCompo = new RecipeFabricationComponent();
+            $recipeCompo->setQuantity($component->getQuantity());
+            $recipeCompo->setComponent($component->getComponent());
+            if (isset($options[$component->getId()])) {
+                $recipeCompo->setOptionLabel($options[$component->getId()]);
+            }
+            if (isset($prices[$component->getId()])) {
+                $recipeCompo->setAmount($prices[$component->getId()]);
+            }
+
+            $recipeCompo->setDescription($component->getDescription());
+            $recipeCompo->setUnit($component->getUnit());
+            $recipeCompo->setRecipeFabrication($recipeFabrication);
+            $recipeFabrication->addRecipeFabricationComponents($recipeCompo);
+        }
+        $recipeFabrication->setMarge($recipe->getMarge());
+        $recipeFabrication->setQuantity(1);
+
+        $form = $this->createForm(RecipeFabricationType::class, $recipeFabrication);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($recipeFabrication->getEnded() == true) {
+                foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
+                    $inventoryService->sub($component, floatval($recipeFabrication->getQuantity()) * floatval($component->getQuantity()));
+                }
+            }
+            $entityManager->persist($recipeFabrication);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('recipe_index');
+        }
+
+        return $this->render('front/recipe_fabrication/start.html.twig', [
+            'recipe' => $recipe,
+            'form' => $form->createView(),
+            'fabrication' => $recipeFabrication,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/fabrique/continue", name="recipe_continue_fabricate", methods={"GET","POST"})
+     * @param Request $request
+     * @param RecipeFabrication $recipeFabrication
+     * @param InventoryService $inventoryService
+     * @return Response
+     */
+    public function continue(Request $request, RecipeFabrication $recipeFabrication, InventoryService $inventoryService): Response
+    {
+        if ($this->getUser() != $recipeFabrication->getRecipe()->getUser()) {
+            $this->addFlash('danger', 'text.danger.not_yours');
+            return $this->redirectToRoute('taxe_index');
+        }
+        $form = $this->createForm(RecipeFabricationType::class, $recipeFabrication);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($recipeFabrication->getEnded() == true) {
+                foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
+                    $inventoryService->sub($component, floatval($recipeFabrication->getQuantity()) * floatval($component->getQuantity()));
+                }
+            }
+
+            $options = $request->get('options', []);
+            $prices = $request->get('prices', []);
+            foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
+                if (isset($options[$component->getId()])) {
+                    $component->setOptionLabel($options[$component->getId()]);
+                }
+                if (isset($options[$component->getId()])) {
+                    $component->setAmount($prices[$component->getId()]);
+                }
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($recipeFabrication);
+            $entityManager->flush();
+            return $this->redirectToRoute('recipe_index');
+        }
+
+        return $this->render('front/recipe_fabrication/start.html.twig', [
+            'recipe' => $recipeFabrication->getRecipe(),
+            'form' => $form->createView(),
+            'fabrication' => $recipeFabrication,
+        ]);
+    }
+
+    /**
+     * @param RecipeFabrication $recipeFabrication
+     * @return Response
+     * @Route("/ajax/calcul-pose/{id}", name="fabrication_calcul")
+     */
+    public function calculPose(RecipeFabrication $recipeFabrication)
+    {
+        return $this->render('front/recipe_fabrication/partial/addition.html.twig', [
+            'recipe' => $recipeFabrication
+        ]);
+    }
 }

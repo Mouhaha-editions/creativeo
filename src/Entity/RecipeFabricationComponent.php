@@ -47,6 +47,11 @@ class RecipeFabricationComponent implements IRecipeComponent
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=4, nullable=true)
+     */
+    private $amount;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -127,5 +132,22 @@ class RecipeFabricationComponent implements IRecipeComponent
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getAmount(): ?float
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(?float $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getFullName()
+    {
+        return $this->getComponent()->getLabel().($this->getOptionLabel() != null ? ' - '.$this->getOptionLabel():'');
     }
 }

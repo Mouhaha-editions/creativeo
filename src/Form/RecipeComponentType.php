@@ -53,7 +53,10 @@ class RecipeComponentType extends AbstractType
             ])
             ->add('quantity', NumberType::class, [
                 'label' => 'entity.recipe_component.label.quantity',
-                'attr' => ['class' => 'form-control-sm'],
+                'attr' => [
+                    'class' => 'form-control-sm',
+                    'placeholder' => 'entity.recipe_component.placeholder.quantity',
+                    ],
                 'scale'=>4
 
             ])

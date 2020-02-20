@@ -122,4 +122,10 @@ class RecipeComponent implements IRecipeComponent
 
         return $this;
     }
+
+    public function getAmount(): ?float
+    {
+        return null;
+    }
+
 }

@@ -30,6 +30,20 @@ $(".submit").on('click', function (e) {
 });
 
 jQuery(document).ready(function () {
+
+    $(document).on('verif.enougth', function () {
+        let $buttons = $("form button");
+        if ($("#components-fields-list").find('.fa-times').length !== 0) {
+            $buttons.attr('disabled', 'disabled');
+            $buttons.attr('type', 'button');
+            $buttons.attr('title', "Vous n'avez pas tous les composants nécéssaires.");
+        } else {
+            $buttons.removeAttr('disable');
+            $buttons.removeAttr('title');
+            $buttons.attr('type', 'submit');
+        }
+    });
+
     $("[data-component]").each(function () {
         let $t = $(this);
         let val = $t.data('component');
@@ -45,9 +59,8 @@ jQuery(document).ready(function () {
                     let price = data.options[i].price;
                     let enougth = data.options[i].enougth;
                     let selected = data.options[i].selected;
-
                     option = option === null ? "sans déclinaison" : option;
-                    html += "<option "+(selected ? "selected='selected'":'')+" data-price='" + price + "' data-enougth='" + enougth + "'  value='" + option + "'>" + option + "</option>";
+                    html += "<option " + (selected ? "selected='selected'" : '') + " data-price='" + price + "' data-enougth='" + enougth + "'  value='" + option + "'>" + option + "</option>";
                     count++;
                 }
                 html += "</select>";
@@ -55,21 +68,22 @@ jQuery(document).ready(function () {
                     let option = data.options[0].label;
                     option = option === null ? "sans déclinaison" : option;
                     $t.html(option);
-                    let price = data.options[0].price;
+                    let price = data.options[0].price.toFixed(4);
                     let enougth = data.options[0].enougth;
-                    $t.closest('tr').find('td.price').html(price+ "<input type='hidden' name=\"options["+val+"]\" value=\""+option+"\">");
+                    $t.closest('tr').find('td.price').html(price + " &euro;<input type='hidden' name=\"options[" + val + "]\" value=\"" + option + "\">" + "<input type='hidden' name=\"prices[" + val + "]\" value=\"" + price + "\">");
                     $t.closest('tr').find('td.enougth').html(enougth);
                 } else {
                     $t.html(html);
                     let $select = $("[name='options[" + val + "]']");
                     $select.on('change', function () {
-                        let price = $(this).find('option:selected').data('price') ;
+                        let price = parseFloat($(this).find('option:selected').data('price')).toFixed(4);
                         let enougth = $(this).find('option:selected').data('enougth');
-                        $t.closest('tr').find('td.price').html(price);
+                        $t.closest('tr').find('td.price').html(price + " &euro;<input type='hidden' name=\"prices[" + val + "]\" value=\"" + price + "\">");
                         $t.closest('tr').find('td.enougth').html(enougth);
                     });
                     $select.trigger('change');
                 }
+            $(document).trigger('verif.enougth');
             }
         })
     });

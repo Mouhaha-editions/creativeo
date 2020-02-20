@@ -113,16 +113,6 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="recipe_show", methods={"GET"})
-     */
-    public function show(Recipe $recipe): Response
-    {
-        return $this->render('front/recipe/show.html.twig', [
-            'recipe' => $recipe,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="recipe_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Recipe $recipe
@@ -165,105 +155,6 @@ class RecipeController extends AbstractController
         return $this->render('front/recipe/edit.html.twig', [
             'recipe' => $recipe,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/fabrique", name="recipe_fabricate", methods={"GET","POST"})
-     * @param Request $request
-     * @param Recipe $recipe
-     * @param InventoryService $inventoryService
-     * @return Response
-     */
-    public function fabricate(Request $request, Recipe $recipe, InventoryService $inventoryService, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->getUser() != $recipe->getUser()) {
-            $this->addFlash('danger', 'text.danger.not_yours');
-            return $this->redirectToRoute('taxe_index');
-        }
-        $recipeFabrication = new RecipeFabrication();
-        $recipeFabrication->setRecipe($recipe);
-        foreach ($recipe->getTaxes() AS $taxe) {
-            $recipeFabrication->addTax($taxe);
-        }
-        $options = $request->get('options', []);
-
-        foreach ($recipe->getRecipeComponents() AS $component) {
-            $recipeCompo = new RecipeFabricationComponent();
-            $recipeCompo->setQuantity($component->getQuantity());
-            $recipeCompo->setComponent($component->getComponent());
-            if (isset($options[$component->getId()])) {
-                $recipeCompo->setOptionLabel($options[$component->getId()]);
-            }
-
-            $recipeCompo->setUnit($component->getUnit());
-            $recipeCompo->setRecipeFabrication($recipeFabrication);
-            $recipeFabrication->addRecipeFabricationComponents($recipeCompo);
-        }
-        $recipeFabrication->setMarge($recipe->getMarge());
-        $recipeFabrication->setQuantity(1);
-
-        $form = $this->createForm(RecipeFabricationType::class, $recipeFabrication);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($recipeFabrication->getEnded() == true) {
-                foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
-                    $inventoryService->sub($component, floatval($recipeFabrication->getQuantity()) * floatval($component->getQuantity()));
-                }
-            }
-            $entityManager->persist($recipeFabrication);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('recipe_index');
-        }
-
-        return $this->render('front/recipe/start_recipe.html.twig', [
-            'recipe' => $recipe,
-            'form' => $form->createView(),
-            'fabrication' => $recipeFabrication,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/fabrique/continue", name="recipe_continue_fabricate", methods={"GET","POST"})
-     * @param Request $request
-     * @param Recipe $recipe
-     * @param InventoryService $inventoryService
-     * @return Response
-     */
-    public function continueFabricate(Request $request, RecipeFabrication $recipeFabrication, InventoryService $inventoryService): Response
-    {
-        if ($this->getUser() != $recipeFabrication->getRecipe()->getUser()) {
-            $this->addFlash('danger', 'text.danger.not_yours');
-            return $this->redirectToRoute('taxe_index');
-        }
-        $form = $this->createForm(RecipeFabricationType::class, $recipeFabrication);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($recipeFabrication->getEnded() == true) {
-                foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
-                    $inventoryService->sub($component, floatval($recipeFabrication->getQuantity()) * floatval($component->getQuantity()));
-                }
-            }
-
-            $options = $request->get('options', []);
-            foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
-                if (isset($options[$component->getId()])) {
-                    $component->setOptionLabel($options[$component->getId()]);
-                }
-            }
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($recipeFabrication);
-            $entityManager->flush();
-            return $this->redirectToRoute('recipe_index');
-        }
-
-        return $this->render('front/recipe/start_recipe.html.twig', [
-            'recipe' => $recipeFabrication->getRecipe(),
-            'form' => $form->createView(),
-            'fabrication' => $recipeFabrication,
         ]);
     }
 
