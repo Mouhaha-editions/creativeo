@@ -107,33 +107,29 @@ class InventoryService
 
     public function hasQuantityForRecipeComponent(IRecipeComponent $compo)
     {
+        return $this->getQuantityForRecipeComponent($compo) >= $compo->getBaseQuantity();
+    }
+
+    public function getQuantityForRecipeComponent(IRecipeComponent $compo)
+    {
         $qb = $this->entityManager->getRepository(Inventory::class)
-            ->createQueryBuilder('i')
-            ->leftJoin('i.unit', 'unit')
-            ->select('SUM(i.quantity*unit.parentRatio)')
-            ->where('i.user = :user')
-            ->andWhere('i.component = :component')
-            ->setParameter('user', $this->tokenStorage->getUser())
-            ->setParameter('component', $compo->getComponent())
-            ->groupBy('i.user');
+        ->createQueryBuilder('i')
+        ->leftJoin('i.unit', 'unit')
+        ->select('SUM(i.quantity*unit.parentRatio)')
+        ->where('i.user = :user')
+        ->andWhere('i.component = :component')
+        ->setParameter('user', $this->tokenStorage->getUser())
+        ->setParameter('component', $compo->getComponent())
+        ->groupBy('i.user');
         if ($compo->getOptionLabel() != null) {
             $qb->andWhere($qb->expr()->eq('i.optionLabel', ':option'))
                 ->setParameter('option', $compo->getOptionLabel());
         } else {
             $qb->andWhere($qb->expr()->isNull('i.optionLabel'));
         }
-
-
         $result = $qb->getQuery()->getOneOrNullResult();
-
-
-// compos quantity = 500 g
-// compos base_quantity = 500 g / 1000 = 0.5Kg
-// inventaire = 0.500 kg
-        $res = is_array($result) ? array_pop($result) : 0;
-        return $res >= $compo->getBaseQuantity();
+        return  is_array($result) ? array_pop($result) : 0;
     }
-
     public function sub(IRecipeComponent $recipeComponent, int $quantity)
     {
         /** @var User $user */
