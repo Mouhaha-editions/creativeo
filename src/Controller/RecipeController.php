@@ -207,8 +207,10 @@ class RecipeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
-                $inventoryService->sub($component, $recipeFabrication->getQuantity() * $component->getQuantity());
+            if ($recipeFabrication->getEnded() == true) {
+                foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
+                    $inventoryService->sub($component, $recipeFabrication->getQuantity() * $component->getQuantity());
+                }
             }
             $entityManager->persist($recipeFabrication);
             $entityManager->flush();
@@ -240,6 +242,12 @@ class RecipeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($recipeFabrication->getEnded() == true) {
+                foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
+                    $inventoryService->sub($component, $recipeFabrication->getQuantity() * $component->getQuantity());
+                }
+            }
+
             $options = $request->get('options', []);
             foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
                 if (isset($options[$component->getId()])) {
