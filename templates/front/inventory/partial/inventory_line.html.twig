@@ -1,12 +1,12 @@
 <tr data-inventory="{{ composant.id }}">
     <td>{{ composant.fullname }}</td>
     <td class="text-right">
-        {{ composant.quantity|number_format(2,',',' ') }}
+        {{ composant.quantity|number_format(4,',',' ') }}
     </td>
     <td class="text-center"><small>{{ composant.unit }}</small></td>
-    <td class="text-right">{{ composant.price|number_format(2,',',' ') }} {{ app.user.moneyUnit }}</td>
+    <td class="text-right">{{ composant.price|number_format(4,',',' ') }} {{ app.user.moneyUnit }}</td>
     <td class="text-right">
-        {{ (composant.price*composant.quantity)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
+        {{ (composant.price*composant.quantity)|number_format(4,',',' ') }} {{ app.user.moneyUnit }}
     </td>
     <td>
         <a {% if i ==1 %} data-intro="{{ "intro.text.inventory.edit_quantity"|trans }}"{% endif %}
