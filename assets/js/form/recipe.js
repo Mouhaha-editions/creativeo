@@ -15,12 +15,12 @@ jQuery(document).ready(function () {
                 for (let i = 0; i < units.length; i++) {
                     let val = units[i].value;
                     let name = units[i].name;
-                    unit.prepend('<option value=' + val + ' '+(selected === parseInt(val)? "selected='selected'":'')+'>' + name + '</option>');
+                    unit.prepend('<option value=' + val + ' ' + (selected === parseInt(val) ? "selected='selected'" : '') + '>' + name + '</option>');
                 }
             }
         });
     });
-    $('select[id$=_component]').each(function() {
+    $('select[id$=_component]').each(function () {
         $(this).trigger('change');
     });
     $(document).on('addcomponent', function (evt, elt) {
@@ -32,12 +32,11 @@ jQuery(document).ready(function () {
             dataType: 'json',
             success: function (units) {
                 unit.html("");
-                console.log(selected);
-                    for (let i = 0; i < units.length; i++) {
-                        let val = (units[i].value);
-                        let name = units[i].name;
-                        unit.prepend('<option value=' + val + ' '+(selected === parseInt(val)? "selected='selected'":'')+'>' + name + '</option>');
-                    }
+                for (let i = 0; i < units.length; i++) {
+                    let val = (units[i].value);
+                    let name = units[i].name;
+                    unit.prepend('<option value=' + val + ' ' + (selected === parseInt(val) ? "selected='selected'" : '') + '>' + name + '</option>');
+                }
             }
         });
 

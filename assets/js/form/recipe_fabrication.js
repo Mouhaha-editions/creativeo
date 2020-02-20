@@ -17,6 +17,7 @@ $(".submit").on('click', function (e) {
             if (result.value) {
                 $("#recipe_fabrication_hours").val(result.value);
                 $("#recipe_fabrication_ended").val("1");
+
                 $t.closest('form').submit();
                 return true;
             } else {
@@ -42,10 +43,11 @@ jQuery(document).ready(function () {
                 for (let i = 0; i < data.options.length; i++) {
                     let option = data.options[i].label;
                     let price = data.options[i].price;
+                    let enougth = data.options[i].enougth;
                     let selected = data.options[i].selected;
 
                     option = option === null ? "sans déclinaison" : option;
-                    html += "<option "+(selected ? "selected='selected'":'')+" data-price='" + price + "' value='" + option + "'>" + option + "</option>";
+                    html += "<option "+(selected ? "selected='selected'":'')+" data-price='" + price + "' data-enougth='" + enougth + "'  value='" + option + "'>" + option + "</option>";
                     count++;
                 }
                 html += "</select>";
@@ -54,13 +56,17 @@ jQuery(document).ready(function () {
                     option = option === null ? "sans déclinaison" : option;
                     $t.html(option);
                     let price = data.options[0].price;
+                    let enougth = data.options[0].enougth;
                     $t.closest('tr').find('td.price').html(price);
+                    $t.closest('tr').find('td.enougth').html(enougth);
                 } else {
                     $t.html(html);
                     let $select = $("[name='options[" + val + "]']");
                     $select.on('change', function () {
                         let price = $(this).find('option:selected').data('price');
+                        let enougth = $(this).find('option:selected').data('enougth');
                         $t.closest('tr').find('td.price').html(price);
+                        $t.closest('tr').find('td.enougth').html(enougth);
                     });
                     $select.trigger('change');
                 }

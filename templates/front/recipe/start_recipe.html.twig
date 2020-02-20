@@ -36,6 +36,7 @@
                             <th>{{ "entity.recipe_component.label.option"|trans }}</th>
                             <th>{{ "entity.recipe_component.label.quantity"|trans }}</th>
                             <th>{{ "entity.recipe_component.label.unit"|trans }}</th>
+                            <th></th>
                             <th>{{ "entity.recipe_component.label.cost"|trans }}</th>
                         </tr>
                         </thead>
@@ -45,6 +46,7 @@
                                     <td>{{ component.component.label }}</td>
                                     <td data-type="new" data-component="{{ component.id }}"></td>
                                     <td>{{ component.quantity }}</td>
+                                    <td class="enougth"><i class="fas fa-question text-warning"></i></td>
                                     <td>{{ component.unit.libelle }}</td>
                                     <td class="price"></td>
                                 </tr>
@@ -54,7 +56,8 @@
                                 <tr>
                                     <td>{{ component.component.label }}</td>
                                     <td data-type="edit" data-component="{{ component.id }}"></td>
-                                    <td>{{ component.quantity }}</td>
+                                    <td>{{ component.quantity }} </td>
+                                    <td class="enougth"><i class="fas fa-question text-warning"></i></td>
                                     <td>{{ component.unit.libelle }}</td>
                                     <td class="price"></td>
                                 </tr>
