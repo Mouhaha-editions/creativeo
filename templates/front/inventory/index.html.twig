@@ -2,7 +2,7 @@
 
 {% block title %}{{ 'title.inventory.index'|trans }} {{ parent() }}{% endblock %}
 {% block contentHeader %}
-    {% include('tools/content_header.html.twig') with {title:'title.inventory.index'|trans} %}
+    {% include('tools/content_header.html.twig') with {title:('title.inventory.index'|trans) ~ " - "~  component.label } %}
 {% endblock %}
 
 {% block content %}
