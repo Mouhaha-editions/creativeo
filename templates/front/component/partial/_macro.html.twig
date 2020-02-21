@@ -61,12 +61,12 @@
 {#                                                            href="{{ url("recipe_fabricate",{id: recipe.id}) }}"><i#}
 {#                                                                class="fas fa-play"></i></a></span>#}
 {#                {% else %}#}
-{#                    <span>#}
-{#                                                    <a#}
-{#                                                            title="Voir le detail la fabrication"#}
-{#                                                            class="btn btn-danger btn-block btn-square "#}
-{#                                                            href="#"><i#}
-{#                                                                class="fas fa-stop"></i></a></span>#}
+                    <span>
+                                                    <a
+                                                            title="Voir l'inventaire"
+                                                            class="btn btn-default btn-block btn-square "
+                                                            href="{{ url('inventory_detail',{id:component.id}) }}"><i
+                                                                class="fas fa-list"></i></a></span>
 {#                {% endif %}#}
             </div>
         </div>

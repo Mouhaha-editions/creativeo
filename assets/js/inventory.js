@@ -87,20 +87,6 @@ $(function () {
             // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
         },
         maximumSelectionLength: 3,
-
-        // add "(new tag)" for new tags
-        // createTag: function (params) {
-        //     var term = $.trim(params.term);
-        //
-        //     if (term === '') {
-        //         return null;
-        //     }
-        //
-        //     return {
-        //         id: term,
-        //         text: term + ' (new tag)'
-        //     };
-        // },
     });
 
 

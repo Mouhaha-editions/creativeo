@@ -69,6 +69,29 @@ class InventoryController extends AbstractController
     }
 
     /**
+     * @Route("/detail/{id}", name="inventory_detail")
+     * @param Request $request
+     * @param InventoryRepository $inventoryRepository
+     * @param Component $component
+     * @return Response
+     */
+    public function detail(Request $request, InventoryRepository $inventoryRepository, Component $component): Response
+    {
+        $inventories = $inventoryRepository->createQueryBuilder('i')
+            ->where('i.component = :component')
+            ->andWhere('i.user = :user')
+            ->setParameter('component', $component)
+            ->setParameter('user', $this->getUser())
+            ->orderBy('i.optionLabel', 'ASC')
+            ->addOrderBy('i.price', $this->getUser()->getUseOrderPreference())
+            ->getQuery()->getResult();
+        return $this->render('front/inventory/index.html.twig', [
+            'inventories' => $inventories,
+            'component' => $component,
+        ]);
+    }
+
+    /**
      * @Route("/", name="inventory_index")
      * @param Request $request
      * @param InventoryRepository $inventoryRepository

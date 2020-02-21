@@ -8,37 +8,9 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12">
-            {{ form_start(form) }}
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ "title.inventory.add"|trans }}</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body p-3" data-intro="{{ "intro.text.inventory.add_to_inventory"|trans }}">
-                    <div class="row">
-                        <div class="col-8">
-                            {{ form_row(form.productLabel) }}</div>
-                        <div class="col-4">
-                    {{ form_row(form.optionLabel) }}
-                        </div>
-                    </div>
-                    <div class="row">
-{#                        <div class="col-6">{{ form_row(form.reference) }}</div>#}
-                        <div class="col-4">{{ form_row(form.quantityCalculated) }}</div>
-                        <div class="col-4">{{ form_row(form.unit) }}</div>
-                        <div class="col-4">{{ form_row(form.price) }}</div>
-                    </div>
-
-                    <button type="submit" class="btn btn-success btn-sm">Ajouter</button>
-                </div>
-            </div>
-            {{ form_end(form) }}
-
-        </div>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{{ "title.inventory.index"|trans }}</h3>
+                    <h3 class="card-title">{{ "title.inventory.index"|trans }} - {{ component.label }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
@@ -56,8 +28,8 @@
 
 
                         </thead>
-                        {% for composant in components.entities %}
-                            {% include 'front/inventory/partial/inventory_line.html.twig' with {composant: composant, i : loop.index} %}
+                        {% for inventory in inventories %}
+                            {% include 'front/inventory/partial/inventory_line.html.twig' with {composant: inventory, i : loop.index} %}
 
                         {% endfor %}
                     </table>
