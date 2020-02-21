@@ -29,7 +29,7 @@ $(function () {
         return false;
     });
     let ajaxRq = null;
-    $(document).on('keyup', '#inventory_productLabel', function () {
+    $(document).on('keyup change', '#inventory_productLabel', function () {
         let unit = $(this).val();
         if (ajaxRq !== null) {
             ajaxRq.abort();
