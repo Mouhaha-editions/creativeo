@@ -60,7 +60,6 @@
                                     {{ recipe_service.sellPriceOptimized(recipe)|number_format(2,',',' ') }} {{ app.user.moneyUnit }}
                                 </td>
                                 <td>
-
                                     <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.calcul"|trans }}"{% endif %}
                                        data-href="{{ path('fabrication_calcul', {'id': recipe.id}) }}" data-toggle="modal"
                                        data-target="#detailModal" title="Voir le calcul"

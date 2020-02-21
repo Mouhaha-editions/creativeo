@@ -1,0 +1,88 @@
+{% macro presentationCard(component) %}
+    <div class="card card-widget widget-user">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header bg-info text-white"
+             style="background: lightblue url('{{ component.photoPath is not null ? component.photoPath : '' }}') center center;background-size:cover;">
+            <h3 class="widget-user-username">{{ component.label }}</h3>
+            {#                        <h5 class="widget-user-desc">Web Designer</h5>#}
+        </div>
+        <div class="widget-user-image text-center">
+            {% if component.photoPath is null %}
+                <div class="img-circle"><i class="fas fa-frog fa-3x text-info"></i></div>
+            {% else %}
+                <img class="img-circle" src="{{ component.photoPath }}" alt="component">
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                        <h5 class="description-header">{{ inventory_service.countDeclinaisons(component) }}</h5>
+                        <span class="description-text">{{ "text.options"|trans }}</span>
+                    </div>
+                    <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                        <h5 class="description-header">{{ inventory_service.getQuantityForComponent(component)|number_format(3,',',' ') }}</h5>
+                        {% set unit = inventory_service.getUnitForComponent(component) %}
+                        <span class="description-text">{{ unit is null ? '?': (unit.parent is null ? unit.libelle : unit.parent.libelle) }}</span>
+                    </div>
+                    <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4">
+                    <div class="description-block">
+                        <h5 class="description-header">{{ inventory_service.getAmountForComponent(component)|number_format(3,',',' ') }}</h5>
+                        <span class="description-text">{{ app.user.moneyUnit }}</span>
+                    </div>
+                    <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <div class="d-flex">
+            <div class=" flex-fill">
+                <a
+                   href="{{ path('component_edit', {'id': component.id}) }}" title="{{ "button.component.edit"|trans }}"
+                   class="btn btn-info btn-block btn-square "><i class="fas fa-edit"></i></a>
+            </div>
+            <div class=" flex-fill">
+{#                <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.delete"|trans }}"{% endif %}> {{ include('front/recipe/_delete_form.html.twig') }}</span>#}
+{#            </div>#}
+{#            <div class=" flex-fill">#}
+{#                {% if recipe.notEndedRecipeFabrication is null %}#}
+{#                    <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.fabricate"|trans }}"{% endif %}>#}
+{#                                                    <a#}
+{#                                                            title="Fabriquer la recette"#}
+{#                                                            class="btn btn-success btn-block btn-square "#}
+{#                                                            href="{{ url("recipe_fabricate",{id: recipe.id}) }}"><i#}
+{#                                                                class="fas fa-play"></i></a></span>#}
+{#                {% else %}#}
+{#                    <span>#}
+{#                                                    <a#}
+{#                                                            title="Voir le detail la fabrication"#}
+{#                                                            class="btn btn-danger btn-block btn-square "#}
+{#                                                            href="#"><i#}
+{#                                                                class="fas fa-stop"></i></a></span>#}
+{#                {% endif %}#}
+            </div>
+        </div>
+{#        <div class="inventory">#}
+{#            {% for inventory in component.inventories %}#}
+{#            <div style="">#}
+{#                <div class="p-1">{{ inventory.optionLabel is not null ? inventory.optionLabel : 'Sans déclinaison' }}</div>#}
+{#                <div class="d-flex p-1">#}
+{#                    <div class="flex-fill">{{ inventory.quantity|number_format(4,',','') }} {{ inventory.unit.libelle }}</div>#}
+{#                    <div class="flex-fill">{{ inventory.price|number_format(4,',','') }} {{ app.user.moneyUnit }}/{{ inventory.unit.libelle }}</div>#}
+{#                    <div class="flex-fill text-right">{{ (inventory.quantity*inventory.price)|number_format(4,',','') }} {{ app.user.moneyUnit }}</div>#}
+{#                </div>#}
+{#                <hr class="m-0 p-0"/>#}
+{#            </div>#}
+{#            {% endfor %}#}
+
+{#        </div>#}
+    </div>
+{% endmacro %}

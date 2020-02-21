@@ -9,7 +9,9 @@ use App\Entity\Inventory;
 use App\Entity\RecipeComponent;
 use App\Entity\User;
 use App\Interfaces\IRecipeComponent;
+use App\Repository\InventoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -44,15 +46,22 @@ class InventoryService
         return $res == null ? 0 : $res;
     }
 
-    public function countQuantity()
+    public function countQuantity(Component $component = null)
     {
-        $result = $this->entityManager->getRepository(Inventory::class)
+        /** @var QueryBuilder $qb */
+        $qb = $this->entityManager->getRepository(Inventory::class)
             ->createQueryBuilder('i')
             ->select('COUNT(i)')
             ->where('i.user = :user')
-            ->setParameter('user', $this->tokenStorage->getUser())
-            ->groupBy('i.user')
-            ->getQuery()->getOneOrNullResult();
+            ->setParameter('user', $this->tokenStorage->getUser());
+        if ($component !== null) {
+            $qb->andWhere('i.component = :component')
+                ->setParameter('component', $component);
+            $qb->groupBy('i.component');
+        } else {
+            $qb->groupBy('i.user');
+        }
+        $result = $qb->getQuery()->getOneOrNullResult();
         $res = is_array($result) ? array_pop($result) : null;
         return $res == null ? 0 : $res;
 
@@ -183,6 +192,67 @@ class InventoryService
             }
         }
         return false;
+    }
+
+    public function countDeclinaisons(Component $component)
+    {
+        /** @var QueryBuilder $qb */
+        $qb = $this->entityManager->getRepository(Inventory::class)
+            ->createQueryBuilder('i');
+
+        $qb->select('COUNT(i)')
+            ->distinct('i.optionLabel')
+            ->where('i.component = :component')
+            ->setParameter('component', $component)
+            ->groupBy('i.component');
+        $result = $qb->getQuery()->getOneOrNullResult();
+        return is_array($result) ? array_pop($result) : 0;
+    }
+
+    public function getQuantityForComponent(Component $compo)
+    {
+        $qb = $this->entityManager->getRepository(Inventory::class)
+            ->createQueryBuilder('i')
+            ->leftJoin('i.unit', 'unit')
+            ->select('SUM(i.quantity*unit.parentRatio)')
+            ->where('i.user = :user')
+            ->andWhere('i.component = :component')
+            ->setParameter('user', $this->tokenStorage->getUser())
+            ->setParameter('component', $compo)
+            ->groupBy('i.user');
+        $result = $qb->getQuery()->getOneOrNullResult();
+        return is_array($result) ? array_pop($result) : 0;
+    }
+
+    public function getAmountForComponent(Component $compo)
+    {
+        $qb = $this->entityManager->getRepository(Inventory::class)
+            ->createQueryBuilder('i')
+            ->leftJoin('i.unit', 'unit')
+            ->select('SUM(i.quantity*i.price)')
+            ->where('i.user = :user')
+            ->andWhere('i.component = :component')
+            ->setParameter('user', $this->tokenStorage->getUser())
+            ->setParameter('component', $compo)
+            ->groupBy('i.user');
+        $result = $qb->getQuery()->getOneOrNullResult();
+        return is_array($result) ? array_pop($result) : 0;
+    }
+
+
+    public function getUnitForComponent(Component $compo)
+    {
+        /** @var QueryBuilder $qb */
+        $qb = $this->entityManager->getRepository(Inventory::class)
+            ->createQueryBuilder('i')
+            ->leftJoin('i.unit', 'unit')
+            ->where('i.component = :component')
+            ->setParameter('component', $compo)
+        ->setFirstResult(0)->setMaxResults(1);
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+
+        return $result != null ? $result->getUnit() : null;
     }
 
 }

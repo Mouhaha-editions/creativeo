@@ -54,6 +54,11 @@ class Component
      */
     private $recipeFabricationComponents;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photoPath;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
@@ -237,6 +242,18 @@ class Component
                 $recipeFabricationComponent->setComponent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhotoPath(): ?string
+    {
+        return $this->photoPath;
+    }
+
+    public function setPhotoPath(?string $photoPath): self
+    {
+        $this->photoPath = $photoPath;
 
         return $this;
     }

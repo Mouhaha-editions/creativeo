@@ -22,6 +22,7 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
     Pkshetlie\PaginationBundle\Service\:
         resource: '../vendor/pkshetlie/pagination-bundle/Service'
         tags: ['pkshetlie.pagination']

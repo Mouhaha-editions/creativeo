@@ -30,6 +30,8 @@ text:
   settings: Réglages
   preferences: Préférences
   hours: Heures
+  in_inventory: dans l'inventaire
+  options: déclinaisons
 title:
   recipe:
     new: Nouvelle recette
@@ -71,6 +73,8 @@ button:
     stop: Terminer
     programmer: Programmer (bientôt)
     continue: Continuer
+  component:
+    edit: Modifier le composant
 
 entity:
   recipe_fabrication:
@@ -191,3 +195,5 @@ intro:
       fabricate: 'messages'
       stop_fabricate: 'messages'
       photoPath: Illustrons un peu votre recette
+    component:
+      edit: 'messages'

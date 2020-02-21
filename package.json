@@ -24,6 +24,6 @@
         "admin-lte": "3.0",
         "bootstrap": "^4.4.1",
         "intro.js": "^2.9.3",
-        "select2": "^4.0.12"
+        "select2": "^4.0.13"
     }
 }

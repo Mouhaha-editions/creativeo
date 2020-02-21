@@ -28,10 +28,10 @@ $(function () {
         });
         return false;
     });
-    let ajaxRq =null;
+    let ajaxRq = null;
     $(document).on('keyup', '#inventory_productLabel', function () {
         let unit = $(this).val();
-        if(ajaxRq !== null) {
+        if (ajaxRq !== null) {
             ajaxRq.abort();
         }
         ajaxRq = $.ajax({
@@ -40,7 +40,7 @@ $(function () {
             dataType: 'json',
             success: function (data) {
                 $("#inventory_unit option").removeAttr('selected');
-                $("#inventory_unit option[value="+data.unit+"]").attr('selected','selected');
+                $("#inventory_unit option[value=" + data.unit + "]").attr('selected', 'selected');
             }
         });
     });
@@ -74,4 +74,34 @@ $(function () {
         });
         return false;
     });
+    let parent = $("#inventory_productLabel").parent();
+    $("#inventory_productLabel").remove();
+    parent.append('<select id="inventory_productLabel" class="form-control form-control-sm" name="inventory[productLabel]"></select>');
+    $('#inventory_productLabel').select2({
+        tags: true,
+        ajax: {
+            delay: 250,
+            url: '/composants/ajax/list',
+            dataType: 'json'
+
+            // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+        },
+        maximumSelectionLength: 3,
+
+        // add "(new tag)" for new tags
+        // createTag: function (params) {
+        //     var term = $.trim(params.term);
+        //
+        //     if (term === '') {
+        //         return null;
+        //     }
+        //
+        //     return {
+        //         id: term,
+        //         text: term + ' (new tag)'
+        //     };
+        // },
+    });
+
+
 });

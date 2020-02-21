@@ -81,19 +81,18 @@ class InventoryController extends AbstractController
         $inventory = new Inventory();
         $form = $this->createForm(InventoryType::class, $inventory);
         $form->handleRequest($request);
-        if($form->isSubmitted()) {
-
-            $quantityCalculated = str_replace(' ','',str_replace(',','.',$form->get('quantityCalculated')->getData()));
-         if(!preg_match('#[0-9\.\+-/*]#',$quantityCalculated)){
-             $form->get('quantityCalculated')->addError(new FormError("Des caractères non autorisés sont présents."));
-         }
+        if ($form->isSubmitted()) {
+            $quantityCalculated = str_replace(' ', '', str_replace(',', '.', $form->get('quantityCalculated')->getData()));
+            if (!preg_match('#[0-9\.\+-/*]#', $quantityCalculated)) {
+                $form->get('quantityCalculated')->addError(new FormError("Des caractères non autorisés sont présents."));
+            }
             if ($form->isValid()) {
                 $productLabel = ucfirst(strtolower($form->get('productLabel')->getData()));
                 try {
                     $component = $componentRepository->findOneBy(['label' => $productLabel, 'user' => $this->getUser()]);
                     $em = $this->getDoctrine()->getManager();
 
-                    $quantity = eval("return ".$quantityCalculated.";");
+                    $quantity = eval("return " . $quantityCalculated . ";");
                     $inventory->setQuantity($quantity);
                     if ($component == null) {
                         $component = new Component();
@@ -135,16 +134,18 @@ class InventoryController extends AbstractController
                 $this->addFlash('success', 'Composant ajouté à l\'inventaire.');
             }
         }
-        $qb = $inventoryRepository->createQueryBuilder('i')
-            ->leftJoin('i.component', 'c')
-            ->where('i.user  = :user')
+        $qb = $componentRepository->createQueryBuilder('c')
+//            ->leftJoin('i.component', 'c')
+            ->where('c.user  = :user')
             ->setParameter('user', $this->getUser())
             ->orderBy('c.label', 'ASC')
-            ->addOrderBy('i.optionLabel', 'ASC');
+//            ->addOrderBy('i.optionLabel', 'ASC')
+//        ->groupBy('i.component')
+        ;
         $components = $paginationService->setDefaults(50)->process($qb, $request);
 
 
-        return $this->render('front/inventory/index.html.twig', [
+        return $this->render('front/inventory/index_widget.html.twig', [
             'components' => $components,
             'form' => $form->createView()
         ]);

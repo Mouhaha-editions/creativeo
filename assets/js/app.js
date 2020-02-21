@@ -17,6 +17,7 @@ require('bootstrap');
 require('admin-lte/build/js/AdminLTE');
 require("@fortawesome/fontawesome-free");
 const introJs = require('intro.js/intro');
+require('select2/dist/js/select2.full.min');
 // import 'intro.js/themes/introjs-nassim.css';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
