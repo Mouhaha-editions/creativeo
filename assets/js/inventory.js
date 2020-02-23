@@ -99,7 +99,9 @@ $(function () {
         delay: 250,
         ajax: {
             url: '/composants/ajax/list-option',
-            data: { component: $productLabel.val()},
+            data: {
+                component: $("#inventory_productLabel").select2('data')
+            },
             type: 'post',
             dataType: 'json',
             // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
