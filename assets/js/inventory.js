@@ -99,7 +99,7 @@ $(function () {
         delay: 250,
         ajax: {
             url: function (params) {
-                return '/composants/ajax/list-option/'+$("#inventory_productLabel").value;
+                return '/composants/ajax/list-option/'+$("#inventory_productLabel").select2('data');
             },
             dataType: 'json',
             // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
