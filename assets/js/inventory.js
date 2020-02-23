@@ -99,7 +99,7 @@ $(function () {
         delay: 250,
         ajax: {
             url: function (params) {
-                console.log($("#inventory_productLabel").select2('data'));
+                console.log($("#inventory_productLabel").val());
                 return '/composants/ajax/list-option/'+$("#inventory_productLabel").select2('data');
             },
             dataType: 'json',
