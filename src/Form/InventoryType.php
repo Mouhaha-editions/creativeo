@@ -27,7 +27,7 @@ class InventoryType extends AbstractType
             ->add('optionLabel',null,[
                 'label'=>'entity.inventory.label.optionLabel',
                 'required'=>false,
-                'attr'=>['class'=>'form-control-sm'],
+                'attr'=>['class'=>'form-control-sm','disabled'=>'disabled'],
             ])
 //            ->add('reference',null,[
 //                'label'=>'entity.inventory.label.reference',

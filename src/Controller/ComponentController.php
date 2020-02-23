@@ -62,6 +62,51 @@ class ComponentController extends AbstractController
     }
 
     /**
+     * @Route("/ajax/list-option", name="ajax_list_option_component", methods={"POST"})
+     * @param Request $request
+     * @param ComponentRepository $componentRepository
+     * @param InventoryRepository $inventoryRepository
+     * @return Response
+     * @throws NonUniqueResultException
+     */
+    public function getAjaxListOption(Request $request, ComponentRepository $componentRepository, InventoryRepository $inventoryRepository): Response
+    {
+        $data = ['results' => []];
+
+        /** @var Component $component */
+        $component = $componentRepository->createQueryBuilder('c')
+            ->distinct()
+            ->where('c.label = :search')
+            ->andWhere('c.user = :user')
+            ->setParameter('search', $request->get('component'))
+            ->setParameter('user', $this->getUser())
+            ->getQuery()->getOneOrNullResult();
+        if ($component === null) {
+            return new JsonResponse($data);
+
+        }
+        $inventories = $inventoryRepository->createQueryBuilder('i')
+            ->distinct()
+            ->where('i.optionLabel LIKE :search')
+            ->andWhere('i.user = :user')
+            ->andWhere('i.component = :component')
+            ->setParameter('search', '%' . $request->get('term') . '%')
+            ->setParameter('user', $this->getUser())
+            ->setParameter('component', $component)
+            ->getQuery()->getResult();
+
+        /** @var Inventory $inventory
+         */
+        foreach ($inventories AS $inventory) {
+            $data['results'][] = [
+                "id" => $inventory->getOptionLabel(),
+                "text" => $inventory->getOptionLabel(),
+            ];
+        }
+        return new JsonResponse($data);
+    }
+
+    /**
      * @Route("/ajax/list", name="ajax_list_component", methods={"GET"})
      * @param RecipeComponent $recipeFabricationComponent
      * @param InventoryService $inventoryService
@@ -221,20 +266,6 @@ class ComponentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="component_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Component $component): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $component->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($component);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('component_index');
-    }
-
-    /**
      * @param Component $component
      * @param FormInterface $form
      * @param ImageService $imageService
@@ -260,6 +291,20 @@ class ComponentController extends AbstractController
             } catch (FileException $e) {
             }
         }
+    }
+
+    /**
+     * @Route("/{id}", name="component_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Component $component): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $component->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($component);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('component_index');
     }
 
 }

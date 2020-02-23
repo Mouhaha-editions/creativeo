@@ -74,20 +74,36 @@ $(function () {
         });
         return false;
     });
-    let parent = $("#inventory_productLabel").parent();
-    $("#inventory_productLabel").remove();
-    parent.append('<select id="inventory_productLabel" class="form-control form-control-sm" name="inventory[productLabel]"></select>');
-    $('#inventory_productLabel').select2({
+
+    let $productLabel = $("#inventory_productLabel");
+    let parentProductLabel = $productLabel.parent();
+    $productLabel.remove();
+    parentProductLabel.append('<select id="inventory_productLabel" class="form-control form-control-sm" name="inventory[productLabel]"></select>');
+    $productLabel = $("#inventory_productLabel");
+    $productLabel.select2({
         tags: true,
+        delay: 250,
         ajax: {
-            delay: 250,
             url: '/composants/ajax/list',
-            dataType: 'json'
-
+            dataType: 'json',
             // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-        },
-        maximumSelectionLength: 3,
+        }
     });
-
+    let $optionLabel = $("#inventory_optionLabel");
+    let parentOptionLabel = $optionLabel.parent();
+    $optionLabel.remove();
+    parentOptionLabel.append('<select id="inventory_optionLabel" class="form-control form-control-sm" name="inventory[optionLabel]"></select>');
+    $optionLabel = $("#inventory_optionLabel");
+    $optionLabel.select2({
+        tags: true,
+        delay: 250,
+        ajax: {
+            url: '/composants/ajax/list-option',
+            data: { component: $productLabel.val()},
+            type: 'post',
+            dataType: 'json',
+            // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+        }
+    });
 
 });
