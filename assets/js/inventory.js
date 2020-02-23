@@ -98,11 +98,9 @@ $(function () {
         tags: true,
         delay: 250,
         ajax: {
-            url: '/composants/ajax/list-option',
-            data: {
-                component: $("#inventory_productLabel").value
+            url: function (params) {
+                return '/composants/ajax/list-option/'+$("#inventory_productLabel").value;
             },
-            type: 'post',
             dataType: 'json',
             // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
         }
