@@ -62,14 +62,14 @@ class ComponentController extends AbstractController
     }
 
     /**
-     * @Route("/ajax/list-option", name="ajax_list_option_component", methods={"POST"})
+     * @Route("/ajax/list-option/{comp}", name="ajax_list_option_component", methods={"POST"})
      * @param Request $request
      * @param ComponentRepository $componentRepository
      * @param InventoryRepository $inventoryRepository
      * @return Response
      * @throws NonUniqueResultException
      */
-    public function getAjaxListOption(Request $request, ComponentRepository $componentRepository, InventoryRepository $inventoryRepository): Response
+    public function getAjaxListOption(string $comp, Request $request, ComponentRepository $componentRepository, InventoryRepository $inventoryRepository): Response
     {
         $data = ['results' => []];
 
@@ -78,7 +78,7 @@ class ComponentController extends AbstractController
             ->distinct()
             ->where('c.label = :search')
             ->andWhere('c.user = :user')
-            ->setParameter('search', $request->get('component'))
+            ->setParameter('search', $comp)
             ->setParameter('user', $this->getUser())
             ->getQuery()->getOneOrNullResult();
         if ($component === null) {
