@@ -100,7 +100,7 @@ $(function () {
         ajax: {
             url: '/composants/ajax/list-option',
             data: {
-                component: $("#inventory_productLabel").select2('data')
+                component: $("#inventory_productLabel").value
             },
             type: 'post',
             dataType: 'json',
