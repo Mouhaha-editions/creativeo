@@ -58,6 +58,17 @@ class RecipeFabrication implements IRecipe
      */
     private $ended = false;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $finalised;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="recipeFabrications")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $unit;
+
     public function __construct()
     {
         $this->taxes = new ArrayCollection();
@@ -192,5 +203,38 @@ class RecipeFabrication implements IRecipe
     public function getTheRecipeComponents(): Collection
     {
         return $this->getRecipeFabricationComponents();
+    }
+
+    public function getFinalised(): ?bool
+    {
+        return $this->finalised;
+    }
+
+    public function setFinalised(?bool $finalised): self
+    {
+        $this->finalised = $finalised;
+
+        return $this;
+    }
+
+    public function getAmount()
+    {
+        $amount = 0;
+        foreach($this->getRecipeFabricationComponents() AS $component){
+            $amount += $component->getAmount();
+        }
+        return $amount;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
+
+        return $this;
     }
 }

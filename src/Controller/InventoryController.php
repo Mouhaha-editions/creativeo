@@ -144,11 +144,13 @@ class InventoryController extends AbstractController
                         $component->addPrice($price);
                         $em->persist($price);
                     }
+                    $this->addFlash('success', 'flashes.message.success.added_inventory');
 
                     $em->flush();
                 } catch (Exception $e) {
+                    $this->addFlash('danger', 'flashes.message.danger.added_inventory');
 
-                    VarDumper::dump($e->getMessage());
+                    //VarDumper::dump($e->getMessage());
                 }
                 unset($inventory);
                 unset($form);

@@ -83,12 +83,24 @@ class Recipe implements IRecipe
      */
     private $photoPath;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inventory", mappedBy="fromRecipe")
+     */
+    private $inventories;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="recipes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $unit;
+
     public function __construct()
     {
         $this->recipeComponents = new ArrayCollection();
         $this->creations = new ArrayCollection();
         $this->taxes = new ArrayCollection();
         $this->recipeFabrications = new ArrayCollection();
+        $this->inventories = new ArrayCollection();
     }
 
 
@@ -334,6 +346,49 @@ class Recipe implements IRecipe
     public function setEstimatedHours(string $estimatedHours): self
     {
         $this->estimatedHours = $estimatedHours;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inventory[]
+     */
+    public function getInventories(): Collection
+    {
+        return $this->inventories;
+    }
+
+    public function addInventory(Inventory $inventory): self
+    {
+        if (!$this->inventories->contains($inventory)) {
+            $this->inventories[] = $inventory;
+            $inventory->setFromRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventory(Inventory $inventory): self
+    {
+        if ($this->inventories->contains($inventory)) {
+            $this->inventories->removeElement($inventory);
+            // set the owning side to null (unless already changed)
+            if ($inventory->getFromRecipe() === $this) {
+                $inventory->setFromRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

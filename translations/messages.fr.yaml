@@ -3,9 +3,13 @@ option:
     useOrderPreference:
       desc: d'abord les plus cher
       asc: d'abord les moins cher
-flash:
-  success:
-    save: Données enregistrées
+flashes:
+    message:
+      success:
+        save: Données enregistrées
+        added_inventory: Element ajouté à l'inventaire.
+      danger:
+        added_inventory: Erreur lors de l'ajout à votre inventaire.
 text:
   success:
     copied_elt: Elément copié
@@ -81,6 +85,8 @@ entity:
     label:
       quantity: Quantité à fabriquer
       marge: Marge à appliquer
+      hours: heures
+      unit: Unité de l'élément fabriqué
 
   user:
     label:
@@ -123,6 +129,7 @@ entity:
       recipeComponents: Composants
       costNow: Coût de fabrication
       canDoIt: Réalisable ?
+      unit: Unité de l'élément
       taxes: Taxes
       photoPath: Photo de la recette
       community: Partager avec la commuauté
@@ -195,5 +202,6 @@ intro:
       fabricate: 'messages'
       stop_fabricate: 'messages'
       photoPath: Illustrons un peu votre recette
+      unit: 'messages'
     component:
       edit: 'messages'

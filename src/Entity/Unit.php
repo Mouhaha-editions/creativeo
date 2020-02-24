@@ -49,6 +49,16 @@ class Unit
      */
     private $recipeComponents;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipeFabrication", mappedBy="unit")
+     */
+    private $recipeFabrications;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Recipe", mappedBy="unit")
+     */
+    private $recipes;
+
     public function __toString()
     {
         return $this->getLibelle();
@@ -58,6 +68,8 @@ class Unit
         $this->children = new ArrayCollection();
         $this->inventories = new ArrayCollection();
         $this->recipeComponents = new ArrayCollection();
+        $this->recipeFabrications = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -188,6 +200,68 @@ class Unit
             // set the owning side to null (unless already changed)
             if ($recipeComponent->getUnit() === $this) {
                 $recipeComponent->setUnit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecipeFabrication[]
+     */
+    public function getRecipeFabrications(): Collection
+    {
+        return $this->recipeFabrications;
+    }
+
+    public function addRecipeFabrication(RecipeFabrication $recipeFabrication): self
+    {
+        if (!$this->recipeFabrications->contains($recipeFabrication)) {
+            $this->recipeFabrications[] = $recipeFabrication;
+            $recipeFabrication->setUnit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeFabrication(RecipeFabrication $recipeFabrication): self
+    {
+        if ($this->recipeFabrications->contains($recipeFabrication)) {
+            $this->recipeFabrications->removeElement($recipeFabrication);
+            // set the owning side to null (unless already changed)
+            if ($recipeFabrication->getUnit() === $this) {
+                $recipeFabrication->setUnit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Recipe[]
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): self
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes[] = $recipe;
+            $recipe->setUnit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): self
+    {
+        if ($this->recipes->contains($recipe)) {
+            $this->recipes->removeElement($recipe);
+            // set the owning side to null (unless already changed)
+            if ($recipe->getUnit() === $this) {
+                $recipe->setUnit(null);
             }
         }
 

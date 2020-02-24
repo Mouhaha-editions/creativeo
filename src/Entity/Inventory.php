@@ -54,6 +54,11 @@ class Inventory
      */
     private $reference;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Recipe", inversedBy="inventories")
+     */
+    private $fromRecipe;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -162,6 +167,18 @@ class Inventory
     public function setReference(?string $reference): self
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getFromRecipe(): ?Recipe
+    {
+        return $this->fromRecipe;
+    }
+
+    public function setFromRecipe(?Recipe $fromRecipe): self
+    {
+        $this->fromRecipe = $fromRecipe;
 
         return $this;
     }

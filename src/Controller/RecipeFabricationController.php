@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Component;
+use App\Entity\Inventory;
+use App\Entity\Price;
 use App\Entity\Recipe;
 use App\Entity\RecipeFabrication;
 use App\Entity\RecipeFabricationComponent;
 use App\Form\RecipeFabricationType;
 use App\Form\RecipeType;
+use App\Repository\ComponentRepository;
+use App\Repository\InventoryRepository;
 use App\Repository\RecipeFabricationRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\TaxeRepository;
@@ -14,13 +19,16 @@ use App\Service\ImageService;
 use App\Service\InventoryService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @Route("/fabrication")
@@ -38,6 +46,7 @@ class RecipeFabricationController extends AbstractController
             'recipes' => $recipeFabricationRepository->createQueryBuilder('r')
                 ->leftJoin('r.recipe', 'recipe')
                 ->where('recipe.user = :user')
+                ->andWhere('r.finalised = false')
                 ->setParameter('user', $this->getUser())
                 ->orderBy('r.createdAt', 'DESC')
                 ->getQuery()->getResult()
@@ -67,17 +76,54 @@ class RecipeFabricationController extends AbstractController
      * @param RecipeFabricationRepository $recipeFabricationRepository
      * @return Response
      */
-    public function inventoring(RecipeFabricationRepository $recipeFabricationRepository): Response
+    public function inventoring(RecipeFabrication $recipeFabrication, InventoryRepository $inventoryRepository, ComponentRepository $componentRepository): Response
     {
-        return $this->render('front/recipe_fabrication/index.html.twig', [
-            'recipes' => $recipeFabricationRepository->createQueryBuilder('r')
-                ->leftJoin('r.recipe', 'recipe')
-                ->where('recipe.user = :user')
-                ->setParameter('user', $this->getUser())
-                ->orderBy('r.createdAt', 'DESC')
-                ->getQuery()->getResult()
-        ]);
+        $inventory = new Inventory();
+        $productLabel = ucfirst(strtolower($recipeFabrication->getRecipe()->getLabel()));
+        try {
+            $component = $componentRepository->findOneBy(['label' => $productLabel, 'user' => $this->getUser()]);
+            $em = $this->getDoctrine()->getManager();
+            $quantity = $recipeFabrication->getQuantity();
+            $inventory->setQuantity($quantity);
+            $inventory->setUnit($recipeFabrication->getUnit());
+            $inventory->setPrice($recipeFabrication->getAmount());
+            if ($component == null) {
+                $component = new Component();
+                $component->setLabel($productLabel);
+                $component->setUser($this->getUser());
+                $em->persist($component);
+            }
+
+            $tmpInventory = $inventoryRepository->findOneBy(['user' => $this->getUser(), 'price' => $inventory->getPrice(), 'optionLabel' => $inventory->getOptionLabel(), 'component' => $component]);
+            if ($tmpInventory != null) {
+                $tmpInventory->setQuantity($inventory->getQuantity() + $tmpInventory->getQuantity());
+                $inventory = $tmpInventory;
+            } else {
+                $inventory->setComponent($component);
+                $inventory->setUser($this->getUser());
+                $em->persist($inventory);
+            }
+
+            $component->addInventory($inventory);
+            $component->setCommunityEnabled(false);
+            if (!$component->hasPrices($inventory->getPrice())) {
+                $price = new Price();
+                $price->setUnitPrice($inventory->getPrice());
+                $price->setTaxToApply(0);
+                $price->setAutoUpdateEnabled(false);
+                $component->addPrice($price);
+                $em->persist($price);
+            }
+            $recipeFabrication->setFinalised(true);
+            $em->flush();
+            $this->addFlash('success', 'flashes.message.success.added_inventory');
+        } catch (Exception $e) {
+            $this->addFlash('danger', 'flashes.message.danger.added_inventory');
+        }
+
+        return $this->redirectToRoute('fabrication_index');
     }
+
     /**
      * @Route("/{id}/fabrique", name="recipe_fabricate", methods={"GET","POST"})
      * @param Request $request
@@ -94,6 +140,7 @@ class RecipeFabricationController extends AbstractController
         }
         $recipeFabrication = new RecipeFabrication();
         $recipeFabrication->setRecipe($recipe);
+        $recipeFabrication->setUnit($recipe->getUnit());
         foreach ($recipe->getTaxes() AS $taxe) {
             $recipeFabrication->addTax($taxe);
         }

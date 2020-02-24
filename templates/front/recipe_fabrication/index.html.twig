@@ -69,8 +69,8 @@
                                        data-target="#detailModal" title="Mettre à la vente"
                                        class="btn btn-warning btn-sm"><i class="fas fa-euro-sign"></i></a>
                                     <a {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.calcul"|trans }}"{% endif %}
-                                       data-href="{{ path('fabrication_inventoring', {'id': recipe.id}) }}" data-toggle="modal"
-                                       data-target="#detailModal" title="Mettre dans l'inventaire"
+                                       href="{{ path('fabrication_inventoring', {'id': recipe.id}) }}"
+                                      title="Mettre dans l'inventaire"
                                        class="btn btn-secondary btn-sm"><i class="fas fa-dolly-flatbed"></i></a>
 {#                                    <span {% if loop.index == 1 %}data-intro="{{ "intro.text.recipe.delete"|trans }}"{% endif %}> {{ include('front/recipe/_delete_form.html.twig') }}</span>#}
 {#                                    {% if recipe.ended is null %}#}

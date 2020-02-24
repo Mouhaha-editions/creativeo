@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Recipe;
 use App\Entity\Taxe;
+use App\Entity\Unit;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -41,6 +42,14 @@ class RecipeType extends AbstractType
             ->add('marge', null, [
                 'label' => 'entity.recipe.label.marge',
                 'required' => true,
+            ])
+            ->add('unit', EntityTreeType::class, [
+                'label' => 'entity.recipe.label.unit',
+                'class' => Unit::class,
+                'label_method' => 'getLibelle',
+                'required' => true,
+                'prefix' => '',
+                'attr' => ['class' => 'form-control-sm'],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'entity.recipe.label.description',

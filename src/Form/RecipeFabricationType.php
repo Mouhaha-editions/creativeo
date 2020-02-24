@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Recipe;
 use App\Entity\RecipeFabrication;
 use App\Entity\Taxe;
+use App\Entity\Unit;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -41,7 +42,8 @@ class RecipeFabricationType extends AbstractType
             ->add('hours', HiddenType::class, [
                 'label' => 'entity.recipe_fabrication.label.hours',
                 'required' => false,
-            ]) ->add('ended', HiddenType::class, [
+            ])
+            ->add('ended', HiddenType::class, [
                 'label' => 'entity.recipe_fabrication.label.ended',
                 'required' => false,
             ])
@@ -50,7 +52,6 @@ class RecipeFabricationType extends AbstractType
                 'required' => true,
                 'scale' => 2,
             ])
-
             ->add('taxes', EntityType::class, [
                 'class' => Taxe::class,
                 'multiple' => true,
