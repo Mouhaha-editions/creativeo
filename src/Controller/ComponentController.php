@@ -83,7 +83,6 @@ class ComponentController extends AbstractController
             ->getQuery()->getOneOrNullResult();
         if ($component === null) {
             return new JsonResponse($data);
-
         }
         $inventories = $inventoryRepository->createQueryBuilder('i')
             ->distinct()
