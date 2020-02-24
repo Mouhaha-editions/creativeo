@@ -62,7 +62,7 @@ class ComponentController extends AbstractController
     }
 
     /**
-     * @Route("/ajax/list-option/{comp}", name="ajax_list_option_component", methods={"POST"})
+     * @Route("/ajax/list-option/{comp}", name="ajax_list_option_component", methods={"GET"})
      * @param Request $request
      * @param ComponentRepository $componentRepository
      * @param InventoryRepository $inventoryRepository
