@@ -43,6 +43,10 @@ class RecipeType extends AbstractType
                 'label' => 'entity.recipe.label.marge',
                 'required' => true,
             ])
+            ->add('proportion', null, [
+                'label' => 'entity.recipe.label.proportion',
+                'required' => true,
+            ])
             ->add('unit', EntityTreeType::class, [
                 'label' => 'entity.recipe.label.unit',
                 'class' => Unit::class,

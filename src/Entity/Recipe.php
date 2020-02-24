@@ -94,6 +94,11 @@ class Recipe implements IRecipe
      */
     private $unit;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=4)
+     */
+    private $proportion;
+
     public function __construct()
     {
         $this->recipeComponents = new ArrayCollection();
@@ -389,6 +394,18 @@ class Recipe implements IRecipe
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getProportion(): ?string
+    {
+        return $this->proportion;
+    }
+
+    public function setProportion(string $proportion): self
+    {
+        $this->proportion = $proportion;
 
         return $this;
     }

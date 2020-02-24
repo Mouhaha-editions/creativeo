@@ -83,7 +83,7 @@ class RecipeFabricationController extends AbstractController
         try {
             $component = $componentRepository->findOneBy(['label' => $productLabel, 'user' => $this->getUser()]);
             $em = $this->getDoctrine()->getManager();
-            $quantity = $recipeFabrication->getQuantity();
+            $quantity = $recipeFabrication->getQuantity() * $recipeFabrication->getRecipe()->getProportion();
             $inventory->setQuantity($quantity);
             $inventory->setUnit($recipeFabrication->getUnit());
             $inventory->setPrice($recipeFabrication->getAmount());

@@ -124,6 +124,7 @@ entity:
     label:
       label: Libellé
       marge: Marge à appliquer (%)
+      proportion: Quantité fabriquée
       recipe_marge: Marge
       estimatedHours: Temps estimé
       recipeComponents: Composants
@@ -203,5 +204,6 @@ intro:
       stop_fabricate: 'messages'
       photoPath: Illustrons un peu votre recette
       unit: 'messages'
+      proportion: 'messages'
     component:
       edit: 'messages'
