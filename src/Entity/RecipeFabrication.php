@@ -61,7 +61,7 @@ class RecipeFabrication implements IRecipe
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $finalised;
+    private $finalised = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="recipeFabrications")
