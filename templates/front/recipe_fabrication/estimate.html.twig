@@ -11,13 +11,10 @@
       {% include '/front/recipe_fabrication/partial/addition.html.twig' with  {recipe:recipe } %}
 
     </div>
-    {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('form_recipe_fabrication') }}
 {% endblock %}
 
 {% block stylesheets %}
-    {{ encore_entry_link_tags('form_recipe_fabrication') }}
 {% endblock %}

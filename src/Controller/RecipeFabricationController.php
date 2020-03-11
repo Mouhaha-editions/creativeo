@@ -170,6 +170,7 @@ class RecipeFabricationController extends AbstractController
 
         $form->handleRequest($request);
         if($request->get('estimate', null)){
+            $recipeFabrication->setHours($recipe->getEstimatedHours());
             return $this->estimate($recipeFabrication);
         }
         if ($form->isSubmitted() && $form->isValid()) {
