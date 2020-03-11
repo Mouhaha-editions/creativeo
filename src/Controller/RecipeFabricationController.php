@@ -169,15 +169,16 @@ class RecipeFabricationController extends AbstractController
         $form = $this->createForm(RecipeFabricationType::class, $recipeFabrication);
 
         $form->handleRequest($request);
+        if($request->get('estimate', null)){
+            return $this->estimate($recipeFabrication);
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             if ($recipeFabrication->getEnded() == true) {
                 foreach ($recipeFabrication->getRecipeFabricationComponents() AS $component) {
                     $inventoryService->sub($component, floatval($recipeFabrication->getQuantity()) * floatval($component->getQuantity()));
                 }
             }
-            if($request->get('estimate', null)){
-                return $this->estimate($recipeFabrication);
-            }
+
             $entityManager->persist($recipeFabrication);
             $entityManager->flush();
 
