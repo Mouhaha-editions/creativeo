@@ -77,6 +77,7 @@ button:
     stop: Terminer
     programmer: Programmer (bientôt)
     continue: Continuer
+    estimate: Estimer
   component:
     edit: Modifier le composant
 

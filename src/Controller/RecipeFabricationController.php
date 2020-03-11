@@ -175,6 +175,9 @@ class RecipeFabricationController extends AbstractController
                     $inventoryService->sub($component, floatval($recipeFabrication->getQuantity()) * floatval($component->getQuantity()));
                 }
             }
+            if($request->get('estimate', null)){
+                return $this->estimate($recipeFabrication);
+            }
             $entityManager->persist($recipeFabrication);
             $entityManager->flush();
 
@@ -185,6 +188,18 @@ class RecipeFabricationController extends AbstractController
             'recipe' => $recipe,
             'form' => $form->createView(),
             'fabrication' => $recipeFabrication,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/estimate", name="recipe_estimate", methods={"GET","POST"})
+     * @param RecipeFabrication $recipeFabrication
+     * @return Response
+     */
+    public function estimate(RecipeFabrication $recipeFabrication): Response
+    {
+        return $this->render('front/recipe_fabrication/estimate.html.twig', [
+            'recipe' => $recipeFabrication
         ]);
     }
 

@@ -91,6 +91,11 @@
                                 data-hours="{{ fabrication.hours == 0 ? recipe.estimatedHours : fabrication.calculatedHours }}"
                         ><i class="fas fa-stop"></i> {{ "button.recipe_fabrication.stop"|trans }}</button>
                     {% else %}
+                        <button data-toggle="tooltip" type="submit" class="submit btn-estimate btn btn-default btn-block" name="estimate" value="estimate"
+                                data-title="{{ "title.recipe_fabrication.real_time"|trans }}"
+                                data-hours="{{ fabrication.hours == 0 ? recipe.estimatedHours : fabrication.calculatedHours }}"
+                        ><i
+                                    class="fas fa-search-dollar"></i> {{ "button.recipe_fabrication.estimate"|trans }}</button>
                         <button data-toggle="tooltip" type="submit" class="submit btn btn-primary btn-block" value="start"><i
                                     class="fas fa-play"></i> {{ "button.recipe_fabrication.start"|trans }}</button>
                         <button data-toggle="tooltip" type="submit" class="submit btn btn-danger btn-block"

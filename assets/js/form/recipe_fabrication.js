@@ -5,7 +5,10 @@ import Swal from 'sweetalert2'
 $(".submit").on('click', function (e) {
     e.preventDefault();
     let $t = $(this);
-    if ($t.val() === "start") {
+    if ($t.val() === "estimate") {
+        $t.closest('form').submit();
+        return true;
+    }else if ($t.val() === "start") {
         $t.closest('form').submit();
         return true;
     } else if ($t.val() === "stop") {
@@ -17,7 +20,6 @@ $(".submit").on('click', function (e) {
             if (result.value) {
                 $("#recipe_fabrication_hours").val(result.value);
                 $("#recipe_fabrication_ended").val("1");
-
                 $t.closest('form').submit();
                 return true;
             } else {
